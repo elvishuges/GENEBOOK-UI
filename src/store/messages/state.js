@@ -1,0 +1,31 @@
+export default function () {
+  return {
+    messages: {
+      gameTitle: "GeneBook",
+      initialImage: "Images",
+      initialAudio: "",
+      gameIntroduction: "",
+      gameStart: "",
+      gameContinue: "",
+      goButton: "",
+      contentToBeLoaded: "",
+      itemsText: "",
+      actionsText: "",
+      exitsText: "",
+      goingTo: "",
+      optionsText: "",
+      inventoryLinkText: "",
+      inventoryTitle: "",
+      inventoryText: "",
+      noItemsCollected: "",
+      mapLinkText: "",
+      mapTitle: "",
+      mapText: "",
+      creditsLinkText: "",
+      creditsTitle: "",
+      creditsText: "",
+      fromLabel: "",
+      toLabel: "",
+    },
+  };
+}
