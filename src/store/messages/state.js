@@ -1,8 +1,8 @@
 export default function () {
   return {
     messages: {
-      gameTitle: "GeneBook",
-      initialImage: "Images",
+      gameTitle: "",
+      initialImage: "",
       initialAudio: "",
       gameIntroduction: "",
       gameStart: "",
