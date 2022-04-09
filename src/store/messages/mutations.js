@@ -1,3 +1,3 @@
-export function SET_MESSAGES(state, value) {
-  state.messages = value;
+export function SET_MESSAGES(state, messages) {
+  state.messages = messages;
 }

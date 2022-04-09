@@ -1,11 +1,16 @@
 const routes = [
   {
-    path: "/",
+    path: "/index",
     component: () => import("src/layouts/GeneBookUi.vue"),
     children: [
       { path: "", component: () => import("pages/IndexPage.vue") },
       { path: "/messages", component: () => import("pages/Messages.vue") },
+      { path: "/actors", component: () => import("pages/Actors.vue") },
     ],
+  },
+  {
+    path: "/",
+    component: () => import("src/layouts/Welcome.vue"),
   },
 
   // Always leave this as last one,

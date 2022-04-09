@@ -209,7 +209,7 @@
           lazy-rules
         />
       </div>
-      <div class="row justify-end q-pa-md q-gutter-sm fixed-bottom-right">
+      <div class="row justify-end q-pa-lg q-gutter-sm fixed-bottom-right">
         <q-btn
           align="around"
           color="grey"
@@ -229,7 +229,7 @@
 </template>
 
 <script>
-import { mapActions, mapState, mapGetters } from "vuex";
+import { mapActions, mapState } from "vuex";
 export default {
   data() {
     return {

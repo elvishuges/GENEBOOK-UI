@@ -1,6 +1,6 @@
 <template>
   <q-card
-    @click="$router.push('messages')"
+    @click="$router.push(goToRouteOnClick)"
     flat
     bordered
     class="my-card bg-grey-1"
@@ -33,6 +33,10 @@ export default defineComponent({
     description: {
       type: String,
       default: "",
+    },
+    goToRouteOnClick: {
+      type: String,
+      default: "/",
     },
   },
 });

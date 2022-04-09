@@ -2,13 +2,21 @@
   <q-page class="q-pa-md">
     <div class="row">
       <div class="col-xs-12 col-sm-6 col-md-4">
-        <feature-card title="Messages" description="Messages from system" />
+        <feature-card
+          goToRouteOnClick="messages"
+          title="Messages"
+          description="Messages from system"
+        />
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4">
         <feature-card title="Player" description="Player configurations" />
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4">
-        <feature-card title="Actors" description="Actores from System" />
+        <feature-card
+          goToRouteOnClick="actors"
+          title="Actors"
+          description="Actores from System"
+        />
       </div>
     </div>
   </q-page>
