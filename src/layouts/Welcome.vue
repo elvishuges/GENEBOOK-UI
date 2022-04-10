@@ -2,16 +2,6 @@
   <div class="fullscreen text-black text-center q-pa-md flex flex-center">
     <div>
       <div class="text-h2" style="opacity: 0.9">GEnEbook-UI</div>
-      <div class="row">
-        <q-input
-          v-model="folderName"
-          class="col-xs-12 col-sm-12 col-md-12 q-py-md q-pt-md"
-          outlined
-          label="Folder Name"
-          hint="The folder name where generate the Adventure Game files"
-          lazy-rules
-        />
-      </div>
 
       <div class="q-pt-md">
         <q-btn
@@ -44,7 +34,7 @@ export default defineComponent({
 
   methods: {
     onInitButtonClick() {
-      console.log("F", this.folderName);
+      this.$router.push("/index");
     },
   },
 });

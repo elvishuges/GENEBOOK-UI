@@ -37,9 +37,9 @@ export default defineComponent({
 
 <style lang="sass" scoped>
 .my-card
-    width: 100%
-    max-width: 300px
-    height: 150px
+  width: 100%
+  max-width: 300px
+  height: 150px
 </style>
 
 <style>

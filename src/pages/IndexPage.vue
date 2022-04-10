@@ -1,21 +1,28 @@
 <template>
   <q-page class="q-pa-md">
     <div class="row">
-      <div class="col-xs-12 col-sm-6 col-md-4">
+      <div class="col-xs-12 col-sm-4 col-md-3">
         <feature-card
           goToRouteOnClick="messages"
           title="Messages"
-          description="Messages from system"
+          description="Messages from System"
         />
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
+      <div class="col-xs-12 col-sm-4 col-md-3">
         <feature-card title="Player" description="Player configurations" />
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
+      <div class="col-xs-12 col-sm-4 col-md-3">
         <feature-card
           goToRouteOnClick="actors"
           title="Actors"
-          description="Actores from System"
+          description="Actors from System"
+        />
+      </div>
+      <div class="col-xs-12 col-sm-4 col-md-3">
+        <feature-card
+          goToRouteOnClick="files"
+          title="Files"
+          description="Audios and Images"
         />
       </div>
     </div>

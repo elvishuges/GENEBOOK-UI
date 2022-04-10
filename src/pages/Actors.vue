@@ -23,8 +23,68 @@
         </template>
       </q-btn>
     </div>
+
+    <!-- dialog create Actor -->
+
     <q-dialog v-model="createActorDialog" persistent>
-      <create-actor-form />
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">Create Actor</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <q-form class="q-pb-sm">
+            <div class="row">
+              <q-input
+                class="col-12 q-px-sm q-pt-sm"
+                outlined
+                label="Title"
+                lazy-rules
+                dense
+                v-model="form.title"
+              />
+              <q-input
+                class="col-12 q-px-sm q-pt-sm"
+                outlined
+                label="Description"
+                lazy-rules
+                dense
+                v-model="form.description"
+              />
+              <q-select
+                class="col-6 q-px-sm q-pt-sm"
+                outlined
+                label="Image"
+                dense
+              />
+              <q-select
+                class="col-6 q-px-sm q-pt-sm"
+                outlined
+                label="Location"
+                dense
+              />
+
+              <div class="col-12 q-px-sm q-px-sm q-pt-sm">
+                <strong>Status:</strong>
+              </div>
+              <q-input
+                class="col-6 q-px-sm q-pt-sm"
+                type="number"
+                outlined
+                dense
+              />
+              <div>
+                <q-checkbox label="Ativo" />
+              </div>
+            </div>
+          </q-form>
+        </q-card-section>
+
+        <q-card-actions align="right" class="text-primary">
+          <q-btn flat label="Close" v-close-popup />
+          <q-btn flat label="Create Actor" @click="onFormCreateActorClick" />
+        </q-card-actions>
+      </q-card>
     </q-dialog>
   </q-page>
 </template>
@@ -32,11 +92,9 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import CreatedActorsCard from "components/CreatedActorsCard.vue";
-import CreateActorForm from "components/CreateActorForm.vue";
 export default {
   components: {
     CreatedActorsCard,
-    CreateActorForm,
   },
 
   data() {
@@ -75,12 +133,13 @@ export default {
     onCreateActionClick() {
       this.createActorDialog = true;
     },
+    onFormCreateActorClick() {},
   },
 };
 </script>
 
 <style  lang="sass" scoped>
 .my-card
-    width: 100%
-    max-width: 300px
+  width: 100%
+  max-width: 300px
 </style>
