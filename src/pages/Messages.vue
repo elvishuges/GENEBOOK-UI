@@ -262,12 +262,15 @@ export default {
       },
     };
   },
-  computed: {
-    ...mapState("messages", ["messages"]),
-  },
+
   mounted() {
     this.loadMessages();
   },
+
+  computed: {
+    ...mapState("messages", ["messages"]),
+  },
+
   methods: {
     ...mapActions("messages", ["set_messages"]),
 

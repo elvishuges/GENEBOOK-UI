@@ -1,26 +1,43 @@
 <template>
   <q-page class="q-pa-md">
     <div class="row text-h5 q-pb-md">Images</div>
-    <div class="row q-pb-md q-gutter-md">
-      <q-card class="my-card">
-        <q-img
-          style="height: 170px"
-          src="https://cdn.quasar.dev/img/parallax2.jpg"
+    <q-scroll-area style="height: 230px">
+      <div class="row q-pb-md q-gutter-md no-wrap">
+        <q-card
+          v-for="(image, index) in images"
+          :key="index"
+          class="image-card"
         >
-          <div class="absolute-bottom text-subtitle2 text-center">Title</div>
-        </q-img>
-      </q-card>
-
-      <q-card class="my-card">
-        <q-img
-          style="height: 170px"
-          src="https://cdn.quasar.dev/img/parallax2.jpg"
-        >
-          <div class="absolute-bottom text-subtitle2 text-center">Title</div>
-        </q-img>
-      </q-card>
-    </div>
+          <q-img
+            style="height: 200px; width: 100%"
+            src="https://cdn.quasar.dev/img/parallax2.jpg"
+          >
+            <div class="absolute-bottom text-subtitle2 text-center">
+              {{ image }}
+            </div>
+          </q-img>
+        </q-card>
+      </div>
+    </q-scroll-area>
     <div class="row text-h5 q-pb-md">Audios</div>
+    <q-scroll-area style="height: 230px">
+      <div class="row q-pb-md q-gutter-md no-wrap">
+        <q-card
+          v-for="(audio, index) in audios"
+          :key="index"
+          class="image-card"
+        >
+          <q-img
+            style="height: 200px; width: 100%"
+            src="https://cdn.quasar.dev/img/parallax2.jpg"
+          >
+            <div class="absolute-bottom text-subtitle2 text-center">
+              {{ audio }}
+            </div>
+          </q-img>
+        </q-card>
+      </div>
+    </q-scroll-area>
     <div class="row justify-end q-pa-lg q-gutter-sm fixed-bottom-right">
       <q-btn
         align="around"
@@ -30,25 +47,116 @@
         @click="$router.go(-1)"
         flat
       />
-      <q-btn label="Create File" color="primary" size="lg">
+      <q-btn
+        label="Create File"
+        @click="onCreateFileClick"
+        color="primary"
+        size="lg"
+      >
         <template v-slot:loading>
           <q-spinner-facebook />
         </template>
       </q-btn>
     </div>
+
+    <!-- dialog register File -->
+
+    <q-dialog v-model="dialogRegisterFile" persistent>
+      <q-card style="width: 580px; max-width: 80vw">
+        <q-card-section>
+          <div class="text-h6">Register File</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <q-form @submit="onFormRergisterFileSubmit">
+            <div class="row">
+              <q-select
+                class="col-12 q-px-sm q-pt-sm"
+                outlined
+                label="File Type"
+                dense
+                lazy-rules
+                :options="fileTypeOptions"
+                :rules="required_field"
+                v-model="form.type"
+              />
+              <q-input
+                class="col-12 q-px-sm q-pt-sm"
+                outlined
+                label="File Name"
+                dense
+                lazy-rules
+                :rules="required_field"
+                v-model="form.name"
+              />
+            </div>
+            <q-card-actions align="right" class="text-primary">
+              <q-btn flat label="Close" v-close-popup />
+              <q-btn flat label="Register File" type="submit" />
+            </q-card-actions>
+          </q-form>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
 <script>
 import { defineComponent } from "vue";
+import { mapActions, mapState, mapGetters } from "vuex";
+import { required_field } from "src/utils/validationRules";
 
 export default defineComponent({
   name: "Files",
+
+  data() {
+    return {
+      dialogRegisterFile: false,
+      form: {
+        name: "",
+        type: "",
+      },
+
+      fileTypeOptions: ["audio", "image"],
+      loadedVideos: [],
+      loadedImages: [],
+      required_field,
+    };
+  },
+
+  computed: {
+    ...mapState("files", ["audios", "images"]),
+  },
+
+  methods: {
+    ...mapActions("files", ["register_audio", "register_image"]),
+
+    onCreateFileClick() {
+      this.dialogRegisterFile = true;
+    },
+    onFormRergisterFileSubmit() {
+      if (this.form.type === "audio") {
+        this.register_audio(this.form.name);
+        return;
+      }
+      if (this.form.type === "image") {
+        this.register_image(this.form.name);
+      }
+      this.cleanForm();
+      this.dialogRegisterFile = false;
+    },
+
+    cleanForm() {
+      this.form = {
+        name: "",
+        type: "",
+      };
+    },
+  },
 });
 </script>
 
 <style lang="sass" scoped>
-.my-card
-    width: 100%
-    max-width: 250px
+.image-card
+  width: 250px
 </style>

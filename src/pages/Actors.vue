@@ -26,14 +26,14 @@
 
     <!-- dialog create Actor -->
 
-    <q-dialog v-model="createActorDialog" persistent>
+    <q-dialog v-model="dialogCreateActor" persistent>
       <q-card>
         <q-card-section>
           <div class="text-h6">Create Actor</div>
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <q-form class="q-pb-sm">
+          <q-form>
             <div class="row">
               <q-input
                 class="col-12 q-px-sm q-pt-sm"
@@ -77,13 +77,16 @@
                 <q-checkbox label="Ativo" />
               </div>
             </div>
+            <q-card-actions align="right" class="text-primary">
+              <q-btn flat label="Close" v-close-popup />
+              <q-btn
+                flat
+                label="Create Actor"
+                @click="onFormCreateActorClick"
+              />
+            </q-card-actions>
           </q-form>
         </q-card-section>
-
-        <q-card-actions align="right" class="text-primary">
-          <q-btn flat label="Close" v-close-popup />
-          <q-btn flat label="Create Actor" @click="onFormCreateActorClick" />
-        </q-card-actions>
       </q-card>
     </q-dialog>
   </q-page>
@@ -99,7 +102,7 @@ export default {
 
   data() {
     return {
-      createActorDialog: false,
+      dialogCreateActor: false,
       form: {
         name: "",
         title: "",
@@ -131,7 +134,7 @@ export default {
     },
 
     onCreateActionClick() {
-      this.createActorDialog = true;
+      this.dialogCreateActor = true;
     },
     onFormCreateActorClick() {},
   },
