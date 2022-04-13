@@ -52,16 +52,27 @@
                 v-model="form.description"
               />
               <q-select
+                class="col-12 q-px-sm q-pt-sm"
+                outlined
+                label="Collected Items"
+                dense
+                multiple
+                v-model="form.collectedItems"
+              />
+              <q-select
                 class="col-6 q-px-sm q-pt-sm"
                 outlined
+                :options="images"
                 label="Image"
                 dense
+                v-model="form.image"
               />
               <q-select
                 class="col-6 q-px-sm q-pt-sm"
                 outlined
                 label="Location"
                 dense
+                v-model="form.location"
               />
 
               <div class="col-12 q-px-sm q-px-sm q-pt-sm">
@@ -70,11 +81,12 @@
               <q-input
                 class="col-6 q-px-sm q-pt-sm"
                 type="number"
+                label="Life"
                 outlined
                 dense
               />
               <div>
-                <q-checkbox label="Ativo" />
+                <q-checkbox v-model="form.status.active" label="active" />
               </div>
             </div>
             <q-card-actions align="right" class="text-primary">
@@ -122,6 +134,7 @@ export default {
   },
   computed: {
     ...mapState("actors", ["actors"]),
+    ...mapState("files", ["audios", "images"]),
   },
   mounted() {
     this.loadActors();

@@ -1,7 +1,7 @@
 <template>
   <q-page class="q-pa-md">
-    <div class="row text-h5 q-pb-md">Images</div>
-    <q-scroll-area style="height: 230px">
+    <div class="row text-h5 q-pb-md">Images:</div>
+    <q-scroll-area style="height: 160px">
       <div class="row q-pb-md q-gutter-md no-wrap">
         <q-card
           v-for="(image, index) in images"
@@ -9,8 +9,9 @@
           class="image-card"
         >
           <q-img
-            style="height: 200px; width: 100%"
-            src="https://cdn.quasar.dev/img/parallax2.jpg"
+            :ratio="16 / 9"
+            style="width: 100%"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRonMLKNeAHp0ItfXgGKXushtcebA-Uj08meI3wRAY5dq7aEw7IN_TGUmHMkrP2QWT2yqQ&usqp=CAU"
           >
             <div class="absolute-bottom text-subtitle2 text-center">
               {{ image }}
@@ -19,8 +20,8 @@
         </q-card>
       </div>
     </q-scroll-area>
-    <div class="row text-h5 q-pb-md">Audios</div>
-    <q-scroll-area style="height: 230px">
+    <div class="row text-h5 q-py-md">Audios:</div>
+    <q-scroll-area style="height: 160px">
       <div class="row q-pb-md q-gutter-md no-wrap">
         <q-card
           v-for="(audio, index) in audios"
@@ -28,8 +29,9 @@
           class="image-card"
         >
           <q-img
-            style="height: 200px; width: 100%"
-            src="https://cdn.quasar.dev/img/parallax2.jpg"
+            style="width: 100%"
+            src="https://e1.pngegg.com/pngimages/1009/169/png-clipart-vista-rtm-wow-icon-mp3-mp3-music-icon-thumbnail.png"
+            :ratio="16 / 9"
           >
             <div class="absolute-bottom text-subtitle2 text-center">
               {{ audio }}
@@ -77,7 +79,7 @@
                 dense
                 lazy-rules
                 :options="fileTypeOptions"
-                :rules="required_field"
+                :rules="[required_field]"
                 v-model="form.type"
               />
               <q-input
@@ -86,7 +88,7 @@
                 label="File Name"
                 dense
                 lazy-rules
-                :rules="required_field"
+                :rules="[required_field, no_space_required]"
                 v-model="form.name"
               />
             </div>
@@ -104,7 +106,7 @@
 <script>
 import { defineComponent } from "vue";
 import { mapActions, mapState, mapGetters } from "vuex";
-import { required_field } from "src/utils/validationRules";
+import { required_field, no_space_required } from "src/utils/validationRules";
 
 export default defineComponent({
   name: "Files",
@@ -121,6 +123,7 @@ export default defineComponent({
       loadedVideos: [],
       loadedImages: [],
       required_field,
+      no_space_required,
     };
   },
 
@@ -137,7 +140,6 @@ export default defineComponent({
     onFormRergisterFileSubmit() {
       if (this.form.type === "audio") {
         this.register_audio(this.form.name);
-        return;
       }
       if (this.form.type === "image") {
         this.register_image(this.form.name);
