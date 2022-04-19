@@ -1,5 +1,5 @@
 export function create_actor({ commit, dispatch }, payload) {
-  commit("ADD_ACTOR", payload);
+  commit("CREATE_ACTOR", payload);
 }
 
 export function delete_actor({ commit, dispatch }, payload) {

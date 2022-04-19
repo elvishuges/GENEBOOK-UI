@@ -10,21 +10,19 @@
           hint="The Game Title"
           lazy-rules
         />
-        <q-input
-          v-model="form.initialImage"
+        <q-select
           class="col-xs-12 col-sm-4 col-md-4 q-px-sm q-pt-md"
           outlined
+          :options="images"
           label="Initial Image"
-          hint="The Initial Image"
-          lazy-rules
+          v-model="form.initialImage"
         />
-        <q-input
-          v-model="form.initialAudio"
+        <q-select
           class="col-xs-12 col-sm-4 col-md-4 q-px-sm q-pt-md"
           outlined
+          :options="audios"
           label="Initial Audio"
-          hint="The Initial Audio"
-          lazy-rules
+          v-model="form.initialAudio"
         />
       </div>
       <div class="row">
@@ -269,6 +267,7 @@ export default {
 
   computed: {
     ...mapState("messages", ["messages"]),
+    ...mapState("files", ["audios", "images"]),
   },
 
   methods: {

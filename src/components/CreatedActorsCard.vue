@@ -1,14 +1,12 @@
 <template>
-  <q-card class="my-card cursor-pointer" flat bordered>
-    <q-card-section horizontal>
-      <q-card-section class="q-pt-xs">
-        <div class="text-h5 q-mt-sm q-mb-xs">{{ title }}</div>
-        <div class="text-caption text-grey">
-          {{ description }}
-        </div>
-      </q-card-section>
+  <q-card class="my-card">
+    <q-card-section class="bg-grey-8 text-white">
+      <div class="text-h6">{{ title }}</div>
+      <div class="text-subtitle2">{{ name }}</div>
     </q-card-section>
-    <q-separator></q-separator>
+    <q-card-section class="q-pt-none">
+      {{ description }}
+    </q-card-section>
   </q-card>
 </template>
 
@@ -19,11 +17,11 @@ export default defineComponent({
   name: "CreatedActorsCard",
 
   props: {
-    name: {
+    title: {
       type: String,
       default: "",
     },
-    title: {
+    name: {
       type: String,
       default: "",
     },
@@ -38,8 +36,7 @@ export default defineComponent({
 <style lang="sass" scoped>
 .my-card
   width: 100%
-  max-width: 300px
-  height: 150px
+  max-width: 250px
 </style>
 
 <style>
