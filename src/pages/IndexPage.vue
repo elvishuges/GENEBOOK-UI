@@ -18,6 +18,14 @@
           description="Actors from System"
         />
       </div>
+
+      <div class="col-xs-12 col-sm-4 col-md-3">
+        <feature-card
+          goToRouteOnClick="items"
+          title="Items"
+          description="Items from System"
+        />
+      </div>
       <div class="col-xs-12 col-sm-4 col-md-3">
         <feature-card
           goToRouteOnClick="files"

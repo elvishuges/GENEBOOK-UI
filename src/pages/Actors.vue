@@ -28,7 +28,6 @@
                 outlined
                 label="Name"
                 lazy-rules
-                dense
                 :rules="[required_field]"
                 v-model="form.name"
               />
@@ -37,7 +36,6 @@
                 outlined
                 label="Title"
                 lazy-rules
-                dense
                 :rules="[required_field]"
                 v-model="form.title"
               />
@@ -46,7 +44,6 @@
                 outlined
                 label="Description"
                 lazy-rules
-                dense
                 :rules="[required_field]"
                 v-model="form.description"
               />
@@ -54,7 +51,6 @@
                 class="col-12 q-px-sm q-pt-xs"
                 outlined
                 label="Collected Items"
-                dense
                 multiple
                 v-model="form.collectedItems"
               />
@@ -63,14 +59,12 @@
                 outlined
                 :options="images"
                 label="Image"
-                dense
                 v-model="form.image"
               />
               <q-select
                 class="col-6 q-px-sm q-pt-sm"
                 outlined
                 label="Location"
-                dense
                 v-model="form.location"
               />
 
@@ -82,7 +76,6 @@
                 type="number"
                 label="Life"
                 outlined
-                dense
                 v-model="form.status.life"
                 :rules="[required_field]"
               />

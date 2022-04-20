@@ -76,7 +76,6 @@
                 class="col-12 q-px-sm q-pt-sm"
                 outlined
                 label="File Type"
-                dense
                 lazy-rules
                 :options="fileTypeOptions"
                 :rules="[required_field]"
@@ -86,7 +85,6 @@
                 class="col-12 q-px-sm q-pt-sm"
                 outlined
                 label="File Name"
-                dense
                 lazy-rules
                 :rules="[required_field, no_space_required]"
                 v-model="form.name"
