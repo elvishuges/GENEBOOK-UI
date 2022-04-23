@@ -274,7 +274,7 @@ export default {
     ...mapActions("messages", ["set_messages"]),
 
     loadMessages() {
-      this.form = { ...this.messages };
+      this.form = JSON.parse(JSON.stringify(this.messages));
     },
 
     onSubmit() {
