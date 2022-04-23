@@ -5,6 +5,7 @@ import createPersistedState from "vuex-persistedstate";
 import messages from "./messages";
 import actors from "./actors";
 import files from "./files";
+import player from "./player";
 
 /*
  * If not building with SSR mode, you can
@@ -21,6 +22,7 @@ export default store(function (/* { ssrContext } */) {
       messages,
       actors,
       files,
+      player,
     },
 
     // enable strict mode (adds overhead!)

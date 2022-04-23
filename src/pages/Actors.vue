@@ -155,6 +155,7 @@ export default {
     onCreateActionClick() {
       this.dialogCreateActor = true;
     },
+
     onFormCreateActorClick() {
       this.create_actor(this.form);
       this.dialogCreateActor = false;

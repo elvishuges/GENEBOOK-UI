@@ -1,4 +1,3 @@
-/*
-export function someGetter (state) {
+export function GET_PLAYER(state) {
+  return state.players;
 }
-*/

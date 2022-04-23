@@ -9,7 +9,11 @@
         />
       </div>
       <div class="col-xs-12 col-sm-4 col-md-3">
-        <feature-card title="Player" description="Player configurations" />
+        <feature-card
+          title="Player"
+          goToRouteOnClick="player"
+          description="Player configurations"
+        />
       </div>
       <div class="col-xs-12 col-sm-4 col-md-3">
         <feature-card
