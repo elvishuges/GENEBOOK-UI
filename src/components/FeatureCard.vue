@@ -3,7 +3,7 @@
     @click="$router.push(goToRouteOnClick)"
     flat
     bordered
-    class="my-card bg-grey-1"
+    class="feature-card bg-grey-1"
   >
     <q-card-section>
       <div class="row items-center no-wrap">
@@ -43,11 +43,9 @@ export default defineComponent({
 </script>
 
 <style lang="sass" scoped>
-.my-card > q-card-section >
+.feature-card > q-card-section >
 :hover
   color: $primary
   cursor: pointer
 </style>
 
-<style>
-</style>
