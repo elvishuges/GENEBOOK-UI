@@ -8,6 +8,7 @@
           v-for="(item, index) in items"
           :key="index"
           class="col-xs-12 col-sm-4 col-md-3 q-px-xs q-pt-sm"
+          @click="onItemClick(index)"
         >
           <list-item-card :name="item.title" />
         </div>
@@ -51,11 +52,17 @@
               />
 
               <q-select
-                class="col-12 q-px-sm q-pt-xs"
+                class="col-6 q-px-sm q-pt-xs"
                 outlined
                 label="Collected Items"
                 :options="images"
-                v-model="form.image"
+                v-model="form.collectedItems"
+              />
+              <q-select
+                class="col-6 q-px-sm q-pt-xs"
+                outlined
+                label="Location"
+                v-model="form.location"
               />
 
               <q-select
@@ -68,7 +75,7 @@
               <q-select
                 class="col-6 q-px-sm q-pt-sm"
                 outlined
-                label="Location"
+                label="Image"
                 v-model="form.image"
               />
             </div>
@@ -105,7 +112,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapGetters } from "vuex";
 import { required_field, no_space_required } from "src/utils/validationRules";
 import ListItemCard from "components/ListItemCard.vue";
 export default {
@@ -121,6 +128,7 @@ export default {
         image: "",
         audio: "",
         location: "",
+        collectedItems: [],
         requiresToShow: {
           items: [],
           actions: [],
@@ -138,8 +146,16 @@ export default {
     ...mapState("files", ["audios", "images"]),
   },
 
+  mounted() {
+    console.log("aqui", JSON.parse(JSON.stringify(this.items)));
+  },
+
   methods: {
     ...mapActions("items", ["add_item"]),
+
+    onItemClick(index) {
+      this.$router.push({ name: "edit-item", params: { index: index } });
+    },
 
     onCreateItemClick() {
       this.dialogCreateItem = true;

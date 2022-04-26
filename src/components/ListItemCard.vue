@@ -1,5 +1,5 @@
 <template>
-  <q-card flat bordered class="list-item-card bg-grey-1">
+  <q-card flat bordered dark class="list-item-card bg-grey-6">
     <q-card-section>
       <div class="row text-center no-wrap">
         <div class="col">
@@ -28,7 +28,6 @@ export default defineComponent({
 <style lang="sass" scoped>
 .list-item-card > q-card-section >
 :hover
-  color: $primary
   cursor: pointer
 </style>
 
