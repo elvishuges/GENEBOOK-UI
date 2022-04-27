@@ -118,17 +118,27 @@
                   onGameObjectChange(indexItem, indexSubitem)
                 "
               />
-
-              <q-select
+              <div
                 v-for="(option, optionIndex) in subitem.userSelectedOptions"
                 :key="optionIndex"
-                class="col-xs-12 col-sm-2 col-md-2 q-pl-xs q-pt-sm"
-                dense
-                outlined
-                label="Second"
-                :options="mapPhysicalDocumentState[option]"
-                v-model="subitem.userSelectedOptions[optionIndex + 1]"
-              />
+                class="col-xs-12 col-sm-3 col-md-3 q-pl-xs q-pt-sm"
+              >
+                <q-select
+                  v-if="selectNextOptions[option]"
+                  dense
+                  outlined
+                  label="Proprety"
+                  :options="selectNextOptions[option]"
+                  v-model="subitem.userSelectedOptions[optionIndex + 1]"
+                />
+                <q-input
+                  v-else
+                  dense
+                  outlined
+                  label="Equals to:"
+                  v-model="subitem.userSelectedOptions[optionIndex + 1]"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -183,9 +193,10 @@ export default {
       ],
 
       gameObjects: ["player", "actor", "location"],
-      mapPhysicalDocumentState: {
+      selectNextOptions: {
         player: ["currentLocation", "collectedItems", "status"],
-        actor: [],
+        actor: ["location", "collectedItems", "status"],
+        status: ["currentLocation actor", "collectedItems actor", "status"],
       },
 
       required_field,
