@@ -130,6 +130,13 @@
                   label="Proprety"
                   :options="selectNextOptions[option]"
                   v-model="subitem.userSelectedOptions[optionIndex + 1]"
+                  @update:model-value="
+                    OnuserSelectedOptionsChange(
+                      indexItem,
+                      indexSubitem,
+                      optionIndex
+                    )
+                  "
                 />
                 <q-input
                   v-else
@@ -195,8 +202,10 @@ export default {
       gameObjects: ["player", "actor", "location"],
       selectNextOptions: {
         player: ["currentLocation", "collectedItems", "status"],
+        collectedItems: ["currentLocation", "collectedItems", "status"],
         actor: ["location", "collectedItems", "status"],
-        status: ["currentLocation actor", "collectedItems actor", "status"],
+        status: ["life", "active"],
+        life: ["elvis", "jaque"],
       },
 
       required_field,
@@ -241,13 +250,24 @@ export default {
     },
 
     onGameObjectChange(indexItem, indexSubitem) {
+      console.log("indexItem:", indexItem, "indexSubitem:", indexSubitem);
       this.localEditingCondition[indexItem][
         indexSubitem
       ].userSelectedOptions.length = 1;
     },
 
-    options() {
-      return this.gameObjects;
+    OnuserSelectedOptionsChange(indexItem, indexSubitem, optionIndex) {
+      console.log(
+        "indexItem:",
+        indexItem,
+        "indexSubitem:",
+        indexSubitem,
+        "opt",
+        optionIndex
+      );
+      this.localEditingCondition[indexItem][
+        indexSubitem
+      ].userSelectedOptions.length = optionIndex + 2;
     },
   },
 };
