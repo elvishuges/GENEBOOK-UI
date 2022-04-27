@@ -104,17 +104,7 @@
                 emit-value
               />
             </div>
-            <div class="row text-h5">
-              <q-select
-                v-show="subitem.statement"
-                class="col-xs-12 col-sm-2 col-md-3 q-pl-xl q-pt-sm"
-                dense
-                outlined
-                label="Game Object"
-                :options="gameObjects"
-                v-model="subitem.userSelectedOptions[0]"
-                emit-value
-              />
+            <div class="row text-h5 q-pl-xl">
               <q-select
                 v-show="subitem.statement"
                 class="col-xs-12 col-sm-2 col-md-2 q-pl-xs q-pt-sm"
@@ -124,6 +114,20 @@
                 :options="gameObjects"
                 v-model="subitem.userSelectedOptions[0]"
                 emit-value
+                @update:model-value="
+                  onGameObjectChange(indexItem, indexSubitem)
+                "
+              />
+
+              <q-select
+                v-for="(option, optionIndex) in subitem.userSelectedOptions"
+                :key="optionIndex"
+                class="col-xs-12 col-sm-2 col-md-2 q-pl-xs q-pt-sm"
+                dense
+                outlined
+                label="Second"
+                :options="mapPhysicalDocumentState[option]"
+                v-model="subitem.userSelectedOptions[optionIndex + 1]"
               />
             </div>
           </div>
@@ -179,6 +183,10 @@ export default {
       ],
 
       gameObjects: ["player", "actor", "location"],
+      mapPhysicalDocumentState: {
+        player: ["currentLocation", "collectedItems", "status"],
+        actor: [],
+      },
 
       required_field,
     };
@@ -190,9 +198,9 @@ export default {
   },
 
   mounted() {
-    const localItems = JSON.parse(JSON.stringify(this.items));
+    const items = JSON.parse(JSON.stringify(this.items));
     const editItemIndex = this.$route.params.index;
-    const localEditingItem = localItems[editItemIndex];
+    const localEditingItem = items[editItemIndex];
     this.form = { ...localEditingItem };
     this.localEditingCondition = this.form.requiresToShow.conditions;
   },
@@ -218,6 +226,16 @@ export default {
     onDialogSubmitClick() {
       this.add_item(this.form);
       this.dialogCreateItem = false;
+    },
+
+    onGameObjectChange(indexItem, indexSubitem) {
+      this.localEditingCondition[indexItem][
+        indexSubitem
+      ].userSelectedOptions.length = 1;
+    },
+
+    options() {
+      return this.gameObjects;
     },
   },
 };

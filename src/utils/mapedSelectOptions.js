@@ -1,0 +1,3 @@
+const mapPhysicalDocumentState = {
+  player: ["Pendente"],
+};
