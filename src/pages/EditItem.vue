@@ -136,7 +136,7 @@
                   dense
                   outlined
                   label="Equals to:"
-                  v-model="subitem.userSelectedOptions[optionIndex + 1]"
+                  v-model="subitem.equalsTo"
                 />
               </div>
             </div>
@@ -223,6 +223,7 @@ export default {
       const condition = {
         statement: "",
         operator: "",
+        equalsTo: "",
         userSelectedOptions: [],
       };
 
