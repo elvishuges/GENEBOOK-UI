@@ -3,17 +3,21 @@ export const selectGameObjects = ["player", "actors", "location"];
 export const selectGameObjectActor = {
   actors: {
     title: "Actors:",
-    next: "actorsProperties",
+    next: "nextToActor",
     options: ["actor 1", "actor 2", "actor 3"],
   },
-  actorsProperties: {
+  nextToActor: {
     title: "Proprety",
     options: ["location", "collectedItems", "status"],
   },
   location: {
     title: "Location:",
-    next: "actorsProperties",
+    next: "nextToLocation",
     options: ["location 1", "location 2", "location 3"],
+  },
+  nextToLocation: {
+    title: "Includes:",
+    options: [],
   },
   collectedItems: {
     title: "Collected :",
@@ -46,7 +50,7 @@ export const selectGameObjectPlayer = {
   },
   currentLocation: {
     title: "Current Location",
-    next: "actorsProperties",
+    next: "nextCurrentLocation",
     options: ["Location 2", "Location 3", "Location 1"],
   },
   collectedItems: {
@@ -60,6 +64,10 @@ export const selectGameObjectPlayer = {
   },
   includes: {
     title: "Includes",
+    options: [],
+  },
+  nextCurrentLocation: {
+    title: "Equals To:",
     options: [],
   },
   performedActionsProperties: {
@@ -79,11 +87,19 @@ export const selectGameObjectPlayer = {
     options: ["==", "=>", ">", "<", ""],
   },
   "==": {
-    title: "Equals To :",
+    title: "Value :",
     options: [],
   },
   "=>": {
-    title: "Equals To :",
+    title: "Value :",
+    options: [],
+  },
+  ">": {
+    title: "Value :",
+    options: [],
+  },
+  "<": {
+    title: "Value :",
     options: [],
   },
 };

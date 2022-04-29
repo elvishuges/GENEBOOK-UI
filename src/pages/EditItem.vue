@@ -340,6 +340,12 @@ export default {
         if (this.selectGameObjectPlayer[option]) {
           return this.selectGameObjectPlayer[option].title;
         }
+        if (!this.selectGameObjectPlayer[option]) {
+          const nextText =
+            this.selectGameObjectPlayer[listOptions[optionIndex - 1]].next;
+
+          return this.selectGameObjectPlayer[nextText].title;
+        }
       }
     },
   },
