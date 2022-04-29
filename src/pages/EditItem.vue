@@ -57,8 +57,8 @@
           v-model="form.image"
         />
       </div>
-      {{ form }}
     </div>
+    {{ form }}
 
     <q-card flat bordered class="my-card bg-grey-1">
       <q-card-section>
@@ -111,7 +111,7 @@
                 dense
                 outlined
                 label="Game Object"
-                :options="gameObjects"
+                :options="selectGameObjects"
                 v-model="subitem.userSelectedOptions[0]"
                 emit-value
                 @update:model-value="
@@ -119,19 +119,38 @@
                 "
               />
               <div
+                v-show="subitem.userSelectedOptions[0]"
                 v-for="(option, optionIndex) in subitem.userSelectedOptions"
                 :key="optionIndex"
                 class="col-xs-12 col-sm-3 col-md-3 q-pl-xs q-pt-sm"
               >
                 <q-select
-                  v-if="selectNextOptions[option]"
+                  v-if="
+                    getSelectOptions(
+                      subitem.userSelectedOptions,
+                      option,
+                      optionIndex
+                    ).length
+                  "
                   dense
                   outlined
-                  label="Proprety"
-                  :options="selectNextOptions[option]"
+                  :label="
+                    getSelectLabel(
+                      subitem.userSelectedOptions,
+                      option,
+                      optionIndex
+                    )
+                  "
+                  :options="
+                    getSelectOptions(
+                      subitem.userSelectedOptions,
+                      option,
+                      optionIndex
+                    )
+                  "
                   v-model="subitem.userSelectedOptions[optionIndex + 1]"
                   @update:model-value="
-                    OnuserSelectedOptionsChange(
+                    OnSelectedOptionsChange(
                       indexItem,
                       indexSubitem,
                       optionIndex
@@ -142,7 +161,13 @@
                   v-else
                   dense
                   outlined
-                  label="Equals to:"
+                  :label="
+                    getSelectLabel(
+                      subitem.userSelectedOptions,
+                      option,
+                      optionIndex
+                    )
+                  "
                   v-model="subitem.equalsTo"
                 />
               </div>
@@ -168,6 +193,12 @@
 <script>
 import { mapActions, mapState, mapGetters } from "vuex";
 import { required_field, no_space_required } from "src/utils/validationRules";
+import {
+  selectGameObjects,
+  selectGameObjectActor,
+  selectGameObjectPlayer,
+} from "src/utils/mapedSelectOptions";
+
 import ListItemCard from "components/ListItemCard.vue";
 export default {
   components: { ListItemCard },
@@ -199,14 +230,9 @@ export default {
         },
       ],
 
-      gameObjects: ["player", "actor", "location"],
-      selectNextOptions: {
-        player: ["currentLocation", "collectedItems", "status"],
-        collectedItems: ["currentLocation", "collectedItems", "status"],
-        actor: ["location", "collectedItems", "status"],
-        status: ["life", "active"],
-        life: ["elvis", "jaque"],
-      },
+      selectGameObjects,
+      selectGameObjectActor,
+      selectGameObjectPlayer,
 
       required_field,
     };
@@ -223,6 +249,8 @@ export default {
     const localEditingItem = items[editItemIndex];
     this.form = { ...localEditingItem };
     this.localEditingCondition = this.form.requiresToShow.conditions;
+
+    ///
   },
 
   methods: {
@@ -250,24 +278,69 @@ export default {
     },
 
     onGameObjectChange(indexItem, indexSubitem) {
-      console.log("indexItem:", indexItem, "indexSubitem:", indexSubitem);
+      console.log(
+        "this.localEditingCondition[indexItem",
+        this.localEditingCondition[indexItem][indexSubitem]
+          .userSelectedOptions[0]
+      );
+
       this.localEditingCondition[indexItem][
         indexSubitem
       ].userSelectedOptions.length = 1;
     },
 
-    OnuserSelectedOptionsChange(indexItem, indexSubitem, optionIndex) {
-      console.log(
-        "indexItem:",
-        indexItem,
-        "indexSubitem:",
-        indexSubitem,
-        "opt",
-        optionIndex
-      );
+    OnSelectedOptionsChange(indexItem, indexSubitem, optionIndex) {
       this.localEditingCondition[indexItem][
         indexSubitem
       ].userSelectedOptions.length = optionIndex + 2;
+    },
+
+    getSelectOptions(listOptions, option, optionIndex) {
+      if (listOptions[0] === "actors") {
+        if (this.selectGameObjectActor[option]) {
+          return this.selectGameObjectActor[option].options;
+        }
+
+        if (!this.selectGameObjectActor[option]) {
+          const nextText =
+            this.selectGameObjectActor[listOptions[optionIndex - 1]].next;
+
+          return this.selectGameObjectActor[nextText].options;
+        }
+      } else if (listOptions[0] === "player") {
+        if (this.selectGameObjectPlayer[option]) {
+          return this.selectGameObjectPlayer[option].options;
+        }
+        if (!this.selectGameObjectPlayer[option]) {
+          const nextText =
+            this.selectGameObjectPlayer[listOptions[optionIndex - 1]].next;
+
+          return this.selectGameObjectPlayer[nextText].options;
+        }
+      }
+
+      return ["fallback", "fallback", "fallback"];
+    },
+
+    getSelectLabel(listOptions, option, optionIndex) {
+      if (listOptions[0] === "actors") {
+        if (this.selectGameObjectActor[option]) {
+          return this.selectGameObjectActor[option].title;
+        }
+
+        if (!this.selectGameObjectActor[option]) {
+          const nextText =
+            this.selectGameObjectActor[listOptions[optionIndex - 1]].next;
+
+          return this.selectGameObjectActor[nextText].title;
+        }
+      }
+
+      if (listOptions[0] === "player") {
+        if (this.selectGameObjectPlayer[option]) {
+          return this.selectGameObjectPlayer[option].title;
+        }
+      }
     },
   },
 };

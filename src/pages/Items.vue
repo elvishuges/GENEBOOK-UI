@@ -147,7 +147,7 @@ export default {
   },
 
   mounted() {
-    console.log("aqui", JSON.parse(JSON.stringify(this.items)));
+    console.log("ITEMS:", JSON.parse(JSON.stringify(this.items)));
   },
 
   methods: {
