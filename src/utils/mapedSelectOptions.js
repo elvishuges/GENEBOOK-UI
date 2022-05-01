@@ -11,17 +11,13 @@ export const selectGameObjectActor = {
     options: ["location", "collectedItems", "status"],
   },
   location: {
-    title: "Location:",
-    next: "nextToLocation",
+    title: "Equals To:",
+    lastOption: true,
     options: ["location 1", "location 2", "location 3"],
   },
-  nextToLocation: {
-    title: "Includes:",
-    options: [],
-  },
   collectedItems: {
-    title: "Collected :",
-    next: "actorsProperties",
+    title: "Includes:",
+    lastOption: true,
     options: ["collectedItems 1", "collectedItems 2", "collectedItems 3"],
   },
   status: {
@@ -29,17 +25,49 @@ export const selectGameObjectActor = {
     options: ["life", "active"],
   },
   life: {
-    title: "Equals To :",
-    options: [],
+    title: "Operator :",
+    options: [">", "<", ">=", "<=", "==", "!="],
   },
   active: {
     title: "Equals To :",
-    options: [],
+    lastOption: true,
+    options: ["True", "False"],
+  },
+  ">": {
+    title: "Value :",
+    lastOption: true,
+    options: ["0"],
+  },
+  "<": {
+    title: "Value :",
+    lastOption: true,
+    options: ["0"],
+  },
+  ">=": {
+    title: "Value :",
+    lastOption: true,
+    options: ["0"],
+  },
+  "<=": {
+    title: "Value :",
+    lastOption: true,
+    options: ["0"],
+  },
+  "==": {
+    title: "Value :",
+    lastOption: true,
+    options: ["0"],
+  },
+  "!=": {
+    title: "Value :",
+    lastOption: true,
+    options: ["0"],
   },
 };
 
 export const selectGameObjectPlayer = {
   player: {
+    lastOption: false,
     title: "Proprety:",
     options: [
       "currentLocation",
@@ -49,37 +77,22 @@ export const selectGameObjectPlayer = {
     ],
   },
   currentLocation: {
-    title: "Current Location",
-    next: "nextCurrentLocation",
-    options: ["Location 2", "Location 3", "Location 1"],
+    title: "Equals to:",
+    lastOption: true,
+    options: ["Current Location 1", "Current Location 1", "Location 1"],
   },
   collectedItems: {
-    title: "Collected Items",
-    next: "actorsProperties",
+    title: "Includes:",
+    lastOption: true,
     options: ["collectedItems 2", "collectedItems 3", "collectedItems 1"],
   },
   performedActions: {
-    title: "Performed Actions",
-    options: ["includes"],
-  },
-  includes: {
-    title: "Includes",
-    options: [],
-  },
-  nextCurrentLocation: {
-    title: "Equals To:",
-    options: [],
-  },
-  performedActionsProperties: {
-    title: "Operator:",
-    options: [],
-  },
-  actorsProperties: {
-    title: "Proprety",
-    options: ["location", "collectedItems", "status"],
+    title: "Includes:",
+    lastOption: true,
+    options: ["Performed Action 1", "Performed Action 2"],
   },
   status: {
-    title: "Proprety :",
+    title: "Operator :",
     options: ["life"],
   },
   life: {
@@ -88,18 +101,22 @@ export const selectGameObjectPlayer = {
   },
   "==": {
     title: "Value :",
-    options: [],
+    lastOption: true,
+    options: ["true", "false"],
   },
   "=>": {
     title: "Value :",
-    options: [],
+    lastOption: true,
+    options: ["true", "false"],
   },
   ">": {
     title: "Value :",
-    options: [],
+    lastOption: true,
+    options: ["true", "false"],
   },
   "<": {
     title: "Value :",
-    options: [],
+    lastOption: true,
+    options: ["true", "false"],
   },
 };

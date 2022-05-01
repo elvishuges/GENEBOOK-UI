@@ -126,11 +126,11 @@
               >
                 <q-select
                   v-if="
-                    getSelectOptions(
+                    !getSelectLastOption(
                       subitem.userSelectedOptions,
                       option,
                       optionIndex
-                    ).length
+                    )
                   "
                   dense
                   outlined
@@ -157,12 +157,19 @@
                     )
                   "
                 />
-                <q-input
+                <q-select
                   v-else
                   dense
                   outlined
                   :label="
                     getSelectLabel(
+                      subitem.userSelectedOptions,
+                      option,
+                      optionIndex
+                    )
+                  "
+                  :options="
+                    getSelectOptions(
                       subitem.userSelectedOptions,
                       option,
                       optionIndex
@@ -222,11 +229,11 @@ export default {
       statements: [
         {
           label: "If",
-          value: "if",
+          value: "value if",
         },
         {
           label: "If Not",
-          value: "if_not",
+          value: "value if not",
         },
       ],
 
@@ -319,7 +326,7 @@ export default {
         }
       }
 
-      return ["fallback", "fallback", "fallback"];
+      return ["Items Not Found"];
     },
 
     getSelectLabel(listOptions, option, optionIndex) {
@@ -345,6 +352,33 @@ export default {
             this.selectGameObjectPlayer[listOptions[optionIndex - 1]].next;
 
           return this.selectGameObjectPlayer[nextText].title;
+        }
+      }
+    },
+
+    getSelectLastOption(listOptions, option, optionIndex) {
+      if (listOptions[0] === "actors") {
+        if (this.selectGameObjectActor[option]) {
+          return this.selectGameObjectActor[option].lastOption;
+        }
+
+        if (!this.selectGameObjectActor[option]) {
+          const nextText =
+            this.selectGameObjectActor[listOptions[optionIndex - 1]].next;
+
+          return this.selectGameObjectActor[nextText].lastOption;
+        }
+      }
+
+      if (listOptions[0] === "player") {
+        if (this.selectGameObjectPlayer[option]) {
+          return this.selectGameObjectPlayer[option].lastOption;
+        }
+        if (!this.selectGameObjectPlayer[option]) {
+          const nextText =
+            this.selectGameObjectPlayer[listOptions[optionIndex - 1]].next;
+
+          return this.selectGameObjectPlayer[nextText].lastOption;
         }
       }
     },
