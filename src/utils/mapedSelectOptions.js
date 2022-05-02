@@ -26,7 +26,32 @@ export const selectGameObjectActor = {
   },
   life: {
     title: "Operator :",
-    options: [">", "<", ">=", "<=", "==", "!="],
+    options: [
+      {
+        label: "Greater Than",
+        value: ">",
+      },
+      {
+        label: "Less Than",
+        value: "<",
+      },
+      {
+        label: "Greater or Equals To",
+        value: ">=",
+      },
+      {
+        label: "Less or Equals To",
+        value: "<=",
+      },
+      {
+        label: "Equals To",
+        value: "==",
+      },
+      {
+        label: "Not To",
+        value: "!=",
+      },
+    ],
   },
   active: {
     title: "Equals To :",
@@ -97,26 +122,61 @@ export const selectGameObjectPlayer = {
   },
   life: {
     title: "Operator :",
-    options: ["==", "=>", ">", "<", ""],
-  },
-  "==": {
-    title: "Value :",
-    lastOption: true,
-    options: ["true", "false"],
-  },
-  "=>": {
-    title: "Value :",
-    lastOption: true,
-    options: ["true", "false"],
+    options: [
+      {
+        label: "Greater Than",
+        value: ">",
+      },
+      {
+        label: "Less Than",
+        value: "<",
+      },
+      {
+        label: "Greater or Equals To",
+        value: ">=",
+      },
+      {
+        label: "Less or Equals To",
+        value: "<=",
+      },
+      {
+        label: "Equals To",
+        value: "==",
+      },
+      {
+        label: "Not To",
+        value: "!=",
+      },
+    ],
   },
   ">": {
     title: "Value :",
     lastOption: true,
-    options: ["true", "false"],
+    options: ["0"],
   },
   "<": {
     title: "Value :",
     lastOption: true,
-    options: ["true", "false"],
+    options: ["0"],
+  },
+  ">=": {
+    title: "Value :",
+    lastOption: true,
+    options: ["0"],
+  },
+  "<=": {
+    title: "Value :",
+    lastOption: true,
+    options: ["0"],
+  },
+  "==": {
+    title: "Value :",
+    lastOption: true,
+    options: ["0"],
+  },
+  "!=": {
+    title: "Value :",
+    lastOption: true,
+    options: ["0"],
   },
 };

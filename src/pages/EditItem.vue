@@ -102,6 +102,7 @@
                 :options="statements"
                 v-model="subitem.statement"
                 emit-value
+                map-options
               />
             </div>
             <div class="row text-h5 q-pl-xl">
@@ -114,6 +115,7 @@
                 :options="selectGameObjects"
                 v-model="subitem.userSelectedOptions[0]"
                 emit-value
+                map-options
                 @update:model-value="
                   onGameObjectChange(indexItem, indexSubitem)
                 "
@@ -125,6 +127,8 @@
                 class="col-xs-12 col-sm-3 col-md-3 q-pl-xs q-pt-sm"
               >
                 <q-select
+                  emit-value
+                  map-options
                   v-if="
                     !getSelectLastOption(
                       subitem.userSelectedOptions,
@@ -158,6 +162,8 @@
                   "
                 />
                 <q-select
+                  emit-value
+                  map-options
                   v-else
                   dense
                   outlined
@@ -175,7 +181,7 @@
                       optionIndex
                     )
                   "
-                  v-model="subitem.equalsTo"
+                  v-model="subitem.result"
                 />
               </div>
             </div>
@@ -229,11 +235,11 @@ export default {
       statements: [
         {
           label: "If",
-          value: "value if",
+          value: "if",
         },
         {
           label: "If Not",
-          value: "value if not",
+          value: "if_not",
         },
       ],
 
@@ -267,7 +273,7 @@ export default {
       const condition = {
         statement: "",
         operator: "",
-        equalsTo: "",
+        result: "",
         userSelectedOptions: [],
       };
 
