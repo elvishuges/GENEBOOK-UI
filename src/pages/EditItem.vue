@@ -58,7 +58,7 @@
         />
       </div>
     </div>
-    {{ form }}
+    {{ localEditingConditions }}
 
     <q-card flat bordered class="my-card bg-grey-1">
       <q-card-section>
@@ -69,12 +69,12 @@
 
           <div class="col-auto q-py-xs">
             <q-btn
-              v-show="!localEditingCondition.length"
+              v-show="!localEditingConditions.length"
               @click="onAddFirstConditionClick"
-              flat
+              outline
               push
               color="secondary"
-              label="Add Condition"
+              label="Create Statement"
             >
             </q-btn>
           </div>
@@ -84,26 +84,57 @@
 
       <q-card-section>
         <div
-          v-for="(item, indexItem) in localEditingCondition"
+          v-for="(item, indexItem) in localEditingConditions"
           :key="indexItem"
-          class="require-to-show-item"
         >
           <div
             class="require-to-show-subitem"
             v-for="(subitem, indexSubitem) in item"
             :key="indexSubitem"
           >
-            <div v-show="indexSubitem == 0" class="row text-h5">
+            <div
+              v-if="indexSubitem == 0"
+              class="row justify-between q-gutter-sm"
+            >
               <q-select
                 class="col-xs-6 col-sm-2 col-md-2 q-px-xs q-pt-xs"
                 dense
                 outlined
-                label="Condition"
+                label="Statement"
                 :options="statements"
                 v-model="subitem.statement"
                 emit-value
                 map-options
               />
+              <div class="q-pt-xs">
+                <q-btn
+                  size="md"
+                  color="secondary"
+                  label="Add Condition"
+                  @click="onAddConditionClick(indexItem)"
+                />
+              </div>
+            </div>
+            <div v-else class="row justify-between q-gutter-sm">
+              <q-select
+                class="col-xs-6 col-sm-2 col-md-2 q-px-lg q-pt-md"
+                dense
+                outlined
+                label="Statement"
+                :options="statements"
+                v-model="subitem.statement"
+                emit-value
+                map-options
+              />
+              <div class="q-gutter-sm q-pt-sm">
+                <q-btn
+                  size="sm"
+                  round
+                  color="red"
+                  icon="delete"
+                  @click="onDeleteConditionClick(indexItem, indexSubitem)"
+                />
+              </div>
             </div>
             <div class="row text-h5 q-pl-xl">
               <q-select
@@ -113,7 +144,7 @@
                 outlined
                 label="Game Object"
                 :options="selectGameObjects"
-                v-model="subitem.userSelectedOptions[0]"
+                v-model="subitem.options[0]"
                 emit-value
                 map-options
                 @update:model-value="
@@ -121,8 +152,8 @@
                 "
               />
               <div
-                v-show="subitem.userSelectedOptions[0]"
-                v-for="(option, optionIndex) in subitem.userSelectedOptions"
+                v-show="subitem.options[0]"
+                v-for="(option, optionIndex) in subitem.options"
                 :key="optionIndex"
                 class="col-xs-12 col-sm-3 col-md-3 q-pl-xs q-pt-sm"
               >
@@ -130,29 +161,15 @@
                   emit-value
                   map-options
                   v-if="
-                    !getSelectLastOption(
-                      subitem.userSelectedOptions,
-                      option,
-                      optionIndex
-                    )
+                    !getSelectLastOption(subitem.options, option, optionIndex)
                   "
                   dense
                   outlined
-                  :label="
-                    getSelectLabel(
-                      subitem.userSelectedOptions,
-                      option,
-                      optionIndex
-                    )
-                  "
+                  :label="getSelectLabel(subitem.options, option, optionIndex)"
                   :options="
-                    getSelectOptions(
-                      subitem.userSelectedOptions,
-                      option,
-                      optionIndex
-                    )
+                    getSelectOptions(subitem.options, option, optionIndex)
                   "
-                  v-model="subitem.userSelectedOptions[optionIndex + 1]"
+                  v-model="subitem.options[optionIndex + 1]"
                   @update:model-value="
                     OnSelectedOptionsChange(
                       indexItem,
@@ -167,19 +184,9 @@
                   v-else
                   dense
                   outlined
-                  :label="
-                    getSelectLabel(
-                      subitem.userSelectedOptions,
-                      option,
-                      optionIndex
-                    )
-                  "
+                  :label="getSelectLabel(subitem.options, option, optionIndex)"
                   :options="
-                    getSelectOptions(
-                      subitem.userSelectedOptions,
-                      option,
-                      optionIndex
-                    )
+                    getSelectOptions(subitem.options, option, optionIndex)
                   "
                   v-model="subitem.result"
                 />
@@ -199,6 +206,11 @@
         @click="$router.go(-1)"
         flat
       />
+      <q-btn label="Save" color="primary" size="lg" @click="onSaveClick">
+        <template v-slot:loading>
+          <q-spinner-facebook />
+        </template>
+      </q-btn>
     </div>
   </q-page>
 </template>
@@ -230,7 +242,7 @@ export default {
         requiresToShow: [],
       },
 
-      localEditingCondition: [],
+      localEditingConditions: [],
 
       statements: [
         {
@@ -261,7 +273,7 @@ export default {
     const editItemIndex = this.$route.params.index;
     const localEditingItem = items[editItemIndex];
     this.form = { ...localEditingItem };
-    this.localEditingCondition = this.form.requiresToShow.conditions;
+    this.localEditingConditions = this.form.requiresToShow.conditions;
 
     ///
   },
@@ -269,16 +281,32 @@ export default {
   methods: {
     ...mapActions("items", ["add_item"]),
 
+    onSaveClick() {},
+
     onAddFirstConditionClick() {
       const condition = {
         statement: "",
         operator: "",
         result: "",
-        userSelectedOptions: [],
+        options: [],
       };
 
-      this.localEditingCondition[0] = [];
-      this.localEditingCondition[0].push(condition);
+      this.localEditingConditions[0] = [];
+      this.localEditingConditions[0].push(condition);
+    },
+
+    onAddConditionClick(indexItem) {
+      const condition = {
+        statement: "",
+        operator: "",
+        result: "",
+        options: [],
+      };
+      this.localEditingConditions[indexItem].push(condition);
+    },
+
+    onDeleteConditionClick(indexItem, indexSubitem) {
+      this.localEditingConditions[indexItem].splice(indexSubitem, 1);
     },
 
     onCreateItemClick() {
@@ -291,25 +319,18 @@ export default {
     },
 
     onGameObjectChange(indexItem, indexSubitem) {
-      console.log(
-        "this.localEditingCondition[indexItem",
-        this.localEditingCondition[indexItem][indexSubitem]
-          .userSelectedOptions[0]
-      );
-
-      this.localEditingCondition[indexItem][
-        indexSubitem
-      ].userSelectedOptions.length = 1;
+      this.localEditingConditions[indexItem][indexSubitem].options.length = 1;
+      this.localEditingConditions[indexItem][indexSubitem].result = "";
     },
 
     OnSelectedOptionsChange(indexItem, indexSubitem, optionIndex) {
-      this.localEditingCondition[indexItem][
-        indexSubitem
-      ].userSelectedOptions.length = optionIndex + 2;
+      this.localEditingConditions[indexItem][indexSubitem].options.length =
+        optionIndex + 2;
+      this.localEditingConditions[indexItem][indexSubitem].result = "";
     },
 
     getSelectOptions(listOptions, option, optionIndex) {
-      if (listOptions[0] === "actors") {
+      if (listOptions[0] === "actor") {
         if (this.selectGameObjectActor[option]) {
           return this.selectGameObjectActor[option].options;
         }
@@ -336,7 +357,7 @@ export default {
     },
 
     getSelectLabel(listOptions, option, optionIndex) {
-      if (listOptions[0] === "actors") {
+      if (listOptions[0] === "actor") {
         if (this.selectGameObjectActor[option]) {
           return this.selectGameObjectActor[option].title;
         }
@@ -363,7 +384,7 @@ export default {
     },
 
     getSelectLastOption(listOptions, option, optionIndex) {
-      if (listOptions[0] === "actors") {
+      if (listOptions[0] === "actor") {
         if (this.selectGameObjectActor[option]) {
           return this.selectGameObjectActor[option].lastOption;
         }

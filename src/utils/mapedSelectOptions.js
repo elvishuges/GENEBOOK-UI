@@ -1,13 +1,13 @@
-export const selectGameObjects = ["player", "actors", "location"];
+export const selectGameObjects = ["player", "actor", "location"];
 
 export const selectGameObjectActor = {
-  actors: {
+  actor: {
     title: "Actors:",
     next: "nextToActor",
     options: ["actor 1", "actor 2", "actor 3"],
   },
   nextToActor: {
-    title: "Proprety",
+    title: "Proprety:",
     options: ["location", "collectedItems", "status"],
   },
   location: {
@@ -61,32 +61,32 @@ export const selectGameObjectActor = {
   ">": {
     title: "Value :",
     lastOption: true,
-    options: ["0"],
+    options: ["0", "1", "2"],
   },
   "<": {
     title: "Value :",
     lastOption: true,
-    options: ["0"],
+    options: ["0", "1", "2"],
   },
   ">=": {
     title: "Value :",
     lastOption: true,
-    options: ["0"],
+    options: ["0", "1", "2"],
   },
   "<=": {
     title: "Value :",
     lastOption: true,
-    options: ["0"],
+    options: ["0", "1", "2"],
   },
   "==": {
     title: "Value :",
     lastOption: true,
-    options: ["0"],
+    options: ["0", "1", "2"],
   },
   "!=": {
     title: "Value :",
     lastOption: true,
-    options: ["0"],
+    options: ["0", "1", "2"],
   },
 };
 
@@ -117,7 +117,7 @@ export const selectGameObjectPlayer = {
     options: ["Performed Action 1", "Performed Action 2"],
   },
   status: {
-    title: "Operator :",
+    title: "Proprety :",
     options: ["life"],
   },
   life: {
@@ -152,31 +152,31 @@ export const selectGameObjectPlayer = {
   ">": {
     title: "Value :",
     lastOption: true,
-    options: ["0"],
+    options: ["0", "1", "2"],
   },
   "<": {
     title: "Value :",
     lastOption: true,
-    options: ["0"],
+    options: ["0", "1", "2"],
   },
   ">=": {
     title: "Value :",
     lastOption: true,
-    options: ["0"],
+    options: ["0", "1", "2"],
   },
   "<=": {
     title: "Value :",
     lastOption: true,
-    options: ["0"],
+    options: ["0", "1", "2"],
   },
   "==": {
     title: "Value :",
     lastOption: true,
-    options: ["0"],
+    options: ["0", "1", "2"],
   },
   "!=": {
     title: "Value :",
     lastOption: true,
-    options: ["0"],
+    options: ["0", "1", "2"],
   },
 };
