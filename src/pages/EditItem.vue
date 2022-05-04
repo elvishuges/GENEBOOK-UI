@@ -108,16 +108,29 @@
               </div>
             </div>
             <div v-else class="row justify-between q-gutter-sm">
-              <q-select
-                class="col-xs-6 col-sm-2 col-md-2 q-px-lg q-pt-md"
-                dense
-                outlined
-                label="Statement"
-                :options="statements"
-                v-model="subitem.statement"
-                emit-value
-                map-options
-              />
+              <div class="row col-sm-10 q-gutter-xs q-px-lg">
+                <q-select
+                  class="col-xs-6 col-sm-2 col-md-2 q-pt-md"
+                  dense
+                  outlined
+                  label="Operator"
+                  :options="logicOperator"
+                  v-model="subitem.operator"
+                  emit-value
+                  map-options
+                />
+                <q-select
+                  class="col-xs-6 col-sm-2 col-md-2 q-pt-md"
+                  dense
+                  outlined
+                  label="Statement"
+                  :options="statements"
+                  v-model="subitem.statement"
+                  emit-value
+                  map-options
+                />
+              </div>
+
               <div class="q-gutter-sm q-pt-sm">
                 <q-btn
                   size="sm"
@@ -250,6 +263,17 @@ export default {
         },
       ],
 
+      logicOperator: [
+        {
+          label: "and",
+          value: "&&",
+        },
+        {
+          label: "or",
+          value: "||",
+        },
+      ],
+
       selectGameObjects,
       selectGameObjectActor,
       selectGameObjectPlayer,
@@ -302,8 +326,8 @@ export default {
 
     onAddConditionClick(indexItem) {
       const condition = {
-        statement: "",
-        operator: "",
+        statement: "if",
+        operator: "and",
         result: "",
         options: [],
       };
