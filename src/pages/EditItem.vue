@@ -1,10 +1,9 @@
 <template>
   <q-page class="q-pa-md">
-    <div class="q-gutter-md">
-      <div v-show="false" class="row">
+    <div class="q-gutter-md q-pb-md">
+      <div v-if="false" class="row">
         <q-input
           class="col-xs-12 col-sm-6 col-md-6 q-px-xs q-pt-sm"
-          dense
           outlined
           label="Name"
           lazy-rules
@@ -13,7 +12,6 @@
         />
         <q-input
           class="col-xs-12 col-sm-6 col-md-6 q-px-xs q-pt-sm"
-          dense
           outlined
           label="Title"
           lazy-rules
@@ -22,14 +20,12 @@
         />
         <q-input
           class="col-12 q-px-xs q-pt-sm"
-          dense
           outlined
           label="Description"
           v-model="form.description"
         />
         <q-select
           class="col-xs-12 col-sm-6 col-md-6 q-px-xs q-pt-sm"
-          dense
           outlined
           label="Collected Items"
           multiple
@@ -37,28 +33,24 @@
         />
         <q-select
           class="col-xs-12 col-sm-6 col-md-6 q-px-xs q-pt-sm"
-          dense
           outlined
           label="Location"
           v-model="form.location"
         />
         <q-select
           class="col-xs-12 col-sm-6 col-md-6 q-px-xs q-pt-sm"
-          dense
           outlined
           label="Audio"
           v-model="form.audio"
         />
         <q-select
           class="col-xs-12 col-sm-6 col-md-6 q-px-xs q-pt-sm"
-          dense
           outlined
           label="Image"
           v-model="form.image"
         />
       </div>
     </div>
-    {{ localEditingConditions }}
 
     <q-card flat bordered class="my-card bg-grey-1">
       <q-card-section>
@@ -133,7 +125,9 @@
                   color="red"
                   icon="delete"
                   @click="onDeleteConditionClick(indexItem, indexSubitem)"
-                />
+                >
+                  <q-tooltip> Delete Condition </q-tooltip>
+                </q-btn>
               </div>
             </div>
             <div class="row text-h5 q-pl-xl">
@@ -225,6 +219,7 @@ import {
 } from "src/utils/mapedSelectOptions";
 
 import ListItemCard from "components/ListItemCard.vue";
+
 export default {
   components: { ListItemCard },
 
@@ -269,19 +264,29 @@ export default {
   },
 
   mounted() {
-    const items = JSON.parse(JSON.stringify(this.items));
-    const editItemIndex = this.$route.params.index;
-    const localEditingItem = items[editItemIndex];
-    this.form = { ...localEditingItem };
-    this.localEditingConditions = this.form.requiresToShow.conditions;
+    this.loadItem();
 
     ///
   },
 
   methods: {
-    ...mapActions("items", ["add_item"]),
+    ...mapActions("items", ["update_item"]),
 
-    onSaveClick() {},
+    loadItem() {
+      const items = JSON.parse(JSON.stringify(this.items));
+      const editItemIndex = this.$route.params.index;
+      const localEditingItem = items[editItemIndex];
+      this.form = { ...localEditingItem };
+      this.localEditingConditions = this.form.requiresToShow.conditions;
+    },
+
+    onSaveClick() {
+      const itemIndex = this.$route.params.index;
+      this.update_item({ index: itemIndex, item: this.form }).then(() => {
+        this.showNotification();
+        this.loadItem();
+      });
+    },
 
     onAddFirstConditionClick() {
       const condition = {
@@ -307,15 +312,6 @@ export default {
 
     onDeleteConditionClick(indexItem, indexSubitem) {
       this.localEditingConditions[indexItem].splice(indexSubitem, 1);
-    },
-
-    onCreateItemClick() {
-      this.dialogCreateItem = true;
-    },
-
-    onDialogSubmitClick() {
-      this.add_item(this.form);
-      this.dialogCreateItem = false;
     },
 
     onGameObjectChange(indexItem, indexSubitem) {
@@ -408,6 +404,13 @@ export default {
           return this.selectGameObjectPlayer[nextText].lastOption;
         }
       }
+    },
+
+    showNotification() {
+      this.$q.notify({
+        type: "positive",
+        message: "Saved successfully !",
+      });
     },
   },
 };
