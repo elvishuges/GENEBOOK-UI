@@ -1,62 +1,75 @@
 <template>
   <q-page class="q-pa-md">
     <div class="q-gutter-md q-pb-md">
-      <div v-if="false" class="row">
-        <q-input
-          class="col-xs-12 col-sm-6 col-md-6 q-px-xs q-pt-sm"
-          outlined
-          label="Name"
-          lazy-rules
-          :rules="[required_field]"
-          v-model="form.name"
-        />
-        <q-input
-          class="col-xs-12 col-sm-6 col-md-6 q-px-xs q-pt-sm"
-          outlined
-          label="Title"
-          lazy-rules
-          :rules="[required_field]"
-          v-model="form.title"
-        />
-        <q-input
-          class="col-12 q-px-xs q-pt-sm"
-          outlined
-          label="Description"
-          v-model="form.description"
-        />
-        <q-select
-          class="col-xs-12 col-sm-6 col-md-6 q-px-xs q-pt-sm"
-          outlined
-          label="Collected Items"
-          multiple
-          v-model="form.collectedItems"
-        />
-        <q-select
-          class="col-xs-12 col-sm-6 col-md-6 q-px-xs q-pt-sm"
-          outlined
-          label="Location"
-          v-model="form.location"
-        />
-        <q-select
-          class="col-xs-12 col-sm-6 col-md-6 q-px-xs q-pt-sm"
-          outlined
-          label="Audio"
-          v-model="form.audio"
-        />
-        <q-select
-          class="col-xs-12 col-sm-6 col-md-6 q-px-xs q-pt-sm"
-          outlined
-          label="Image"
-          v-model="form.image"
-        />
-      </div>
+      <q-expansion-item
+        class="shadow-1 overflow-hidden"
+        style="border-radius: 8px"
+        icon="settings"
+        label="Properties"
+        header-class="bg-grey-14 text-white"
+        expand-icon-class="text-white"
+      >
+        <q-card>
+          <q-card-section>
+            <div class="row">
+              <q-input
+                class="col-xs-12 col-sm-6 col-md-6 q-px-xs q-pt-sm"
+                outlined
+                label="Name"
+                lazy-rules
+                :rules="[required_field]"
+                v-model="form.name"
+              />
+              <q-input
+                class="col-xs-12 col-sm-6 col-md-6 q-px-xs q-pt-sm"
+                outlined
+                label="Title"
+                lazy-rules
+                :rules="[required_field]"
+                v-model="form.title"
+              />
+              <q-input
+                class="col-12 q-px-xs q-pt-sm"
+                outlined
+                label="Description"
+                v-model="form.description"
+              />
+              <q-select
+                class="col-xs-12 col-sm-6 col-md-6 q-px-xs q-pt-sm"
+                outlined
+                label="Collected Items"
+                multiple
+                v-model="form.collectedItems"
+              />
+              <q-select
+                class="col-xs-12 col-sm-6 col-md-6 q-px-xs q-pt-sm"
+                outlined
+                label="Location"
+                v-model="form.location"
+              />
+              <q-select
+                class="col-xs-12 col-sm-6 col-md-6 q-px-xs q-pt-sm"
+                outlined
+                label="Audio"
+                v-model="form.audio"
+              />
+              <q-select
+                class="col-xs-12 col-sm-6 col-md-6 q-px-xs q-pt-sm"
+                outlined
+                label="Image"
+                v-model="form.image"
+              />
+            </div>
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
     </div>
 
     <q-card flat bordered class="my-card bg-grey-1">
       <q-card-section>
         <div class="row items-center no-wrap">
           <div class="col">
-            <div class="text-h6">Requires To show</div>
+            <div class="text-h6">Requires To show: {{ form.title }}</div>
           </div>
 
           <div class="col-auto q-py-xs">
@@ -229,6 +242,7 @@ import {
   selectGameObjects,
   selectGameObjectActor,
   selectGameObjectPlayer,
+  selectGameObjectLocation,
 } from "src/utils/mapedSelectOptions";
 
 import ListItemCard from "components/ListItemCard.vue";
@@ -277,6 +291,9 @@ export default {
       selectGameObjects,
       selectGameObjectActor,
       selectGameObjectPlayer,
+      selectGameObjectLocation,
+
+      selectOption: { actor: {}, player: {} },
 
       required_field,
     };
@@ -371,6 +388,16 @@ export default {
 
           return this.selectGameObjectPlayer[nextText].options;
         }
+      } else if (listOptions[0] === "location") {
+        if (this.selectGameObjectLocation[option]) {
+          return this.selectGameObjectLocation[option].options;
+        }
+        if (!this.selectGameObjectLocation[option]) {
+          const nextText =
+            this.selectGameObjectLocation[listOptions[optionIndex - 1]].next;
+
+          return this.selectGameObjectLocation[nextText].options;
+        }
       }
 
       return ["Items Not Found"];
@@ -388,9 +415,7 @@ export default {
 
           return this.selectGameObjectActor[nextText].title;
         }
-      }
-
-      if (listOptions[0] === "player") {
+      } else if (listOptions[0] === "player") {
         if (this.selectGameObjectPlayer[option]) {
           return this.selectGameObjectPlayer[option].title;
         }
@@ -399,6 +424,16 @@ export default {
             this.selectGameObjectPlayer[listOptions[optionIndex - 1]].next;
 
           return this.selectGameObjectPlayer[nextText].title;
+        }
+      } else if (listOptions[0] === "location") {
+        if (this.selectGameObjectLocation[option]) {
+          return this.selectGameObjectLocation[option].title;
+        }
+        if (!this.selectGameObjectLocation[option]) {
+          const nextText =
+            this.selectGameObjectLocation[listOptions[optionIndex - 1]].next;
+
+          return this.selectGameObjectLocation[nextText].title;
         }
       }
     },
@@ -415,9 +450,7 @@ export default {
 
           return this.selectGameObjectActor[nextText].lastOption;
         }
-      }
-
-      if (listOptions[0] === "player") {
+      } else if (listOptions[0] === "player") {
         if (this.selectGameObjectPlayer[option]) {
           return this.selectGameObjectPlayer[option].lastOption;
         }
@@ -426,6 +459,16 @@ export default {
             this.selectGameObjectPlayer[listOptions[optionIndex - 1]].next;
 
           return this.selectGameObjectPlayer[nextText].lastOption;
+        }
+      } else if (listOptions[0] === "location") {
+        if (this.selectGameObjectLocation[option]) {
+          return this.selectGameObjectLocation[option].lastOption;
+        }
+        if (!this.selectGameObjectLocation[option]) {
+          const nextText =
+            this.selectGameObjectLocation[listOptions[optionIndex - 1]].next;
+
+          return this.selectGameObjectLocation[nextText].lastOption;
         }
       }
     },

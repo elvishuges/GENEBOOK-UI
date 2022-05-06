@@ -7,7 +7,7 @@ export const selectGameObjectActor = {
     options: ["actor 1", "actor 2", "actor 3"],
   },
   nextToActor: {
-    title: "Proprety:",
+    title: "Property:",
     options: ["location", "collectedItems", "status"],
   },
   location: {
@@ -21,11 +21,11 @@ export const selectGameObjectActor = {
     options: ["collectedItems 1", "collectedItems 2", "collectedItems 3"],
   },
   status: {
-    title: "Proprety :",
+    title: "Property:",
     options: ["life", "active"],
   },
   life: {
-    title: "Operator :",
+    title: "Operator:",
     options: [
       {
         label: "Greater Than",
@@ -54,37 +54,37 @@ export const selectGameObjectActor = {
     ],
   },
   active: {
-    title: "Equals To :",
+    title: "Equals To:",
     lastOption: true,
     options: ["True", "False"],
   },
   ">": {
-    title: "Value :",
+    title: "Value:",
     lastOption: true,
     options: ["0", "1", "2"],
   },
   "<": {
-    title: "Value :",
+    title: "Value:",
     lastOption: true,
     options: ["0", "1", "2"],
   },
   ">=": {
-    title: "Value :",
+    title: "Value:",
     lastOption: true,
     options: ["0", "1", "2"],
   },
   "<=": {
-    title: "Value :",
+    title: "Value:",
     lastOption: true,
     options: ["0", "1", "2"],
   },
   "==": {
-    title: "Value :",
+    title: "Value:",
     lastOption: true,
     options: ["0", "1", "2"],
   },
   "!=": {
-    title: "Value :",
+    title: "Value:",
     lastOption: true,
     options: ["0", "1", "2"],
   },
@@ -93,7 +93,7 @@ export const selectGameObjectActor = {
 export const selectGameObjectPlayer = {
   player: {
     lastOption: false,
-    title: "Proprety:",
+    title: "Property:",
     options: [
       "currentLocation",
       "collectedItems",
@@ -104,7 +104,7 @@ export const selectGameObjectPlayer = {
   currentLocation: {
     title: "Equals to:",
     lastOption: true,
-    options: ["Current Location 1", "Current Location 1", "Location 1"],
+    options: ["location 1", "location 2", "location 2"],
   },
   collectedItems: {
     title: "Includes:",
@@ -114,14 +114,14 @@ export const selectGameObjectPlayer = {
   performedActions: {
     title: "Includes:",
     lastOption: true,
-    options: ["Performed Action 1", "Performed Action 2"],
+    options: ["performedActions 1", "performedActions 2"],
   },
   status: {
-    title: "Proprety :",
+    title: "Property:",
     options: ["life"],
   },
   life: {
-    title: "Operator :",
+    title: "Operator:",
     options: [
       {
         label: "Greater Than",
@@ -150,32 +150,94 @@ export const selectGameObjectPlayer = {
     ],
   },
   ">": {
-    title: "Value :",
+    title: "Value:",
     lastOption: true,
     options: ["0", "1", "2"],
   },
   "<": {
-    title: "Value :",
+    title: "Value:",
     lastOption: true,
     options: ["0", "1", "2"],
   },
   ">=": {
-    title: "Value :",
+    title: "Value:",
     lastOption: true,
     options: ["0", "1", "2"],
   },
   "<=": {
-    title: "Value :",
+    title: "Value:",
     lastOption: true,
     options: ["0", "1", "2"],
   },
   "==": {
-    title: "Value :",
+    title: "Value:",
     lastOption: true,
     options: ["0", "1", "2"],
   },
   "!=": {
-    title: "Value :",
+    title: "Value:",
+    lastOption: true,
+    options: ["0", "1", "2"],
+  },
+};
+
+export const selectGameObjectLocation = {
+  location: {
+    title: "Locations:",
+    next: "nextToLocation",
+    options: ["location 1", "location 2", "location 3"],
+  },
+  nextToLocation: {
+    title: "Property:",
+    options: ["visits"],
+  },
+  visits: {
+    title: "Operator:",
+    options: [
+      {
+        label: "Greater Than",
+        value: ">",
+      },
+      {
+        label: "Less Than",
+        value: "<",
+      },
+      {
+        label: "Greater or Equals To",
+        value: ">=",
+      },
+      {
+        label: "Less or Equals To",
+        value: "<=",
+      },
+      {
+        label: "Equals To",
+        value: "==",
+      },
+    ],
+  },
+  ">": {
+    title: "Value:",
+    lastOption: true,
+    options: ["0", "1", "2"],
+  },
+  "<": {
+    title: "Value:",
+    lastOption: true,
+    options: ["0", "1", "2"],
+  },
+  ">=": {
+    title: "Value:",
+    lastOption: true,
+    options: ["0", "1", "2"],
+  },
+  "<=": {
+    title: "Value:",
+    lastOption: true,
+    options: ["0", "1", "2"],
+  },
+  "==": {
+    title: "Value:",
     lastOption: true,
     options: ["0", "1", "2"],
   },

@@ -19,11 +19,11 @@
 
     <q-dialog v-model="dialogCreateItem" persistent>
       <q-card>
-        <q-card-section>
+        <q-card-section class="bg-secondary text-white">
           <div class="text-h6">Create Item</div>
         </q-card-section>
 
-        <q-card-section class="q-pt-none">
+        <q-card-section class="q-pt-none q-pb-md">
           <q-form @submit="onDialogSubmitClick">
             <div class="row">
               <q-input

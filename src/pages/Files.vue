@@ -65,11 +65,11 @@
 
     <q-dialog v-model="dialogRegisterFile" persistent>
       <q-card style="width: 580px; max-width: 80vw">
-        <q-card-section>
+        <q-card-section class="bg-secondary text-white">
           <div class="text-h6">Register File</div>
         </q-card-section>
 
-        <q-card-section class="q-pt-none">
+        <q-card-section class="q-pt-none q-pb-md">
           <q-form @submit="onFormRergisterFileSubmit">
             <div class="row">
               <q-select

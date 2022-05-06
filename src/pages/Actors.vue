@@ -16,11 +16,11 @@
 
     <q-dialog v-model="dialogCreateActor" persistent>
       <q-card>
-        <q-card-section>
+        <q-card-section class="bg-secondary text-white">
           <div class="text-h6">Create Actor</div>
         </q-card-section>
 
-        <q-card-section class="q-pt-none">
+        <q-card-section class="q-pt-none q-pb-md">
           <q-form @submit="onFormCreateActorClick">
             <div class="row">
               <q-input
