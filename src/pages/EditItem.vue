@@ -6,8 +6,8 @@
         style="border-radius: 8px"
         icon="settings"
         label="Properties"
-        header-class="bg-grey-14 text-white"
-        expand-icon-class="text-white"
+        header-class="bg-grey-2 text-black"
+        expand-icon-class="text-black"
       >
         <q-card>
           <q-card-section>
@@ -123,7 +123,7 @@
             <div v-else class="row justify-between q-gutter-sm">
               <div class="row col-sm-10 q-gutter-xs q-px-lg">
                 <q-select
-                  class="col-xs-6 col-sm-2 col-md-2 q-pt-md"
+                  class="col-xs-4 col-sm-2 col-md-2 q-pt-md"
                   dense
                   outlined
                   label="Operator"
