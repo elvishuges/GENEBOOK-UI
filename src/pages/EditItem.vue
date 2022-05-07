@@ -236,14 +236,16 @@
 </template>
 
 <script>
-import { mapActions, mapState, mapGetters } from "vuex";
-import { required_field, no_space_required } from "src/utils/validationRules";
+import { mapActions, mapState } from "vuex";
+import { required_field } from "src/utils/validationRules";
 import {
   selectGameObjects,
   selectGameObjectActor,
   selectGameObjectPlayer,
   selectGameObjectLocation,
 } from "src/utils/mapedSelectOptions";
+
+import { writeText } from "../backend/utils";
 
 import ListItemCard from "components/ListItemCard.vue";
 
@@ -260,7 +262,13 @@ export default {
         image: "",
         audio: "",
         location: "",
-        collectedItems: [],
+        collectedItems: [
+          {
+            b: function (param) {
+              return param;
+            },
+          },
+        ],
         requiresToShow: [],
       },
 
@@ -327,6 +335,7 @@ export default {
         this.showNotification();
         this.loadItem();
       });
+      writeText("Hello nodejs thread");
     },
 
     onAddFirstConditionClick() {
@@ -342,6 +351,7 @@ export default {
     },
 
     onAddConditionClick(indexItem) {
+      window.myAPI.doAThing();
       const condition = {
         statement: "if",
         operator: "and",

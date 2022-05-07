@@ -16,10 +16,12 @@
     "vue": "^3.0.0",
     "vue-router": "^4.0.0",
     "vuex": "^4.0.1",
-    "vuex-persistedstate": "^4.1.0"
+    "vuex-persistedstate": "^4.1.0",
+    "walkdir": "^0.4.1"
   },
   "devDependencies": {
-    "@quasar/app-webpack": "^3.0.0"
+    "@quasar/app-webpack": "^3.0.0",
+    "electron": "^18.2.0"
   },
   "browserslist": [
     "last 10 Chrome versions",
