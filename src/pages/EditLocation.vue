@@ -1,6 +1,7 @@
 <template>
-  <q-page class="q-pa-md">
+  <q-page class="q-pa-md q-pb-lg">
     <div class="q-gutter-md q-pb-md">
+      {{ localEditingDescriptions }}
       <q-expansion-item
         class="shadow-1 overflow-hidden"
         style="border-radius: 8px"
@@ -43,7 +44,7 @@
       </q-expansion-item>
     </div>
 
-    <q-card flat bordered class="my-card bg-grey-1">
+    <q-card flat bordered class="bg-grey-1 q-pb-xl">
       <q-card-section>
         <div class="row items-center no-wrap">
           <div class="col">
@@ -52,8 +53,7 @@
 
           <div class="col-auto q-py-xs">
             <q-btn
-              v-show="!localEditingDescriptions.length"
-              @click="onAddDescriptionClick"
+              @click="onCreateDescriptionClick"
               outline
               push
               color="secondary"
@@ -70,48 +70,38 @@
           v-for="(item, indexItem) in localEditingDescriptions"
           :key="indexItem"
         >
-          <div
-            class="require-to-show-subitem"
-            v-for="(subitem, indexSubitem) in item"
-            :key="indexSubitem"
-          >
-            <div
-              v-if="indexSubitem == 0"
-              class="row justify-between q-gutter-sm"
-            >
-              <q-select
-                class="col-xs-6 col-sm-2 col-md-2 q-px-xs q-pt-xs"
-                dense
-                outlined
-                label="Statement"
-                :options="statements"
-                v-model="subitem.statement"
-                emit-value
-                map-options
-              />
-              <div class="q-pt-xs">
-                <q-btn
-                  size="md"
-                  color="secondary"
-                  label="Add Condition"
-                  @click="onAddConditionClick(indexItem)"
-                />
+          <q-card flat bordered class="bg-grey-1 q-ma-md q-py-sm">
+            <q-card-section class="q-px-lg q-py-md">
+              <div class="row items-center no-wrap">
+                <div class="col">
+                  <div class="text-overline text-orange-9">
+                    Descriptions: {{ item.text }}
+                  </div>
+                </div>
+                <div class="q-gutter-sm">
+                  <q-btn
+                    size="sm"
+                    round
+                    color="red"
+                    icon="delete"
+                    @click="onDeleteDescriptionClick(indexItem, indexSubitem)"
+                  >
+                    <q-tooltip> Delete Description </q-tooltip>
+                  </q-btn>
+                </div>
               </div>
-            </div>
-            <div v-else class="row justify-between q-gutter-sm">
-              <div class="row col-sm-10 q-gutter-xs q-px-lg">
+            </q-card-section>
+            <div
+              class="require-to-show-subitem q-px-md"
+              v-for="(subitem, indexSubitem) in item.condition"
+              :key="indexSubitem"
+            >
+              <div
+                v-if="indexSubitem == 0"
+                class="row justify-between q-gutter-sm no-wrap"
+              >
                 <q-select
-                  class="col-xs-4 col-sm-2 col-md-2 q-pt-md"
-                  dense
-                  outlined
-                  label="Operator"
-                  :options="logicOperator"
-                  v-model="subitem.operator"
-                  emit-value
-                  map-options
-                />
-                <q-select
-                  class="col-xs-6 col-sm-2 col-md-2 q-pt-md"
+                  class="col-xs-6 col-sm-2 col-md-2 q-px-xs q-pt-xs"
                   dense
                   outlined
                   label="Statement"
@@ -120,80 +110,154 @@
                   emit-value
                   map-options
                 />
+                <div class="q-pt-xs">
+                  <q-btn
+                    size="md"
+                    color="secondary"
+                    label="Add Condition"
+                    @click="onAddConditionClick(indexItem)"
+                  />
+                </div>
               </div>
+              <div v-else class="row justify-between q-gutter-sm">
+                <div class="row col-sm-10 q-gutter-xs q-px-lg">
+                  <q-select
+                    class="col-xs-4 col-sm-2 col-md-2 q-pt-md"
+                    dense
+                    outlined
+                    label="Operator"
+                    :options="logicOperator"
+                    v-model="subitem.operator"
+                    emit-value
+                    map-options
+                  />
+                  <q-select
+                    class="col-xs-6 col-sm-2 col-md-2 q-pt-md"
+                    dense
+                    outlined
+                    label="Statement"
+                    :options="statements"
+                    v-model="subitem.statement"
+                    emit-value
+                    map-options
+                  />
+                </div>
 
-              <div class="q-gutter-sm q-pt-sm">
-                <q-btn
-                  size="sm"
-                  round
-                  color="red"
-                  icon="delete"
-                  @click="onDeleteConditionClick(indexItem, indexSubitem)"
-                >
-                  <q-tooltip> Delete Condition </q-tooltip>
-                </q-btn>
+                <div class="q-gutter-sm q-pt-sm">
+                  <q-btn
+                    size="sm"
+                    round
+                    color="red"
+                    icon="delete"
+                    @click="onDeleteConditionClick(indexItem, indexSubitem)"
+                  >
+                    <q-tooltip> Delete Condition </q-tooltip>
+                  </q-btn>
+                </div>
               </div>
-            </div>
-            <div class="row text-h5 q-pl-xl">
-              <q-select
-                v-show="subitem.statement"
-                class="col-xs-12 col-sm-2 col-md-2 q-pl-xs q-pt-sm"
-                dense
-                outlined
-                label="Game Object"
-                :options="selectGameObjects"
-                v-model="subitem.options[0]"
-                emit-value
-                map-options
-                @update:model-value="
-                  onGameObjectChange(indexItem, indexSubitem)
-                "
-              />
-              <div
-                v-show="subitem.options[0]"
-                v-for="(option, optionIndex) in subitem.options"
-                :key="optionIndex"
-                class="col-xs-12 col-sm-3 col-md-3 q-pl-xs q-pt-sm"
-              >
+              <div class="row text-h5 q-pl-xl">
                 <q-select
-                  emit-value
-                  map-options
-                  v-if="
-                    !getSelectLastOption(subitem.options, option, optionIndex)
-                  "
+                  v-show="subitem.statement"
+                  class="col-xs-12 col-sm-2 col-md-2 q-pl-xs q-pt-sm"
                   dense
                   outlined
-                  :label="getSelectLabel(subitem.options, option, optionIndex)"
-                  :options="
-                    getSelectOptions(subitem.options, option, optionIndex)
-                  "
-                  v-model="subitem.options[optionIndex + 1]"
+                  label="Game Object"
+                  :options="selectGameObjects"
+                  v-model="subitem.options[0]"
+                  emit-value
+                  map-options
                   @update:model-value="
-                    OnSelectedOptionsChange(
-                      indexItem,
-                      indexSubitem,
-                      optionIndex
-                    )
+                    onGameObjectChange(indexItem, indexSubitem)
                   "
                 />
-                <q-select
-                  v-else
-                  emit-value
-                  map-options
-                  dense
-                  outlined
-                  :label="getSelectLabel(subitem.options, option, optionIndex)"
-                  :options="
-                    getSelectOptions(subitem.options, option, optionIndex)
-                  "
-                  v-model="subitem.result"
-                />
+                <div
+                  v-show="subitem.options[0]"
+                  v-for="(option, optionIndex) in subitem.options"
+                  :key="optionIndex"
+                  class="col-xs-12 col-sm-3 col-md-3 q-pl-xs q-pt-sm"
+                >
+                  <q-select
+                    emit-value
+                    map-options
+                    v-if="
+                      !getSelectLastOption(subitem.options, option, optionIndex)
+                    "
+                    dense
+                    outlined
+                    :label="
+                      getSelectLabel(subitem.options, option, optionIndex)
+                    "
+                    :options="
+                      getSelectOptions(subitem.options, option, optionIndex)
+                    "
+                    v-model="subitem.options[optionIndex + 1]"
+                    @update:model-value="
+                      OnSelectedOptionsChange(
+                        indexItem,
+                        indexSubitem,
+                        optionIndex
+                      )
+                    "
+                  />
+                  <q-select
+                    v-else
+                    emit-value
+                    map-options
+                    dense
+                    outlined
+                    :label="
+                      getSelectLabel(subitem.options, option, optionIndex)
+                    "
+                    :options="
+                      getSelectOptions(subitem.options, option, optionIndex)
+                    "
+                    v-model="subitem.result"
+                  />
+                </div>
               </div>
             </div>
-          </div>
+          </q-card>
         </div>
       </q-card-section>
     </q-card>
+
+    <!-- dialog create Description -->
+
+    <q-dialog v-model="showDialogCreateDescription" persistent>
+      <q-card class="create-description">
+        <q-card-section class="bg-secondary text-white">
+          <div class="text-h6">Create Description</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none q-pb-md">
+          <q-form @submit="onDialogCreateDescriptionSubmitClick">
+            <div class="row q-pt-md">
+              <q-input
+                class="col-12 q-px-sm q-pt-xs"
+                outlined
+                label="Desciption Text"
+                lazy-rules
+                :rules="[required_field]"
+                v-model="description.text"
+              />
+              <q-select
+                class="col-12 q-px-sm q-pt-xs"
+                outlined
+                label="Desciption Image"
+                lazy-rules
+                :rules="[required_field]"
+                :options="images"
+                v-model="description.image"
+              />
+            </div>
+            <q-card-actions align="right" class="text-primary">
+              <q-btn flat label="Close" v-close-popup />
+              <q-btn flat label="Create Locations" type="submit" />
+            </q-card-actions>
+          </q-form>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
 
     <div class="row justify-end q-pa-lg q-gutter-sm fixed-bottom-right">
       <q-btn
@@ -204,7 +268,12 @@
         @click="$router.go(-1)"
         flat
       />
-      <q-btn label="Save" color="primary" size="lg" @click="onSaveClick">
+      <q-btn
+        label="Save Changes"
+        color="primary"
+        size="lg"
+        @click="onSaveClick"
+      >
         <template v-slot:loading>
           <q-spinner-facebook />
         </template>
@@ -232,7 +301,7 @@ export default {
 
   data() {
     return {
-      dialogCreateItem: false,
+      showDialogCreateDescription: false,
       form: {
         name: "",
         title: "",
@@ -283,7 +352,7 @@ export default {
 
   computed: {
     ...mapState("locations", ["locations"]),
-    ...mapState("files", ["audios", "images"]),
+    ...mapState("files", ["images"]),
   },
 
   mounted() {
@@ -304,12 +373,12 @@ export default {
     onSaveClick() {
       const itemIndex = this.$route.params.index;
       this.update_item({ index: itemIndex, item: this.form }).then(() => {
-        this.showSuccessNotification();
+        this.showSuccessNotification("Saved successfully !");
         this.loadItem();
       });
     },
 
-    onAddDescriptionClick() {
+    onDialogCreateDescriptionSubmitClick() {
       const condition = {
         statement: "",
         operator: "",
@@ -317,22 +386,57 @@ export default {
         options: [],
       };
       let description = {
-        text: "",
-        image: "",
+        text: this.description.text,
+        image: this.description.image,
         condition: [],
       };
       description.condition.push(condition);
 
       this.localEditingDescriptions.push(description);
+      this.showDialogCreateDescription = false;
+      this.showSuccessNotification("Description created sucessfully !!");
     },
 
-    onAddConditionClick(indexItem) {},
+    onCreateDescriptionClick() {
+      this.showDialogCreateDescription = true;
+    },
 
-    onDeleteConditionClick(indexItem, indexSubitem) {},
+    onAddConditionClick(indexItem) {
+      const condition = {
+        statement: "if",
+        operator: "and",
+        result: "",
+        options: [],
+      };
+      this.localEditingDescriptions[indexItem].condition.push(condition);
+    },
 
-    onGameObjectChange(indexItem, indexSubitem) {},
+    onDeleteConditionClick(indexItem, indexSubitem) {
+      this.localEditingDescriptions[indexItem].condition.splice(
+        indexSubitem,
+        1
+      );
+    },
 
-    OnSelectedOptionsChange(indexItem, indexSubitem, optionIndex) {},
+    onDeleteDescriptionClick(indexItem, indexSubitem) {},
+
+    onGameObjectChange(indexItem, indexSubitem) {
+      this.localEditingDescriptions[indexItem].condition[
+        indexSubitem
+      ].options.length = 1;
+
+      this.localEditingDescriptions[indexItem].condition[indexSubitem].result =
+        "";
+    },
+
+    OnSelectedOptionsChange(indexItem, indexSubitem, optionIndex) {
+      this.localEditingDescriptions[indexItem].condition[
+        indexSubitem
+      ].options.length = optionIndex + 2;
+
+      this.localEditingDescriptions[indexItem].condition[indexSubitem].result =
+        "";
+    },
 
     getSelectOptions(listOptions, option, optionIndex) {
       if (listOptions[0] === "actor") {
@@ -441,10 +545,10 @@ export default {
       }
     },
 
-    showSuccessNotification() {
+    showSuccessNotification(message) {
       this.$q.notify({
         type: "positive",
-        message: "Saved successfully !",
+        message: message,
       });
     },
   },
@@ -452,4 +556,6 @@ export default {
 </script>
 
 <style  lang="sass" scoped>
+.create-description
+  width: 500px
 </style>
