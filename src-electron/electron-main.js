@@ -8,43 +8,45 @@ const { ipcMain } = require("electron");
 ipcMain.handle("fileAPI:writeText", async (event, arg) => {
   console.log("Hello Everyone", arg); // prints "ping"
   try {
-    let json = [
-      {
-        name: "knife",
-        title: "Kitchen knife",
-        description: "Simple pointed knife. Can be used to unlock locks.",
-        image: "knife",
-        audio: "knife",
-        location: "room",
-        requiresToShow: {
-          items: [],
-          actions: [],
-          conditions: [
-            (gc) =>
-              getPlayer(gc).performedActions.includes("defeated_thief") &&
-              !getPlayer(gc).performedActions.includes("took_knife"),
-          ],
+    let json = {
+      items: [
+        {
+          name: "knife",
+          title: "Kitchen knife",
+          description: "Simple pointed knife. Can be used to unlock locks.",
+          image: "knife",
+          audio: "knife",
+          location: "room",
+          requiresToShow: {
+            items: [],
+            actions: [],
+            conditions: [
+              (gc) =>
+                getPlayer(gc).performedActions.includes("defeated_thief") &&
+                !getPlayer(gc).performedActions.includes("took_knife"),
+            ],
+          },
         },
-      },
-      {
-        name: "bat",
-        title: "Baseball bat",
-        description: "A little heavy, but tough enough to defend itself.",
-        image: "bat",
-        audio: "bat",
-        location: "room",
-        requiresToShow: {
-          items: [],
-          actions: [],
-          conditions: [
-            (gc) =>
-              getActor(gc, "thief").status.active == true &&
-              !getPlayer(gc).performedActions.includes("took_bat"),
-          ],
+        {
+          name: "bat",
+          title: "Baseball bat",
+          description: "A little heavy, but tough enough to defend itself.",
+          image: "bat",
+          audio: "bat",
+          location: "room",
+          requiresToShow: {
+            items: [],
+            actions: [],
+            conditions: [
+              (gc) =>
+                getActor(gc, "thief").status.active == true &&
+                !getPlayer(gc).performedActions.includes("took_bat"),
+            ],
+          },
         },
-      },
-    ];
-    fs.writeFile("test.json", JSON.stringify(json), function (err) {
+      ],
+    };
+    fs.writeFile("test.json", json, function (err) {
       if (err) {
         console.log(err);
       }

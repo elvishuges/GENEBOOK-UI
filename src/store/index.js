@@ -7,6 +7,7 @@ import actors from "./actors";
 import files from "./files";
 import player from "./player";
 import items from "./items";
+import locations from "./locations";
 
 /*
  * If not building with SSR mode, you can
@@ -25,6 +26,7 @@ export default store(function (/* { ssrContext } */) {
       files,
       player,
       items,
+      locations,
     },
 
     // enable strict mode (adds overhead!)

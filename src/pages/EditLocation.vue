@@ -29,28 +29,13 @@
                 v-model="form.title"
               />
               <q-input
-                class="col-12 q-px-xs q-pt-sm"
+                class="col-12 q-px-sm q-pt-xs"
                 outlined
-                label="Description"
-                v-model="form.description"
-              />
-              <q-select
-                class="col-sm-12 q-px-xs q-pt-sm"
-                outlined
-                label="Location"
-                v-model="form.location"
-              />
-              <q-select
-                class="col-xs-12 col-sm-6 col-md-6 q-px-xs q-pt-sm"
-                outlined
-                label="Audio"
-                v-model="form.audio"
-              />
-              <q-select
-                class="col-xs-12 col-sm-6 col-md-6 q-px-xs q-pt-sm"
-                outlined
-                label="Image"
-                v-model="form.image"
+                label="Visits"
+                type="number"
+                lazy-rules
+                min="0"
+                v-model="form.visits"
               />
             </div>
           </q-card-section>
@@ -62,17 +47,17 @@
       <q-card-section>
         <div class="row items-center no-wrap">
           <div class="col">
-            <div class="text-h6">Requires To show: {{ form.title }}</div>
+            <div class="text-h6">Descriptions: {{ form.title }}</div>
           </div>
 
           <div class="col-auto q-py-xs">
             <q-btn
-              v-show="!localEditingConditions.length"
-              @click="onAddFirstConditionClick"
+              v-show="!localEditingDescriptions.length"
+              @click="onAddDescriptionClick"
               outline
               push
               color="secondary"
-              label="Create Statement"
+              label="Create Description"
             >
             </q-btn>
           </div>
@@ -82,7 +67,7 @@
 
       <q-card-section>
         <div
-          v-for="(item, indexItem) in localEditingConditions"
+          v-for="(item, indexItem) in localEditingDescriptions"
           :key="indexItem"
         >
           <div
@@ -192,9 +177,9 @@
                   "
                 />
                 <q-select
+                  v-else
                   emit-value
                   map-options
-                  v-else
                   dense
                   outlined
                   :label="getSelectLabel(subitem.options, option, optionIndex)"
@@ -251,14 +236,19 @@ export default {
       form: {
         name: "",
         title: "",
-        description: "",
-        image: "",
-        audio: "",
-        location: "",
-        requiresToShow: [],
+        visits: 0,
+        descriptions: [],
+        actions: [],
+        exits: [],
       },
 
-      localEditingConditions: [],
+      description: {
+        text: "",
+        image: "",
+        condition: [],
+      },
+
+      localEditingDescriptions: [],
 
       statements: [
         {
@@ -287,16 +277,12 @@ export default {
       selectGameObjectPlayer,
       selectGameObjectLocation,
 
-      selectOption: { actor: {}, player: {} },
-
-      item: "",
-
       required_field,
     };
   },
 
   computed: {
-    ...mapState("items", ["items"]),
+    ...mapState("locations", ["locations"]),
     ...mapState("files", ["audios", "images"]),
   },
 
@@ -308,11 +294,11 @@ export default {
     ...mapActions("items", ["update_item"]),
 
     loadItem() {
-      const items = JSON.parse(JSON.stringify(this.items));
-      const editItemIndex = this.$route.params.index;
-      const localEditingItem = items[editItemIndex];
-      this.form = { ...localEditingItem };
-      this.localEditingConditions = this.form.requiresToShow.conditions;
+      const locations = JSON.parse(JSON.stringify(this.locations));
+      const editLocationIndex = this.$route.params.index;
+      const LocalEditingLocation = locations[editLocationIndex];
+      this.form = { ...LocalEditingLocation };
+      this.localEditingDescriptions = this.form.descriptions;
     },
 
     onSaveClick() {
@@ -323,42 +309,30 @@ export default {
       });
     },
 
-    onAddFirstConditionClick() {
+    onAddDescriptionClick() {
       const condition = {
         statement: "",
         operator: "",
         result: "",
         options: [],
       };
-
-      this.localEditingConditions[0] = [];
-      this.localEditingConditions[0].push(condition);
-    },
-
-    onAddConditionClick(indexItem) {
-      const condition = {
-        statement: "if",
-        operator: "and",
-        result: "",
-        options: [],
+      let description = {
+        text: "",
+        image: "",
+        condition: [],
       };
-      this.localEditingConditions[indexItem].push(condition);
+      description.condition.push(condition);
+
+      this.localEditingDescriptions.push(description);
     },
 
-    onDeleteConditionClick(indexItem, indexSubitem) {
-      this.localEditingConditions[indexItem].splice(indexSubitem, 1);
-    },
+    onAddConditionClick(indexItem) {},
 
-    onGameObjectChange(indexItem, indexSubitem) {
-      this.localEditingConditions[indexItem][indexSubitem].options.length = 1;
-      this.localEditingConditions[indexItem][indexSubitem].result = "";
-    },
+    onDeleteConditionClick(indexItem, indexSubitem) {},
 
-    OnSelectedOptionsChange(indexItem, indexSubitem, optionIndex) {
-      this.localEditingConditions[indexItem][indexSubitem].options.length =
-        optionIndex + 2;
-      this.localEditingConditions[indexItem][indexSubitem].result = "";
-    },
+    onGameObjectChange(indexItem, indexSubitem) {},
+
+    OnSelectedOptionsChange(indexItem, indexSubitem, optionIndex) {},
 
     getSelectOptions(listOptions, option, optionIndex) {
       if (listOptions[0] === "actor") {

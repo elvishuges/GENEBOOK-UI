@@ -6,11 +6,19 @@ const routes = [
       { path: "", component: () => import("pages/IndexPage.vue") },
       { path: "/messages", component: () => import("pages/Messages.vue") },
       { path: "/actors", component: () => import("pages/Actors.vue") },
+
       { path: "/items", component: () => import("pages/Items.vue") },
       {
         path: "/item/:index",
         name: "edit-item",
         component: () => import("pages/EditItem.vue"),
+      },
+
+      { path: "/locations", component: () => import("pages/Locations.vue") },
+      {
+        path: "/location/:index",
+        name: "edit-location",
+        component: () => import("pages/EditLocation.vue"),
       },
       { path: "/files", component: () => import("pages/Files.vue") },
       { path: "/player", component: () => import("pages/Player.vue") },
