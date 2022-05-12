@@ -1,7 +1,6 @@
 <template>
   <q-page class="q-pa-md q-pb-lg">
     <div class="q-gutter-md q-pb-md">
-      {{ localEditingDescriptions }}
       <q-expansion-item
         class="shadow-1 overflow-hidden"
         style="border-radius: 8px"
@@ -75,7 +74,7 @@
               <div class="row items-center no-wrap">
                 <div class="col">
                   <div class="text-overline text-orange-9">
-                    Descriptions: {{ item.text }}
+                    Text: {{ item.text }}
                   </div>
                 </div>
                 <div class="q-gutter-sm">
@@ -84,7 +83,7 @@
                     round
                     color="red"
                     icon="delete"
-                    @click="onDeleteDescriptionClick(indexItem, indexSubitem)"
+                    @click="onDeleteDescriptionClick(indexItem)"
                   >
                     <q-tooltip> Delete Description </q-tooltip>
                   </q-btn>
@@ -360,7 +359,7 @@ export default {
   },
 
   methods: {
-    ...mapActions("items", ["update_item"]),
+    ...mapActions("locations", ["update_location"]),
 
     loadItem() {
       const locations = JSON.parse(JSON.stringify(this.locations));
@@ -372,10 +371,12 @@ export default {
 
     onSaveClick() {
       const itemIndex = this.$route.params.index;
-      this.update_item({ index: itemIndex, item: this.form }).then(() => {
-        this.showSuccessNotification("Saved successfully !");
-        this.loadItem();
-      });
+      this.update_location({ index: itemIndex, location: this.form }).then(
+        () => {
+          this.showSuccessNotification("Saved successfully !");
+          this.loadItem();
+        }
+      );
     },
 
     onDialogCreateDescriptionSubmitClick() {
@@ -418,7 +419,9 @@ export default {
       );
     },
 
-    onDeleteDescriptionClick(indexItem, indexSubitem) {},
+    onDeleteDescriptionClick(indexItem, indexSubitem) {
+      this.localEditingDescriptions.splice(indexItem, 1);
+    },
 
     onGameObjectChange(indexItem, indexSubitem) {
       this.localEditingDescriptions[indexItem].condition[
