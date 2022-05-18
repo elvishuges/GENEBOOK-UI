@@ -1,10 +1,11 @@
 <template>
   <q-page class="q-pa-md">
-    <div class="row text-h5 q-pb-xs">Locations</div>
+    <div class="row text-h5 q-pb-xs">Ends</div>
+
     <div class="q-gutter-md">
       <div class="row">
         <div
-          v-for="(item, index) in locations"
+          v-for="(item, index) in ends"
           :key="index"
           class="col-xs-12 col-sm-4 col-md-3 q-px-xs q-pt-sm"
           @click="onItemClick(index)"
@@ -14,17 +15,17 @@
       </div>
     </div>
 
-    <!-- dialog create Item -->
+    <!-- dialog create End -->
 
-    <q-dialog v-model="showDialogCreateLocations" persistent>
+    <q-dialog v-model="showDialogCreateEnd" persistent>
       <q-card>
         <q-card-section class="bg-secondary text-white">
-          <div class="text-h6">Create Location</div>
+          <div class="text-h6">Create End</div>
         </q-card-section>
 
         <q-card-section class="q-pt-none q-pb-md">
           <q-form @submit="onDialogSubmitClick">
-            <div class="row q-pt-md">
+            <div class="row">
               <q-input
                 class="col-6 q-px-sm q-pt-xs"
                 outlined
@@ -44,16 +45,28 @@
               <q-input
                 class="col-12 q-px-sm q-pt-xs"
                 outlined
-                label="Visits"
-                type="number"
+                label="Text"
                 lazy-rules
-                min="0"
-                v-model="form.visits"
+                :rules="[required_field]"
+                v-model="form.text"
+              />
+              <q-select
+                class="col-6 q-px-sm q-pt-sm"
+                outlined
+                label="Image"
+                v-model="form.image"
+              />
+              <q-select
+                class="col-6 q-px-sm q-pt-sm"
+                outlined
+                :options="audios"
+                label="Audio"
+                v-model="form.audio"
               />
             </div>
             <q-card-actions align="right" class="text-primary">
               <q-btn flat label="Close" v-close-popup />
-              <q-btn flat label="Create Locations" type="submit" />
+              <q-btn flat label="Create End" type="submit" />
             </q-card-actions>
           </q-form>
         </q-card-section>
@@ -70,10 +83,10 @@
         flat
       />
       <q-btn
-        label="Create Location"
+        label="Create Item"
         color="primary"
         size="lg"
-        @click="onCreateLocationClick"
+        @click="onCreateItemClick"
       >
         <template v-slot:loading>
           <q-spinner-facebook />
@@ -93,57 +106,62 @@ export default {
 
   data() {
     return {
-      showDialogCreateLocations: false,
+      showDialogCreateEnd: false,
       form: {
         name: "",
         title: "",
-        visits: 0,
-        descriptions: [],
-        actions: [],
-        exits: [],
+        text: "",
+        image: "",
+        audio: "",
+        requiresToFinish: {
+          items: [],
+          actions: [],
+          conditions: [],
+        },
       },
 
+      address: "",
       required_field,
     };
   },
 
   computed: {
-    ...mapState("locations", ["locations"]),
-  },
-
-  mounted() {
-    console.log("ITEMS:", this.locations);
+    ...mapState("ends", ["ends"]),
+    ...mapState("files", ["audios", "images"]),
   },
 
   methods: {
-    ...mapActions("locations", ["add_location"]),
+    ...mapActions("ends", ["add_end"]),
 
     onItemClick(index) {
-      this.$router.push({ name: "edit-location", params: { index: index } });
+      this.$router.push({ name: "edit-end", params: { index: index } });
     },
 
-    onCreateLocationClick() {
-      this.showDialogCreateLocations = true;
+    onCreateItemClick() {
+      this.showDialogCreateEnd = true;
     },
 
     onDialogSubmitClick() {
-      this.add_location(this.form);
-      this.showDialogCreateLocations = false;
-      this.showSuccessNotification();
+      this.add_end(this.form);
+      this.showDialogCreateEnd = false;
       this.cleanForm();
+      this.showSuccessNotification();
     },
 
     cleanForm() {
       this.form = {
         name: "",
         title: "",
-        visits: 0,
-        descriptions: [],
-        actions: [],
-        exits: [],
+        text: "",
+        image: "",
+        audio: "",
+        requiresToFinish: {
+          items: [],
+          actions: [],
+          conditions: [],
+        },
       };
     },
-
     showSuccessNotification() {
       this.$q.notify({
         type: "positive",

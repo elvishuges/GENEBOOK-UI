@@ -60,6 +60,11 @@ export default defineComponent({
           title: "Locations",
           description: "Locations from System",
         },
+        {
+          goToRouteOnClick: "ends",
+          title: "Ends",
+          description: "Ends from System",
+        },
       ],
     };
   },

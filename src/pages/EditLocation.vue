@@ -244,7 +244,6 @@
                 outlined
                 label="Desciption Image"
                 lazy-rules
-                :rules="[required_field]"
                 :options="images"
                 v-model="description.image"
               />
@@ -355,13 +354,13 @@ export default {
   },
 
   mounted() {
-    this.loadItem();
+    this.loadPageInfos();
   },
 
   methods: {
     ...mapActions("locations", ["update_location"]),
 
-    loadItem() {
+    loadPageInfos() {
       const locations = JSON.parse(JSON.stringify(this.locations));
       const editLocationIndex = this.$route.params.index;
       const LocalEditingLocation = locations[editLocationIndex];
@@ -374,7 +373,7 @@ export default {
       this.update_location({ index: itemIndex, location: this.form }).then(
         () => {
           this.showSuccessNotification("Saved successfully !");
-          this.loadItem();
+          this.loadPageInfos();
         }
       );
     },

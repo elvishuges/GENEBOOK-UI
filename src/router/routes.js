@@ -20,6 +20,12 @@ const routes = [
         name: "edit-location",
         component: () => import("pages/EditLocation.vue"),
       },
+      { path: "/ends", component: () => import("pages/Ends.vue") },
+      {
+        path: "/ends/:index",
+        name: "edit-end",
+        component: () => import("pages/EditEnd.vue"),
+      },
       { path: "/files", component: () => import("pages/Files.vue") },
       { path: "/player", component: () => import("pages/Player.vue") },
     ],

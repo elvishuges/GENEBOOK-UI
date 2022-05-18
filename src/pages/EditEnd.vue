@@ -31,26 +31,21 @@
               <q-input
                 class="col-12 q-px-xs q-pt-sm"
                 outlined
-                label="Description"
-                v-model="form.description"
-              />
-              <q-select
-                class="col-sm-12 q-px-xs q-pt-sm"
-                outlined
-                label="Location"
-                v-model="form.location"
-              />
-              <q-select
-                class="col-xs-12 col-sm-6 col-md-6 q-px-xs q-pt-sm"
-                outlined
-                label="Audio"
-                v-model="form.audio"
+                label="Text"
+                v-model="form.text"
               />
               <q-select
                 class="col-xs-12 col-sm-6 col-md-6 q-px-xs q-pt-sm"
                 outlined
                 label="Image"
                 v-model="form.image"
+              />
+
+              <q-select
+                class="col-xs-12 col-sm-6 col-md-6 q-px-xs q-pt-sm"
+                outlined
+                label="Audio"
+                v-model="form.audio"
               />
             </div>
           </q-card-section>
@@ -251,11 +246,10 @@ export default {
       form: {
         name: "",
         title: "",
-        description: "",
+        text: "",
         image: "",
         audio: "",
-        location: "",
-        requiresToShow: [],
+        requiresToFinish: [],
       },
 
       localEditingConditions: [],
@@ -296,7 +290,7 @@ export default {
   },
 
   computed: {
-    ...mapState("items", ["items"]),
+    ...mapState("ends", ["ends"]),
     ...mapState("files", ["audios", "images"]),
   },
 
@@ -305,19 +299,19 @@ export default {
   },
 
   methods: {
-    ...mapActions("items", ["update_item"]),
+    ...mapActions("ends", ["update_end"]),
 
     loadPageInfos() {
-      const items = JSON.parse(JSON.stringify(this.items));
-      const editItemIndex = this.$route.params.index;
-      const localEditingItem = items[editItemIndex];
-      this.form = { ...localEditingItem };
-      this.localEditingConditions = this.form.requiresToShow.conditions;
+      const ends = JSON.parse(JSON.stringify(this.ends));
+      const editEndIndex = this.$route.params.index;
+      const localEditingEnd = ends[editEndIndex];
+      this.form = { ...localEditingEnd };
+      this.localEditingConditions = this.form.requiresToFinish.conditions;
     },
 
     onSaveClick() {
       const itemIndex = this.$route.params.index;
-      this.update_item({ index: itemIndex, item: this.form }).then(() => {
+      this.update_end({ index: itemIndex, item: this.form }).then(() => {
         this.showSuccessNotification();
         this.loadPageInfos();
       });
