@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-md">
+  <q-page class="q-pa-md q-mb-lg">
     <div class="row">
       <div
         v-for="(item, index) in indexPageItems"
@@ -13,6 +13,20 @@
         />
       </div>
     </div>
+
+    <div class="row justify-end q-pa-lg q-gutter-sm fixed-bottom-right">
+      <q-btn
+        type="submit"
+        label="Generate GameBook File"
+        color="secondary"
+        size="lg"
+        @click="onGenerateGameBookClick"
+      >
+        <template v-slot:loading>
+          <q-spinner-facebook />
+        </template>
+      </q-btn>
+    </div>
   </q-page>
 </template>
 
@@ -25,6 +39,12 @@ export default defineComponent({
 
   components: {
     FeatureCard,
+  },
+
+  methods: {
+    onGenerateGameBookClick() {
+      console.log("generate gamebook...");
+    },
   },
 
   data() {

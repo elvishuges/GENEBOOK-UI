@@ -278,7 +278,16 @@ export default {
     },
 
     onSubmit() {
-      this.set_messages({ ...this.form });
+      this.set_messages({ ...this.form }).then(() => {
+        this.showSuccessNotification();
+      });
+    },
+
+    showSuccessNotification() {
+      this.$q.notify({
+        type: "positive",
+        message: "Saved successfully !",
+      });
     },
   },
 };
