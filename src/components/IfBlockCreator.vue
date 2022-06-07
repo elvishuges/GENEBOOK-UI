@@ -17,6 +17,7 @@
       />
       <div class="q-pt-xs">
         <q-btn
+          v-if="ableAddCondition"
           size="md"
           color="secondary"
           label="Add Expression"
@@ -129,6 +130,10 @@ export default defineComponent({
     conditionsItems: {
       type: Array,
       default: [],
+    },
+    ableAddCondition: {
+      type: Boolean,
+      default: true,
     },
   },
 
