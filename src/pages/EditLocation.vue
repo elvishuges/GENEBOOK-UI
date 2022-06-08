@@ -90,131 +90,17 @@
                 </div>
               </div>
             </q-card-section>
-            <div
-              class="require-to-show-subitem q-px-md"
-              v-for="(subitem, indexSubitem) in item.condition"
-              :key="indexSubitem"
-            >
-              <div
-                v-if="indexSubitem == 0"
-                class="row justify-between q-gutter-sm no-wrap"
-              >
-                <q-select
-                  class="col-xs-6 col-sm-2 col-md-2 q-px-xs q-pt-xs"
-                  dense
-                  outlined
-                  label="Statement"
-                  :options="statements"
-                  v-model="subitem.statement"
-                  emit-value
-                  map-options
-                />
-                <div class="q-pt-xs">
-                  <q-btn
-                    size="md"
-                    color="secondary"
-                    label="Add Condition"
-                    @click="onAddConditionClick(indexItem)"
-                  />
-                </div>
-              </div>
-              <div v-else class="row justify-between q-gutter-sm">
-                <div class="row col-sm-10 q-gutter-xs q-px-lg">
-                  <q-select
-                    class="col-xs-4 col-sm-2 col-md-2 q-pt-md"
-                    dense
-                    outlined
-                    label="Operator"
-                    :options="logicOperator"
-                    v-model="subitem.operator"
-                    emit-value
-                    map-options
-                  />
-                  <q-select
-                    class="col-xs-6 col-sm-2 col-md-2 q-pt-md"
-                    dense
-                    outlined
-                    label="Statement"
-                    :options="statements"
-                    v-model="subitem.statement"
-                    emit-value
-                    map-options
-                  />
-                </div>
-
-                <div class="q-gutter-sm q-pt-sm">
-                  <q-btn
-                    size="sm"
-                    round
-                    color="red"
-                    icon="delete"
-                    @click="onDeleteConditionClick(indexItem, indexSubitem)"
-                  >
-                    <q-tooltip> Delete Condition </q-tooltip>
-                  </q-btn>
-                </div>
-              </div>
-              <div class="row text-h5 q-pl-xl">
-                <q-select
-                  v-show="subitem.statement"
-                  class="col-xs-12 col-sm-2 col-md-2 q-pl-xs q-pt-sm"
-                  dense
-                  outlined
-                  label="Game Object"
-                  :options="selectGameObjects"
-                  v-model="subitem.options[0]"
-                  emit-value
-                  map-options
-                  @update:model-value="
-                    onGameObjectChange(indexItem, indexSubitem)
-                  "
-                />
-                <div
-                  v-show="subitem.options[0]"
-                  v-for="(option, optionIndex) in subitem.options"
-                  :key="optionIndex"
-                  class="col-xs-12 col-sm-3 col-md-3 q-pl-xs q-pt-sm"
-                >
-                  <q-select
-                    emit-value
-                    map-options
-                    v-if="
-                      !getSelectLastOption(subitem.options, option, optionIndex)
-                    "
-                    dense
-                    outlined
-                    :label="
-                      getSelectLabel(subitem.options, option, optionIndex)
-                    "
-                    :options="
-                      getSelectOptions(subitem.options, option, optionIndex)
-                    "
-                    v-model="subitem.options[optionIndex + 1]"
-                    @update:model-value="
-                      OnSelectedOptionsChange(
-                        indexItem,
-                        indexSubitem,
-                        optionIndex
-                      )
-                    "
-                  />
-                  <q-select
-                    v-else
-                    emit-value
-                    map-options
-                    dense
-                    outlined
-                    :label="
-                      getSelectLabel(subitem.options, option, optionIndex)
-                    "
-                    :options="
-                      getSelectOptions(subitem.options, option, optionIndex)
-                    "
-                    v-model="subitem.result"
-                  />
-                </div>
-              </div>
-            </div>
+            <if-block-creator
+              :conditionsItems="item.condition"
+              @addCondition="onIfBlockAddConditionClick(indexItem, $event)"
+              @deleteCondition="
+                onIfBlockDeleteConditionClick(indexItem, $event)
+              "
+              @gameObjectChange="onIfBlockGameObjectChange(indexItem, $event)"
+              @selectedOptionsChange="
+                onIfBlockSelectedOptionsChange(indexItem, $event)
+              "
+            />
           </q-card>
         </div>
       </q-card-section>
@@ -290,12 +176,14 @@ import {
   selectGameObjectLocation,
 } from "src/utils/mapedSelectOptions";
 
+import IfBlockCreator from "src/components/IfBlockCreator.vue";
+
 import { writeText } from "../backend/utils";
 
 import ListItemCard from "components/ListItemCard.vue";
 
 export default {
-  components: { ListItemCard },
+  components: { ListItemCard, IfBlockCreator },
 
   data() {
     return {
@@ -401,28 +289,22 @@ export default {
       this.showDialogCreateDescription = true;
     },
 
-    onAddConditionClick(indexItem) {
-      const condition = {
-        statement: "if",
-        operator: "and",
-        result: "",
-        options: [],
-      };
+    onIfBlockAddConditionClick(indexItem, condition) {
       this.localEditingDescriptions[indexItem].condition.push(condition);
     },
 
-    onDeleteConditionClick(indexItem, indexSubitem) {
+    onIfBlockDeleteConditionClick(indexItem, indexSubitem) {
       this.localEditingDescriptions[indexItem].condition.splice(
         indexSubitem,
         1
       );
     },
 
-    onDeleteDescriptionClick(indexItem, indexSubitem) {
+    onDeleteDescriptionClick(indexItem) {
       this.localEditingDescriptions.splice(indexItem, 1);
     },
 
-    onGameObjectChange(indexItem, indexSubitem) {
+    onIfBlockGameObjectChange(indexItem, indexSubitem) {
       this.localEditingDescriptions[indexItem].condition[
         indexSubitem
       ].options.length = 1;
@@ -431,13 +313,14 @@ export default {
         "";
     },
 
-    OnSelectedOptionsChange(indexItem, indexSubitem, optionIndex) {
+    onIfBlockSelectedOptionsChange(indexItem, payload) {
       this.localEditingDescriptions[indexItem].condition[
-        indexSubitem
-      ].options.length = optionIndex + 2;
+        payload.indexItem
+      ].options.length = payload.optionIndex + 2;
 
-      this.localEditingDescriptions[indexItem].condition[indexSubitem].result =
-        "";
+      this.localEditingDescriptions[indexItem].condition[
+        payload.indexItem
+      ].result = "";
     },
 
     getSelectOptions(listOptions, option, optionIndex) {

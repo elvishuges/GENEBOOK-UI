@@ -1,6 +1,7 @@
 <template>
   <q-page class="q-pa-md">
     <div class="q-gutter-md q-pb-md">
+      {{ localEditingConditions }}
       <q-expansion-item
         class="shadow-1 overflow-hidden"
         style="border-radius: 8px"
@@ -92,11 +93,11 @@
 
       <q-card-section>
         <if-block-creator
+          :conditionsItems="localEditingConditions"
           @addCondition="onIfBlockAddConditionClick"
           @deleteCondition="onIfBlockDeleteConditionClick"
           @gameObjectChange="onIfBlockGameObjectChange"
           @selectedOptionsChange="onIfBlockSelectedOptionsChange"
-          :conditionsItems="localEditingConditions"
         />
       </q-card-section>
     </q-card>
@@ -238,9 +239,11 @@ export default {
     onDeleteConditionsClick() {
       this.dialogConfirm = true;
     },
+
     onCancelDialogClick() {
       this.dialogConfirm = false;
     },
+
     onConfirmDialogClick() {
       this.localEditingConditions = [];
       this.dialogConfirm = false;

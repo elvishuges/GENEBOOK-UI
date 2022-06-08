@@ -1,6 +1,6 @@
 <template>
   <div
-    class="require-to-show-subitem"
+    class="require-to-show-subitem q-px-md"
     v-for="(item, indexItem) in conditionsItems"
     :key="indexItem"
   >
@@ -188,7 +188,11 @@ export default defineComponent({
     },
 
     onSelectedOptionsChange(indexItem, optionIndex) {
-      this.$emit("selectedOptionsChange", indexItem, optionIndex);
+      const payload = {
+        indexItem: indexItem,
+        optionIndex: optionIndex,
+      };
+      this.$emit("selectedOptionsChange", payload);
     },
 
     getSelectOptions(listOptions, option, optionIndex) {
