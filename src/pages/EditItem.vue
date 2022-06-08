@@ -1,7 +1,6 @@
 <template>
   <q-page class="q-pa-md">
     <div class="q-gutter-md q-pb-md">
-      {{ localEditingConditions }}
       <q-expansion-item
         class="shadow-1 overflow-hidden"
         style="border-radius: 8px"
@@ -262,9 +261,10 @@ export default {
       this.localEditingConditions[indexItem].result = "";
     },
 
-    onIfBlockSelectedOptionsChange(indexItem, optionIndex) {
-      this.localEditingConditions[indexItem].options.length = optionIndex + 2;
-      this.localEditingConditions[indexItem].result = "";
+    onIfBlockSelectedOptionsChange(payload) {
+      this.localEditingConditions[payload.indexItem].options.length =
+        payload.optionIndex + 2;
+      this.localEditingConditions[payload.indexItem].result = "";
     },
 
     showSuccessNotification() {
