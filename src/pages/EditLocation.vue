@@ -169,12 +169,6 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import { required_field } from "src/utils/validationRules";
-import {
-  selectGameObjects,
-  selectGameObjectActor,
-  selectGameObjectPlayer,
-  selectGameObjectLocation,
-} from "src/utils/mapedSelectOptions";
 
 import IfBlockCreator from "src/components/IfBlockCreator.vue";
 
@@ -226,11 +220,6 @@ export default {
           value: "||",
         },
       ],
-
-      selectGameObjects,
-      selectGameObjectActor,
-      selectGameObjectPlayer,
-      selectGameObjectLocation,
 
       required_field,
     };
@@ -321,113 +310,6 @@ export default {
       this.localEditingDescriptions[indexItem].condition[
         payload.indexItem
       ].result = "";
-    },
-
-    getSelectOptions(listOptions, option, optionIndex) {
-      if (listOptions[0] === "actor") {
-        if (this.selectGameObjectActor[option]) {
-          return this.selectGameObjectActor[option].options;
-        }
-
-        if (!this.selectGameObjectActor[option]) {
-          const nextText =
-            this.selectGameObjectActor[listOptions[optionIndex - 1]].next;
-
-          return this.selectGameObjectActor[nextText].options;
-        }
-      } else if (listOptions[0] === "player") {
-        if (this.selectGameObjectPlayer[option]) {
-          return this.selectGameObjectPlayer[option].options;
-        }
-        if (!this.selectGameObjectPlayer[option]) {
-          const nextText =
-            this.selectGameObjectPlayer[listOptions[optionIndex - 1]].next;
-
-          return this.selectGameObjectPlayer[nextText].options;
-        }
-      } else if (listOptions[0] === "location") {
-        if (this.selectGameObjectLocation[option]) {
-          return this.selectGameObjectLocation[option].options;
-        }
-        if (!this.selectGameObjectLocation[option]) {
-          const nextText =
-            this.selectGameObjectLocation[listOptions[optionIndex - 1]].next;
-
-          return this.selectGameObjectLocation[nextText].options;
-        }
-      }
-
-      return ["Items Not Found"];
-    },
-
-    getSelectLabel(listOptions, option, optionIndex) {
-      if (listOptions[0] === "actor") {
-        if (this.selectGameObjectActor[option]) {
-          return this.selectGameObjectActor[option].title;
-        }
-
-        if (!this.selectGameObjectActor[option]) {
-          const nextText =
-            this.selectGameObjectActor[listOptions[optionIndex - 1]].next;
-
-          return this.selectGameObjectActor[nextText].title;
-        }
-      } else if (listOptions[0] === "player") {
-        if (this.selectGameObjectPlayer[option]) {
-          return this.selectGameObjectPlayer[option].title;
-        }
-        if (!this.selectGameObjectPlayer[option]) {
-          const nextText =
-            this.selectGameObjectPlayer[listOptions[optionIndex - 1]].next;
-
-          return this.selectGameObjectPlayer[nextText].title;
-        }
-      } else if (listOptions[0] === "location") {
-        if (this.selectGameObjectLocation[option]) {
-          return this.selectGameObjectLocation[option].title;
-        }
-        if (!this.selectGameObjectLocation[option]) {
-          const nextText =
-            this.selectGameObjectLocation[listOptions[optionIndex - 1]].next;
-
-          return this.selectGameObjectLocation[nextText].title;
-        }
-      }
-    },
-
-    getSelectLastOption(listOptions, option, optionIndex) {
-      if (listOptions[0] === "actor") {
-        if (this.selectGameObjectActor[option]) {
-          return this.selectGameObjectActor[option].lastOption;
-        }
-
-        if (!this.selectGameObjectActor[option]) {
-          const nextText =
-            this.selectGameObjectActor[listOptions[optionIndex - 1]].next;
-
-          return this.selectGameObjectActor[nextText].lastOption;
-        }
-      } else if (listOptions[0] === "player") {
-        if (this.selectGameObjectPlayer[option]) {
-          return this.selectGameObjectPlayer[option].lastOption;
-        }
-        if (!this.selectGameObjectPlayer[option]) {
-          const nextText =
-            this.selectGameObjectPlayer[listOptions[optionIndex - 1]].next;
-
-          return this.selectGameObjectPlayer[nextText].lastOption;
-        }
-      } else if (listOptions[0] === "location") {
-        if (this.selectGameObjectLocation[option]) {
-          return this.selectGameObjectLocation[option].lastOption;
-        }
-        if (!this.selectGameObjectLocation[option]) {
-          const nextText =
-            this.selectGameObjectLocation[listOptions[optionIndex - 1]].next;
-
-          return this.selectGameObjectLocation[nextText].lastOption;
-        }
-      }
     },
 
     showSuccessNotification(message) {
