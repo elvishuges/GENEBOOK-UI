@@ -65,12 +65,9 @@
       </q-card-section>
 
       <q-card-section>
-        <div
-          v-for="(item, indexItem) in localEditingDescriptions"
-          :key="indexItem"
-        >
+        <div v-for="(item, indexItem) in form.descriptions" :key="indexItem">
           <q-card flat bordered class="bg-grey-1 q-ma-md q-py-sm">
-            <q-card-section class="q-px-lg q-py-md">
+            <q-card-section class="q-px-md q-py-md">
               <div class="row items-center no-wrap">
                 <div class="col">
                   <div class="text-overline text-orange-9">
@@ -88,6 +85,27 @@
                     <q-tooltip> Delete Description </q-tooltip>
                   </q-btn>
                 </div>
+              </div>
+              <div class="row justify-end q-pt-md">
+                <q-btn
+                  v-if="!item.condition.length"
+                  outline
+                  push
+                  color="secondary"
+                  label="Create Block Conditions"
+                  @click="onAddBlockConditionsClick(indexItem)"
+                >
+                </q-btn>
+
+                <q-btn
+                  v-else
+                  @click="onDeleteConditionsClick(indexItem)"
+                  outline
+                  push
+                  color="red"
+                  label="Delete Conditions"
+                >
+                </q-btn>
               </div>
             </q-card-section>
             <if-block-creator
@@ -120,7 +138,7 @@
               <q-input
                 class="col-12 q-px-sm q-pt-xs"
                 outlined
-                label="Desciption Text"
+                label="Description Text"
                 lazy-rules
                 :rules="[required_field]"
                 v-model="description.text"
@@ -128,7 +146,7 @@
               <q-select
                 class="col-12 q-px-sm q-pt-xs"
                 outlined
-                label="Desciption Image"
+                label="Description Image"
                 lazy-rules
                 :options="images"
                 v-model="description.image"
@@ -136,7 +154,7 @@
             </div>
             <q-card-actions align="right" class="text-primary">
               <q-btn flat label="Close" v-close-popup />
-              <q-btn flat label="Create Locations" type="submit" />
+              <q-btn flat label="Create Description" type="submit" />
             </q-card-actions>
           </q-form>
         </q-card-section>
@@ -163,25 +181,36 @@
         </template>
       </q-btn>
     </div>
+
+    <confirm-dialog
+      text="Want to delete the created conditions?"
+      :state="showConfirmDialog"
+      @confirm="onConfirmDialogClick"
+      @cancel="onCancelDialogClick"
+    />
   </q-page>
 </template>
 
 <script>
 import { mapActions, mapState } from "vuex";
 import { required_field } from "src/utils/validationRules";
+import { copyObject } from "src/utils/functions";
+import { writeText } from "../../backend/utils";
 
 import IfBlockCreator from "src/components/IfBlockCreator.vue";
-
-import { writeText } from "../backend/utils";
-
+import ConfirmDialog from "src/components/ConfirmDialog.vue";
 import ListItemCard from "components/ListItemCard.vue";
 
 export default {
-  components: { ListItemCard, IfBlockCreator },
+  components: { ListItemCard, IfBlockCreator, ConfirmDialog },
 
   data() {
     return {
       showDialogCreateDescription: false,
+      showConfirmDialog: false,
+
+      deletingDescriptionIndex: null,
+
       form: {
         name: "",
         title: "",
@@ -238,11 +267,10 @@ export default {
     ...mapActions("locations", ["update_location"]),
 
     loadPageInfos() {
-      const locations = JSON.parse(JSON.stringify(this.locations));
-      const editLocationIndex = this.$route.params.index;
-      const LocalEditingLocation = locations[editLocationIndex];
-      this.form = { ...LocalEditingLocation };
-      this.localEditingDescriptions = this.form.descriptions;
+      const copyLocations = copyObject(this.locations);
+      const routeIndex = this.$route.params.index;
+      const localEditingLocation = copyLocations[routeIndex];
+      this.form = { ...localEditingLocation };
     },
 
     onSaveClick() {
@@ -256,22 +284,41 @@ export default {
     },
 
     onDialogCreateDescriptionSubmitClick() {
+      let description = {
+        text: this.description.text,
+        image: this.description.image,
+        condition: [],
+      };
+
+      this.form.descriptions.push(description);
+      this.showDialogCreateDescription = false;
+      this.showSuccessNotification("Description created sucessfully !!");
+    },
+
+    onAddBlockConditionsClick(indexItem) {
       const condition = {
         statement: "",
         operator: "",
         result: "",
         options: [],
       };
-      let description = {
-        text: this.description.text,
-        image: this.description.image,
-        condition: [],
-      };
-      description.condition.push(condition);
+      this.form.descriptions[indexItem].condition.push(condition);
+    },
 
-      this.localEditingDescriptions.push(description);
-      this.showDialogCreateDescription = false;
-      this.showSuccessNotification("Description created sucessfully !!");
+    onDeleteConditionsClick(descriptionIndex) {
+      this.deletingDescriptionIndex = descriptionIndex;
+      this.showConfirmDialog = true;
+    },
+
+    onCancelDialogClick() {
+      this.showConfirmDialog = false;
+      this.deletingDescriptionIndex = null;
+    },
+
+    onConfirmDialogClick() {
+      const index = this.deletingDescriptionIndex;
+      this.form.descriptions[index].condition = [];
+      this.showConfirmDialog = false;
     },
 
     onCreateDescriptionClick() {
@@ -279,37 +326,32 @@ export default {
     },
 
     onIfBlockAddConditionClick(indexItem, condition) {
-      this.localEditingDescriptions[indexItem].condition.push(condition);
+      this.form.descriptions[indexItem].condition.push(condition);
     },
 
     onIfBlockDeleteConditionClick(indexItem, indexSubitem) {
-      this.localEditingDescriptions[indexItem].condition.splice(
-        indexSubitem,
-        1
-      );
+      this.form.descriptions[indexItem].condition.splice(indexSubitem, 1);
     },
 
     onDeleteDescriptionClick(indexItem) {
-      this.localEditingDescriptions.splice(indexItem, 1);
+      this.form.descriptions.splice(indexItem, 1);
     },
 
     onIfBlockGameObjectChange(indexItem, indexSubitem) {
-      this.localEditingDescriptions[indexItem].condition[
+      this.form.descriptions[indexItem].condition[
         indexSubitem
       ].options.length = 1;
 
-      this.localEditingDescriptions[indexItem].condition[indexSubitem].result =
-        "";
+      this.form.descriptions[indexItem].condition[indexSubitem].result = "";
     },
 
     onIfBlockSelectedOptionsChange(indexItem, payload) {
-      this.localEditingDescriptions[indexItem].condition[
+      this.form.descriptions[indexItem].condition[
         payload.indexItem
       ].options.length = payload.optionIndex + 2;
 
-      this.localEditingDescriptions[indexItem].condition[
-        payload.indexItem
-      ].result = "";
+      this.form.descriptions[indexItem].condition[payload.indexItem].result =
+        "";
     },
 
     showSuccessNotification(message) {

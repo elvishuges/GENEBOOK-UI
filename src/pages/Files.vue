@@ -135,6 +135,7 @@ export default defineComponent({
     onCreateFileClick() {
       this.dialogRegisterFile = true;
     },
+
     onFormRergisterFileSubmit() {
       if (this.form.type === "audio") {
         this.register_audio(this.form.name);

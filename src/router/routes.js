@@ -4,30 +4,46 @@ const routes = [
     component: () => import("src/layouts/GeneBookUi.vue"),
     children: [
       { path: "", component: () => import("pages/IndexPage.vue") },
-      { path: "/messages", component: () => import("pages/Messages.vue") },
-      { path: "/actors", component: () => import("pages/Actors.vue") },
+      {
+        path: "/messages",
+        component: () => import("src/pages/messages/Messages.vue"),
+      },
+      {
+        path: "/actors",
+        component: () => import("src/pages/actors/Actors.vue"),
+      },
 
-      { path: "/items", component: () => import("pages/Items.vue") },
+      { path: "/items", component: () => import("src/pages/items/Items.vue") },
       {
         path: "/item/:index",
         name: "edit-item",
-        component: () => import("pages/EditItem.vue"),
+        component: () => import("src/pages/items/EditItem.vue"),
       },
 
-      { path: "/locations", component: () => import("pages/Locations.vue") },
+      {
+        path: "/locations",
+        component: () => import("src/pages/locations/Locations.vue"),
+      },
       {
         path: "/location/:index",
         name: "edit-location",
-        component: () => import("pages/EditLocation.vue"),
+        component: () => import("src/pages/locations/EditLocation.vue"),
       },
-      { path: "/ends", component: () => import("pages/Ends.vue") },
+      { path: "/ends", component: () => import("src/pages/ends/Ends.vue") },
       {
         path: "/ends/:index",
         name: "edit-end",
-        component: () => import("pages/EditEnd.vue"),
+        component: () => import("src/pages/ends/EditEnd.vue"),
       },
       { path: "/files", component: () => import("pages/Files.vue") },
-      { path: "/player", component: () => import("pages/Player.vue") },
+      {
+        path: "/player",
+        component: () => import("src/pages/player/Player.vue"),
+      },
+      {
+        path: "/actions",
+        component: () => import("src/pages/actions/Actions.vue"),
+      },
     ],
   },
   {

@@ -67,12 +67,12 @@
 
           <div class="col-auto q-py-xs">
             <q-btn
-              v-if="!localEditingConditions.length"
-              @click="onAddConditionClick"
+              v-if="!form.requiresToShow.conditions.length"
+              @click="onAddBlockConditionsClick"
               outline
               push
               color="secondary"
-              label="Create Conditions"
+              label="Create Block Conditions"
             >
             </q-btn>
 
@@ -92,7 +92,7 @@
 
       <q-card-section>
         <if-block-creator
-          :conditionsItems="localEditingConditions"
+          :conditionsItems="form.requiresToShow.conditions"
           @addCondition="onIfBlockAddConditionClick"
           @deleteCondition="onIfBlockDeleteConditionClick"
           @gameObjectChange="onIfBlockGameObjectChange"
@@ -119,7 +119,7 @@
 
     <confirm-dialog
       text="Want to delete the created conditions?"
-      :state="dialogConfirm"
+      :state="showConfirmDialog"
       @confirm="onConfirmDialogClick"
       @cancel="onCancelDialogClick"
     />
@@ -129,14 +129,13 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import { required_field } from "src/utils/validationRules";
+import { copyObject } from "src/utils/functions";
 import {
   selectGameObjects,
   selectGameObjectActor,
   selectGameObjectPlayer,
   selectGameObjectLocation,
 } from "src/utils/mapedSelectOptions";
-
-import { writeText } from "../backend/utils";
 
 import ListItemCard from "components/ListItemCard.vue";
 import IfBlockCreator from "src/components/IfBlockCreator.vue";
@@ -147,8 +146,7 @@ export default {
 
   data() {
     return {
-      dialogCreateItem: false,
-      dialogConfirm: false,
+      showConfirmDialog: false,
       form: {
         name: "",
         title: "",
@@ -156,7 +154,7 @@ export default {
         image: "",
         audio: "",
         location: "",
-        requiresToShow: [],
+        requiresToShow: { items: [], actions: [], conditions: [] },
       },
 
       localEditingConditions: [],
@@ -209,11 +207,10 @@ export default {
     ...mapActions("items", ["update_item"]),
 
     loadPageInfos() {
-      const items = JSON.parse(JSON.stringify(this.items));
+      const items = copyObject(this.items);
       const editItemIndex = this.$route.params.index;
       const localEditingItem = items[editItemIndex];
       this.form = { ...localEditingItem };
-      this.localEditingConditions = this.form.requiresToShow.conditions;
     },
 
     onSaveClick() {
@@ -224,7 +221,7 @@ export default {
       });
     },
 
-    onAddConditionClick() {
+    onAddBlockConditionsClick() {
       const condition = {
         statement: "",
         operator: "",
@@ -232,39 +229,39 @@ export default {
         options: [],
       };
 
-      this.localEditingConditions.push(condition);
+      this.form.requiresToShow.conditions.push(condition);
     },
 
     onDeleteConditionsClick() {
-      this.dialogConfirm = true;
+      this.showConfirmDialog = true;
     },
 
     onCancelDialogClick() {
-      this.dialogConfirm = false;
+      this.showConfirmDialog = false;
     },
 
     onConfirmDialogClick() {
-      this.localEditingConditions = [];
-      this.dialogConfirm = false;
+      this.form.requiresToShow.conditions = [];
+      this.showConfirmDialog = false;
     },
 
     onIfBlockAddConditionClick(condition) {
-      this.localEditingConditions.push(condition);
+      this.form.requiresToShow.conditions.push(condition);
     },
 
     onIfBlockDeleteConditionClick(indexItem) {
-      this.localEditingConditions.splice(indexItem, 1);
+      this.form.requiresToShow.conditions.splice(indexItem, 1);
     },
 
     onIfBlockGameObjectChange(indexItem) {
-      this.localEditingConditions[indexItem].options.length = 1;
-      this.localEditingConditions[indexItem].result = "";
+      this.form.requiresToShow.conditions[indexItem].options.length = 1;
+      this.form.requiresToShow.conditions[indexItem].result = "";
     },
 
     onIfBlockSelectedOptionsChange(payload) {
-      this.localEditingConditions[payload.indexItem].options.length =
+      this.form.requiresToShow.conditions[payload.indexItem].options.length =
         payload.optionIndex + 2;
-      this.localEditingConditions[payload.indexItem].result = "";
+      this.form.requiresToShow.conditions[payload.indexItem].result = "";
     },
 
     showSuccessNotification() {

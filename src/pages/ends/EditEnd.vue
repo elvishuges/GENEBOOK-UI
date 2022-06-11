@@ -233,7 +233,7 @@ import {
   selectGameObjectLocation,
 } from "src/utils/mapedSelectOptions";
 
-import { writeText } from "../backend/utils";
+import { writeText } from "../../backend/utils";
 
 import ListItemCard from "components/ListItemCard.vue";
 

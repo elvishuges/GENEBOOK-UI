@@ -85,6 +85,11 @@ export default defineComponent({
           title: "Ends",
           description: "Ends from System",
         },
+        {
+          goToRouteOnClick: "actions",
+          title: "Actions",
+          description: "Actions used in the system",
+        },
       ],
     };
   },
