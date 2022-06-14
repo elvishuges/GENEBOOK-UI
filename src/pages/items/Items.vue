@@ -50,20 +50,26 @@
                 :rules="[required_field]"
                 v-model="form.description"
               />
-
               <q-select
-                class="col-6 q-px-sm q-pt-xs"
-                outlined
-                label="Collected Items"
-                :options="images"
-                v-model="form.collectedItems"
-              />
-              <q-select
-                class="col-6 q-px-sm q-pt-xs"
+                class="col-12 q-px-sm q-pt-xs"
                 outlined
                 label="Location"
+                :options="locations"
+                option-value="name"
+                option-label="name"
+                emit-value
+                map-options
+                :rules="[required_field]"
                 v-model="form.location"
-              />
+              >
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-italic text-grey">
+                      No Registered Location
+                    </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
 
               <q-select
                 class="col-6 q-px-sm q-pt-sm"
@@ -129,7 +135,6 @@ export default {
         image: "",
         audio: "",
         location: "",
-        collectedItems: [],
         requiresToShow: {
           items: [],
           actions: [],
@@ -144,6 +149,7 @@ export default {
 
   computed: {
     ...mapState("items", ["items"]),
+    ...mapState("locations", ["locations"]),
     ...mapState("files", ["audios", "images"]),
   },
 

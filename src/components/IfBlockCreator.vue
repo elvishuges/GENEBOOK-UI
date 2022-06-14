@@ -168,6 +168,10 @@ export default defineComponent({
     };
   },
 
+  mounted() {
+    console.log("aqui", this);
+  },
+
   methods: {
     onAddConditionClick() {
       const condition = {

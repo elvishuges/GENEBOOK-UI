@@ -52,6 +52,11 @@
                 outlined
                 label="Collected Items"
                 multiple
+                :options="items"
+                option-value="name"
+                option-label="name"
+                emit-value
+                map-options
                 v-model="form.collectedItems"
               />
               <q-select
@@ -65,8 +70,23 @@
                 class="col-6 q-px-sm q-pt-sm"
                 outlined
                 label="Location"
+                :options="locations"
+                option-value="name"
+                option-label="name"
+                emit-value
+                map-options
+                :rules="[required_field]"
                 v-model="form.location"
-              />
+                no
+              >
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-italic text-grey">
+                      No Registered Location
+                    </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
 
               <div class="col-12 q-px-sm q-px-sm q-pt-sm">
                 <strong>Status:</strong>
@@ -146,6 +166,8 @@ export default {
   },
   computed: {
     ...mapState("actors", ["actors"]),
+    ...mapState("items", ["items"]),
+    ...mapState("locations", ["locations"]),
     ...mapState("files", ["audios", "images"]),
   },
 
