@@ -9,6 +9,7 @@
           outlined
           label="Current State"
           hint="The player current state"
+          readonly
           lazy-rules
           :rules="[required_field]"
           v-model="form.currentState"
@@ -18,14 +19,33 @@
           outlined
           label="Current Location"
           hint="The player current location"
+          :options="locations"
+          option-value="name"
+          option-label="name"
+          emit-value
+          map-options
+          :rules="[required_field]"
           v-model="form.currentLocation"
-        />
+        >
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-italic text-grey">
+                No Registered Location
+              </q-item-section>
+            </q-item>
+          </template>
+        </q-select>
         <q-select
           class="col-xs-12 col-sm-6 col-md-6 q-px-xs q-pt-sm"
           outlined
           label="Collected Items"
           hint="The player collected items"
           multiple
+          :options="items"
+          option-value="name"
+          option-label="name"
+          emit-value
+          map-options
           v-model="form.collectedItems"
         />
 
@@ -35,6 +55,7 @@
           label="Performed Actions"
           hint="The player performed actions"
           multiple
+          :options="actions"
           v-model="form.performedActions"
         />
         <div class="col-12 q-px-sm q-px-xs q-pt-sm">
@@ -72,7 +93,8 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
-import { required_field, no_space_required } from "src/utils/validationRules";
+import { required_field } from "src/utils/validationRules";
+import { copyObject } from "src/utils/functions";
 export default {
   components: {},
 
@@ -100,18 +122,29 @@ export default {
 
   computed: {
     ...mapState("player", ["player"]),
+    ...mapState("items", ["items"]),
+    ...mapState("locations", ["locations"]),
+    ...mapState("actions", ["actions"]),
   },
 
   methods: {
     ...mapActions("player", ["set_player"]),
 
     loadPlayer() {
-      this.form = JSON.parse(JSON.stringify(this.player));
+      this.form = copyObject(this.player);
     },
 
     onSubmit() {
-      this.set_player(this.form);
-      this.loadPlayer();
+      this.set_player(this.form).then(() => {
+        this.showSuccessNotification();
+        this.loadPlayer();
+      });
+    },
+    showSuccessNotification() {
+      this.$q.notify({
+        type: "positive",
+        message: "Saved successfully !",
+      });
     },
   },
 };

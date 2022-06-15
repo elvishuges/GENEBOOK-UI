@@ -107,6 +107,8 @@
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
+
 import { defineComponent } from "vue";
 
 import {
@@ -169,10 +171,18 @@ export default defineComponent({
   },
 
   mounted() {
-    console.log("aqui", this);
+    this.fillsSelectOptions();
+  },
+
+  computed: {
+    ...mapState("actions", ["actions"]),
   },
 
   methods: {
+    fillsSelectOptions() {
+      this.selectGameObjectPlayer.performedActions.options = this.actions;
+    },
+
     onAddConditionClick() {
       const condition = {
         statement: "if",

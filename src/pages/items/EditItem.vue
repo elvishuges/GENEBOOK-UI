@@ -157,38 +157,10 @@ export default {
         requiresToShow: { items: [], actions: [], conditions: [] },
       },
 
-      localEditingConditions: [],
-
-      statements: [
-        {
-          label: "If",
-          value: "if",
-        },
-        {
-          label: "If Not",
-          value: "if_not",
-        },
-      ],
-
-      logicOperator: [
-        {
-          label: "and",
-          value: "&&",
-        },
-        {
-          label: "or",
-          value: "||",
-        },
-      ],
-
       selectGameObjects,
       selectGameObjectActor,
       selectGameObjectPlayer,
       selectGameObjectLocation,
-
-      selectOption: { actor: {}, player: {} },
-
-      item: "",
 
       required_field,
     };

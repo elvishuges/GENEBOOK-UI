@@ -62,12 +62,22 @@
 
           <div class="col-auto q-py-xs">
             <q-btn
-              v-show="!localEditingConditions.length"
-              @click="onAddFirstConditionClick"
+              v-if="!form.requiresToFinish.conditions.length"
+              @click="onAddBlockConditionsClick"
               outline
               push
               color="secondary"
-              label="Create Statement"
+              label="Create Block Conditions"
+            >
+            </q-btn>
+
+            <q-btn
+              v-else
+              @click="onDeleteConditionsClick"
+              outline
+              push
+              color="red"
+              label="Delete Conditions"
             >
             </q-btn>
           </div>
@@ -76,132 +86,13 @@
       </q-card-section>
 
       <q-card-section>
-        <div
-          v-for="(item, indexItem) in localEditingConditions"
-          :key="indexItem"
-        >
-          <div
-            class="require-to-show-subitem"
-            v-for="(subitem, indexSubitem) in item"
-            :key="indexSubitem"
-          >
-            <div
-              v-if="indexSubitem == 0"
-              class="row justify-between q-gutter-sm"
-            >
-              <q-select
-                class="col-xs-6 col-sm-2 col-md-2 q-px-xs q-pt-xs"
-                dense
-                outlined
-                label="Statement"
-                :options="statements"
-                v-model="subitem.statement"
-                emit-value
-                map-options
-              />
-              <div class="q-pt-xs">
-                <q-btn
-                  size="md"
-                  color="secondary"
-                  label="Add Condition"
-                  @click="onAddConditionClick(indexItem)"
-                />
-              </div>
-            </div>
-            <div v-else class="row justify-between q-gutter-sm">
-              <div class="row col-sm-10 q-gutter-xs q-px-lg">
-                <q-select
-                  class="col-xs-4 col-sm-2 col-md-2 q-pt-md"
-                  dense
-                  outlined
-                  label="Operator"
-                  :options="logicOperator"
-                  v-model="subitem.operator"
-                  emit-value
-                  map-options
-                />
-                <q-select
-                  class="col-xs-6 col-sm-2 col-md-2 q-pt-md"
-                  dense
-                  outlined
-                  label="Statement"
-                  :options="statements"
-                  v-model="subitem.statement"
-                  emit-value
-                  map-options
-                />
-              </div>
-
-              <div class="q-gutter-sm q-pt-sm">
-                <q-btn
-                  size="sm"
-                  round
-                  color="red"
-                  icon="delete"
-                  @click="onDeleteConditionClick(indexItem, indexSubitem)"
-                >
-                  <q-tooltip> Delete Condition </q-tooltip>
-                </q-btn>
-              </div>
-            </div>
-            <div class="row text-h5 q-pl-xl">
-              <q-select
-                v-show="subitem.statement"
-                class="col-xs-12 col-sm-2 col-md-2 q-pl-xs q-pt-sm"
-                dense
-                outlined
-                label="Game Object"
-                :options="selectGameObjects"
-                v-model="subitem.options[0]"
-                emit-value
-                map-options
-                @update:model-value="
-                  onGameObjectChange(indexItem, indexSubitem)
-                "
-              />
-              <div
-                v-show="subitem.options[0]"
-                v-for="(option, optionIndex) in subitem.options"
-                :key="optionIndex"
-                class="col-xs-12 col-sm-3 col-md-3 q-pl-xs q-pt-sm"
-              >
-                <q-select
-                  emit-value
-                  map-options
-                  v-if="
-                    !getSelectLastOption(subitem.options, option, optionIndex)
-                  "
-                  dense
-                  outlined
-                  :label="getSelectLabel(subitem.options, option, optionIndex)"
-                  :options="
-                    getSelectOptions(subitem.options, option, optionIndex)
-                  "
-                  v-model="subitem.options[optionIndex + 1]"
-                  @update:model-value="
-                    OnSelectedOptionsChange(
-                      indexItem,
-                      indexSubitem,
-                      optionIndex
-                    )
-                  "
-                />
-                <q-select
-                  emit-value
-                  map-options
-                  v-else
-                  dense
-                  outlined
-                  :label="getSelectLabel(subitem.options, option, optionIndex)"
-                  :options="
-                    getSelectOptions(subitem.options, option, optionIndex)
-                  "
-                  v-model="subitem.result"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+        <if-block-creator
+          :conditionsItems="form.requiresToFinish.conditions"
+          @addCondition="onIfBlockAddConditionClick"
+          @deleteCondition="onIfBlockDeleteConditionClick"
+          @gameObjectChange="onIfBlockGameObjectChange"
+          @selectedOptionsChange="onIfBlockSelectedOptionsChange"
+        />
       </q-card-section>
     </q-card>
 
@@ -220,12 +111,20 @@
         </template>
       </q-btn>
     </div>
+
+    <confirm-dialog
+      text="Want to delete the created conditions?"
+      :state="showConfirmDialog"
+      @confirm="onConfirmDialogClick"
+      @cancel="onCancelDialogClick"
+    />
   </q-page>
 </template>
 
 <script>
 import { mapActions, mapState } from "vuex";
 import { required_field } from "src/utils/validationRules";
+import { copyObject } from "src/utils/functions";
 import {
   selectGameObjects,
   selectGameObjectActor,
@@ -236,54 +135,28 @@ import {
 import { writeText } from "../../backend/utils";
 
 import ListItemCard from "components/ListItemCard.vue";
+import IfBlockCreator from "src/components/IfBlockCreator.vue";
+import ConfirmDialog from "src/components/ConfirmDialog.vue";
 
 export default {
-  components: { ListItemCard },
+  components: { ListItemCard, IfBlockCreator, ConfirmDialog },
 
   data() {
     return {
-      dialogCreateItem: false,
+      showConfirmDialog: false,
       form: {
         name: "",
         title: "",
         text: "",
         image: "",
         audio: "",
-        requiresToFinish: [],
+        requiresToFinish: { items: [], actions: [], conditions: [] },
       },
-
-      localEditingConditions: [],
-
-      statements: [
-        {
-          label: "If",
-          value: "if",
-        },
-        {
-          label: "If Not",
-          value: "if_not",
-        },
-      ],
-
-      logicOperator: [
-        {
-          label: "and",
-          value: "&&",
-        },
-        {
-          label: "or",
-          value: "||",
-        },
-      ],
 
       selectGameObjects,
       selectGameObjectActor,
       selectGameObjectPlayer,
       selectGameObjectLocation,
-
-      selectOption: { actor: {}, player: {} },
-
-      item: "",
 
       required_field,
     };
@@ -302,11 +175,10 @@ export default {
     ...mapActions("ends", ["update_end"]),
 
     loadPageInfos() {
-      const ends = JSON.parse(JSON.stringify(this.ends));
+      const ends = copyObject(this.ends);
       const editEndIndex = this.$route.params.index;
       const localEditingEnd = ends[editEndIndex];
       this.form = { ...localEditingEnd };
-      this.localEditingConditions = this.form.requiresToFinish.conditions;
     },
 
     onSaveClick() {
@@ -317,7 +189,7 @@ export default {
       });
     },
 
-    onAddFirstConditionClick() {
+    onAddBlockConditionsClick() {
       const condition = {
         statement: "",
         operator: "",
@@ -325,140 +197,39 @@ export default {
         options: [],
       };
 
-      this.localEditingConditions[0] = [];
-      this.localEditingConditions[0].push(condition);
+      this.form.requiresToFinish.conditions.push(condition);
     },
 
-    onAddConditionClick(indexItem) {
-      const condition = {
-        statement: "if",
-        operator: "and",
-        result: "",
-        options: [],
-      };
-      this.localEditingConditions[indexItem].push(condition);
+    onDeleteConditionsClick() {
+      this.showConfirmDialog = true;
     },
 
-    onDeleteConditionClick(indexItem, indexSubitem) {
-      this.localEditingConditions[indexItem].splice(indexSubitem, 1);
+    onCancelDialogClick() {
+      this.showConfirmDialog = false;
     },
 
-    onGameObjectChange(indexItem, indexSubitem) {
-      this.localEditingConditions[indexItem][indexSubitem].options.length = 1;
-      this.localEditingConditions[indexItem][indexSubitem].result = "";
+    onConfirmDialogClick() {
+      this.form.requiresToFinish.conditions = [];
+      this.showConfirmDialog = false;
     },
 
-    OnSelectedOptionsChange(indexItem, indexSubitem, optionIndex) {
-      this.localEditingConditions[indexItem][indexSubitem].options.length =
-        optionIndex + 2;
-      this.localEditingConditions[indexItem][indexSubitem].result = "";
+    onIfBlockAddConditionClick(condition) {
+      this.form.requiresToFinish.conditions.push(condition);
     },
 
-    getSelectOptions(listOptions, option, optionIndex) {
-      if (listOptions[0] === "actor") {
-        if (this.selectGameObjectActor[option]) {
-          return this.selectGameObjectActor[option].options;
-        }
-
-        if (!this.selectGameObjectActor[option]) {
-          const nextText =
-            this.selectGameObjectActor[listOptions[optionIndex - 1]].next;
-
-          return this.selectGameObjectActor[nextText].options;
-        }
-      } else if (listOptions[0] === "player") {
-        if (this.selectGameObjectPlayer[option]) {
-          return this.selectGameObjectPlayer[option].options;
-        }
-        if (!this.selectGameObjectPlayer[option]) {
-          const nextText =
-            this.selectGameObjectPlayer[listOptions[optionIndex - 1]].next;
-
-          return this.selectGameObjectPlayer[nextText].options;
-        }
-      } else if (listOptions[0] === "location") {
-        if (this.selectGameObjectLocation[option]) {
-          return this.selectGameObjectLocation[option].options;
-        }
-        if (!this.selectGameObjectLocation[option]) {
-          const nextText =
-            this.selectGameObjectLocation[listOptions[optionIndex - 1]].next;
-
-          return this.selectGameObjectLocation[nextText].options;
-        }
-      }
-
-      return ["Items Not Found"];
+    onIfBlockDeleteConditionClick(indexItem) {
+      this.form.requiresToFinish.conditions.splice(indexItem, 1);
     },
 
-    getSelectLabel(listOptions, option, optionIndex) {
-      if (listOptions[0] === "actor") {
-        if (this.selectGameObjectActor[option]) {
-          return this.selectGameObjectActor[option].title;
-        }
-
-        if (!this.selectGameObjectActor[option]) {
-          const nextText =
-            this.selectGameObjectActor[listOptions[optionIndex - 1]].next;
-
-          return this.selectGameObjectActor[nextText].title;
-        }
-      } else if (listOptions[0] === "player") {
-        if (this.selectGameObjectPlayer[option]) {
-          return this.selectGameObjectPlayer[option].title;
-        }
-        if (!this.selectGameObjectPlayer[option]) {
-          const nextText =
-            this.selectGameObjectPlayer[listOptions[optionIndex - 1]].next;
-
-          return this.selectGameObjectPlayer[nextText].title;
-        }
-      } else if (listOptions[0] === "location") {
-        if (this.selectGameObjectLocation[option]) {
-          return this.selectGameObjectLocation[option].title;
-        }
-        if (!this.selectGameObjectLocation[option]) {
-          const nextText =
-            this.selectGameObjectLocation[listOptions[optionIndex - 1]].next;
-
-          return this.selectGameObjectLocation[nextText].title;
-        }
-      }
+    onIfBlockGameObjectChange(indexItem) {
+      this.form.requiresToFinish.conditions[indexItem].options.length = 1;
+      this.form.requiresToFinish.conditions[indexItem].result = "";
     },
 
-    getSelectLastOption(listOptions, option, optionIndex) {
-      if (listOptions[0] === "actor") {
-        if (this.selectGameObjectActor[option]) {
-          return this.selectGameObjectActor[option].lastOption;
-        }
-
-        if (!this.selectGameObjectActor[option]) {
-          const nextText =
-            this.selectGameObjectActor[listOptions[optionIndex - 1]].next;
-
-          return this.selectGameObjectActor[nextText].lastOption;
-        }
-      } else if (listOptions[0] === "player") {
-        if (this.selectGameObjectPlayer[option]) {
-          return this.selectGameObjectPlayer[option].lastOption;
-        }
-        if (!this.selectGameObjectPlayer[option]) {
-          const nextText =
-            this.selectGameObjectPlayer[listOptions[optionIndex - 1]].next;
-
-          return this.selectGameObjectPlayer[nextText].lastOption;
-        }
-      } else if (listOptions[0] === "location") {
-        if (this.selectGameObjectLocation[option]) {
-          return this.selectGameObjectLocation[option].lastOption;
-        }
-        if (!this.selectGameObjectLocation[option]) {
-          const nextText =
-            this.selectGameObjectLocation[listOptions[optionIndex - 1]].next;
-
-          return this.selectGameObjectLocation[nextText].lastOption;
-        }
-      }
+    onIfBlockSelectedOptionsChange(payload) {
+      this.form.requiresToFinish.conditions[payload.indexItem].options.length =
+        payload.optionIndex + 2;
+      this.form.requiresToFinish.conditions[payload.indexItem].result = "";
     },
 
     showSuccessNotification() {

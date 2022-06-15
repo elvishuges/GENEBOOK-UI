@@ -77,7 +77,6 @@
                 map-options
                 :rules="[required_field]"
                 v-model="form.location"
-                no
               >
                 <template v-slot:no-option>
                   <q-item>

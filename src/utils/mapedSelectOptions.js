@@ -114,7 +114,7 @@ export const selectGameObjectPlayer = {
   performedActions: {
     title: "Includes:",
     lastOption: true,
-    options: ["performedActions 1", "performedActions 2"],
+    options: [],
   },
   status: {
     title: "Property:",
