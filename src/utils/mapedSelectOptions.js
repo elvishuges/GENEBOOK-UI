@@ -109,7 +109,7 @@ export const selectGameObjectPlayer = {
   collectedItems: {
     title: "Includes:",
     lastOption: true,
-    options: ["collectedItems 2", "collectedItems 3", "collectedItems 1"],
+    options: [],
   },
   performedActions: {
     title: "Includes:",

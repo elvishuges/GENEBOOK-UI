@@ -176,11 +176,15 @@ export default defineComponent({
 
   computed: {
     ...mapState("actions", ["actions"]),
+    ...mapState("items", ["items"]),
   },
 
   methods: {
     fillsSelectOptions() {
       this.selectGameObjectPlayer.performedActions.options = this.actions;
+      this.selectGameObjectPlayer.collectedItems.options = this.items.map(
+        (item) => item.name
+      );
     },
 
     onAddConditionClick() {

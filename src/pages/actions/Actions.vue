@@ -126,5 +126,5 @@ export default {
 
 <style  lang="sass" scoped>
 .create-action-card
-  width: 300px
+  width: 500px
 </style>
