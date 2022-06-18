@@ -1,7 +1,6 @@
 <template>
   <q-page class="q-pa-md">
     <div class="q-gutter-md q-pb-md">
-      {{ form.requiresToShow.conditions }}
       <q-expansion-item
         class="shadow-1 overflow-hidden"
         style="border-radius: 8px"
