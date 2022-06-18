@@ -4,7 +4,7 @@
     v-for="(item, indexItem) in conditionsItems"
     :key="indexItem"
   >
-    <div v-if="indexItem == 0" class="row justify-between q-gutter-sm">
+    <div v-if="indexItem == 0" class="row q-gutter-sm">
       <q-select
         class="col-xs-6 col-sm-2 col-md-2 q-px-xs q-pt-xs"
         dense
@@ -16,8 +16,11 @@
         map-options
       />
     </div>
-    <div v-if="indexItem == 1" class="row justify-between q-gutter-sm">
+    <div v-if="indexItem == 1" class="row q-gutter-sm">
       <div class="row col-sm-10 q-gutter-xs q-px-lg">Return</div>
+    </div>
+    <div v-if="indexItem == 2" class="row q-gutter-sm">
+      <div class="row col-sm-10 q-gutter-xs q-px-lg">else</div>
     </div>
     <div class="row text-h5 q-pl-xl">
       <q-select

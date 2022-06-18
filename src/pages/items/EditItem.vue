@@ -155,7 +155,12 @@ export default {
         image: "",
         audio: "",
         location: "",
-        requiresToShow: { items: [], actions: [], conditions: [] },
+        requiresToShow: {
+          items: [],
+          actions: [],
+          conditionsType: "",
+          conditions: [],
+        },
       },
 
       selectGameObjects,
