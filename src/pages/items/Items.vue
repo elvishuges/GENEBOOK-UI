@@ -119,7 +119,7 @@
 
 <script>
 import { mapActions, mapState, mapGetters } from "vuex";
-import { required_field, no_space_required } from "src/utils/validationRules";
+import { required_field } from "src/utils/validationRules";
 import ListItemCard from "components/ListItemCard.vue";
 
 export default {
