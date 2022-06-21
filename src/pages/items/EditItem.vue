@@ -1,6 +1,5 @@
 <template>
   <q-page class="q-pa-md">
-    {{ form.requiresToShow }}
     <div class="q-gutter-md q-pb-md">
       <q-expansion-item
         class="shadow-1 overflow-hidden"

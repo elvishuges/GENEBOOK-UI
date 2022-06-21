@@ -1,18 +1,26 @@
 <template>
-  {{ conditionsItems }}
   <div
     class="require-to-show-subitem q-px-md"
     v-for="(item, indexItem) in conditionsItems"
     :key="indexItem"
   >
     <div v-if="indexItem == 0" class="row q-gutter-sm">
-      <div class="row col-sm-10 q-gutter-xs q-px-lg">If</div>
+      <q-select
+        class="col-xs-6 col-sm-2 col-md-2 q-px-xs q-pt-xs"
+        dense
+        outlined
+        label="Statement"
+        :options="statements"
+        v-model="item.statement"
+        emit-value
+        map-options
+      />
     </div>
     <div v-if="indexItem == 1" class="row q-gutter-sm">
-      <div class="row col-sm-10 q-gutter-xs q-px-lg">Return</div>
+      <div class="row col-sm-10 q-gutter-xs q-px-lg q-pt-sm">Return</div>
     </div>
     <div v-if="indexItem == 2" class="row q-gutter-sm">
-      <div class="row col-sm-10 q-gutter-xs q-px-lg">Else Return</div>
+      <div class="row col-sm-10 q-gutter-xs q-px-lg q-pt-sm">Else Return</div>
     </div>
     <div class="row text-h5 q-pl-xl">
       <q-select
