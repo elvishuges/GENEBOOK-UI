@@ -138,6 +138,7 @@ export default {
         requiresToShow: {
           items: [],
           actions: [],
+          conditionsType: "",
           conditions: [],
         },
       },
@@ -181,6 +182,7 @@ export default {
         requiresToShow: {
           items: [],
           actions: [],
+          conditionsType: "",
           conditions: [],
         },
       };

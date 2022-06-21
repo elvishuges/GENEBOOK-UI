@@ -182,10 +182,10 @@
       </q-btn>
     </div>
 
-    <confirm-dialog
+    <delete-conditions-dialog
       text="Want to delete the created conditions?"
-      :state="showConfirmDialog"
-      @confirm="onConfirmDialogClick"
+      :state="showDeleteConditionsDialog"
+      @confirm="onConfirDialogClick"
       @cancel="onCancelDialogClick"
     />
   </q-page>
@@ -198,16 +198,16 @@ import { copyObject } from "src/utils/functions";
 import { writeText } from "../../backend/utils";
 
 import IfBlockCreator from "src/components/IfBlockCreator.vue";
-import ConfirmDialog from "src/components/ConfirmDialog.vue";
+import DeleteConditionsDialog from "src/components/DeleteConditionsDialog.vue";
 import ListItemCard from "components/ListItemCard.vue";
 
 export default {
-  components: { ListItemCard, IfBlockCreator, ConfirmDialog },
+  components: { ListItemCard, IfBlockCreator, DeleteConditionsDialog },
 
   data() {
     return {
       showDialogCreateDescription: false,
-      showConfirmDialog: false,
+      showDeleteConditionsDialog: false,
 
       deletingDescriptionIndex: null,
 
@@ -307,18 +307,18 @@ export default {
 
     onDeleteConditionsClick(descriptionIndex) {
       this.deletingDescriptionIndex = descriptionIndex;
-      this.showConfirmDialog = true;
+      this.showDeleteConditionsDialog = true;
     },
 
     onCancelDialogClick() {
-      this.showConfirmDialog = false;
+      this.showDeleteConditionsDialog = false;
       this.deletingDescriptionIndex = null;
     },
 
-    onConfirmDialogClick() {
+    onConfirDialogClick() {
       const index = this.deletingDescriptionIndex;
       this.form.descriptions[index].condition = [];
-      this.showConfirmDialog = false;
+      this.showDeleteConditionsDialog = false;
     },
 
     onCreateDescriptionClick() {

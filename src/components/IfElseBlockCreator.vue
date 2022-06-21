@@ -1,30 +1,21 @@
 <template>
+  {{ conditionsItems }}
   <div
     class="require-to-show-subitem q-px-md"
     v-for="(item, indexItem) in conditionsItems"
     :key="indexItem"
   >
     <div v-if="indexItem == 0" class="row q-gutter-sm">
-      <q-select
-        class="col-xs-6 col-sm-2 col-md-2 q-px-xs q-pt-xs"
-        dense
-        outlined
-        label="Statement"
-        :options="statements"
-        v-model="item.statement"
-        emit-value
-        map-options
-      />
+      <div class="row col-sm-10 q-gutter-xs q-px-lg">If</div>
     </div>
     <div v-if="indexItem == 1" class="row q-gutter-sm">
       <div class="row col-sm-10 q-gutter-xs q-px-lg">Return</div>
     </div>
     <div v-if="indexItem == 2" class="row q-gutter-sm">
-      <div class="row col-sm-10 q-gutter-xs q-px-lg">else</div>
+      <div class="row col-sm-10 q-gutter-xs q-px-lg">Else Return</div>
     </div>
     <div class="row text-h5 q-pl-xl">
       <q-select
-        v-show="item.statement"
         class="col-xs-12 col-sm-2 col-md-2 q-pl-xs q-pt-sm"
         dense
         outlined
@@ -80,7 +71,7 @@ import {
 } from "src/utils/mapedSelectOptions";
 
 export default defineComponent({
-  name: "IfBlockCreator",
+  name: "IfElseBlockCreator",
 
   emits: [
     "addCondition",
@@ -287,6 +278,6 @@ export default defineComponent({
 <style lang="sass" scoped>
 .list-item-card > q-card-section >
 :hover
-    cursor: pointer
+  cursor: pointer
 </style>
 

@@ -1,5 +1,6 @@
 <template>
   <q-page class="q-pa-md">
+    {{ form.requiresToShow }}
     <div class="q-gutter-md q-pb-md">
       <q-expansion-item
         class="shadow-1 overflow-hidden"
@@ -91,13 +92,22 @@
       </q-card-section>
 
       <q-card-section>
-        <if-block-creator
-          :conditionsItems="form.requiresToShow.conditions"
-          @addCondition="onIfBlockAddConditionClick"
-          @deleteCondition="onIfBlockDeleteConditionClick"
-          @gameObjectChange="onIfBlockGameObjectChange"
-          @selectedOptionsChange="onIfBlockSelectedOptionsChange"
-        />
+        <div v-show="form.requiresToShow.conditionsType === 'if'">
+          <if-block-creator
+            :conditionsItems="form.requiresToShow.conditions"
+            @addCondition="onIfBlockAddConditionClick"
+            @deleteCondition="onIfBlockDeleteConditionClick"
+            @gameObjectChange="onIfBlockGameObjectChange"
+            @selectedOptionsChange="onIfBlockSelectedOptionsChange"
+          />
+        </div>
+        <div v-show="form.requiresToShow.conditionsType === 'if_else'">
+          <if-else-block-creator
+            :conditionsItems="form.requiresToShow.conditions"
+            @gameObjectChange="onIfBlockGameObjectChange"
+            @selectedOptionsChange="onIfBlockSelectedOptionsChange"
+          />
+        </div>
       </q-card-section>
     </q-card>
 
@@ -117,11 +127,16 @@
       </q-btn>
     </div>
 
-    <confirm-dialog
+    <delete-conditions-dialog
       text="Want to delete the created conditions?"
-      :state="showConfirmDialog"
-      @confirm="onConfirmDialogClick"
-      @cancel="onCancelDialogClick"
+      :state="showDeleteConditionsDialog"
+      @confirm="onConfirDeleteConditionsDialogClick"
+      @cancel="onCancelDeleteConditionsDialogClick"
+    />
+    <select-condition-type-dialog
+      :state="showSelectConditionTypeDialog"
+      @confirm="onConfirSelectConditionTypeDialogClick"
+      @cancel="onCancelSelectConditionTypeDialogClick"
     />
   </q-page>
 </template>
@@ -139,14 +154,23 @@ import {
 
 import ListItemCard from "components/ListItemCard.vue";
 import IfBlockCreator from "src/components/IfBlockCreator.vue";
-import ConfirmDialog from "src/components/ConfirmDialog.vue";
+import IfElseBlockCreator from "src/components/IfElseBlockCreator.vue";
+import DeleteConditionsDialog from "src/components/DeleteConditionsDialog.vue";
+import SelectConditionTypeDialog from "src/components/SelectConditionTypeDialog.vue";
 
 export default {
-  components: { ListItemCard, IfBlockCreator, ConfirmDialog },
+  components: {
+    ListItemCard,
+    IfBlockCreator,
+    IfElseBlockCreator,
+    DeleteConditionsDialog,
+    SelectConditionTypeDialog,
+  },
 
   data() {
     return {
-      showConfirmDialog: false,
+      showDeleteConditionsDialog: false,
+      showSelectConditionTypeDialog: false,
       form: {
         name: "",
         title: "",
@@ -168,6 +192,13 @@ export default {
       selectGameObjectLocation,
 
       required_field,
+
+      condition: {
+        statement: "",
+        operator: "",
+        result: "",
+        options: [],
+      },
     };
   },
 
@@ -199,27 +230,29 @@ export default {
     },
 
     onAddBlockConditionsClick() {
-      const condition = {
-        statement: "",
-        operator: "",
-        result: "",
-        options: [],
-      };
-
-      this.form.requiresToShow.conditions.push(condition);
+      this.showSelectConditionTypeDialog = true;
     },
 
     onDeleteConditionsClick() {
-      this.showConfirmDialog = true;
+      this.showDeleteConditionsDialog = true;
     },
 
-    onCancelDialogClick() {
-      this.showConfirmDialog = false;
+    onCancelDeleteConditionsDialogClick() {
+      this.showDeleteConditionsDialog = false;
     },
 
-    onConfirmDialogClick() {
+    onConfirDeleteConditionsDialogClick() {
       this.form.requiresToShow.conditions = [];
-      this.showConfirmDialog = false;
+      this.showDeleteConditionsDialog = false;
+    },
+
+    onCancelSelectConditionTypeDialogClick() {
+      this.showSelectConditionTypeDialog = false;
+    },
+
+    onConfirSelectConditionTypeDialogClick(conditionType) {
+      this.showSelectConditionTypeDialog = false;
+      this.handleSelectedConditionTypeCreation(conditionType);
     },
 
     onIfBlockAddConditionClick(condition) {
@@ -239,6 +272,22 @@ export default {
       this.form.requiresToShow.conditions[payload.indexItem].options.length =
         payload.optionIndex + 2;
       this.form.requiresToShow.conditions[payload.indexItem].result = "";
+    },
+
+    handleSelectedConditionTypeCreation(type) {
+      const condition1 = copyObject(this.condition);
+      const condition2 = copyObject(this.condition);
+      const condition3 = copyObject(this.condition);
+
+      if (type === "if") {
+        this.form.requiresToShow.conditions.push(condition1);
+        this.form.requiresToShow.conditionsType = "if";
+      } else if (type === "if_else") {
+        this.form.requiresToShow.conditions.push(condition1);
+        this.form.requiresToShow.conditions.push(condition2);
+        this.form.requiresToShow.conditions.push(condition3);
+        this.form.requiresToShow.conditionsType = "if_else";
+      }
     },
 
     showSuccessNotification() {
