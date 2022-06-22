@@ -17,10 +17,16 @@
       />
     </div>
     <div v-if="indexItem == 1" class="row q-gutter-sm">
-      <div class="row col-sm-10 q-gutter-xs q-px-lg q-pt-sm">Return</div>
+      <div class="row col-sm-10 q-gutter-xs q-px-lg q-pt-sm">
+        <q-card class="my-card bg-grey-4 text-black q-pa-sm"> Return </q-card>
+      </div>
     </div>
     <div v-if="indexItem == 2" class="row q-gutter-sm">
-      <div class="row col-sm-10 q-gutter-xs q-px-lg q-pt-sm">Else Return</div>
+      <div class="row col-sm-10 q-gutter-xs q-px-lg q-pt-sm">
+        <q-card class="my-card bg-grey-4 text-black q-pa-sm"
+          >Else Return
+        </q-card>
+      </div>
     </div>
     <div class="row text-h5 q-pl-xl">
       <q-select
@@ -137,14 +143,29 @@ export default defineComponent({
   computed: {
     ...mapState("actions", ["actions"]),
     ...mapState("items", ["items"]),
+    ...mapState("locations", ["locations"]),
+    ...mapState("actors", ["actors"]),
   },
 
   methods: {
     fillsSelectOptions() {
-      this.selectGameObjectPlayer.performedActions.options = this.actions;
-      this.selectGameObjectPlayer.collectedItems.options = this.items.map(
-        (item) => item.name
-      );
+      const actions = this.actions;
+      const itemsName = this.items.map((item) => item.name);
+      const locationsName = this.locations.map((locations) => locations.name);
+      const actorsName = this.actors.map((actor) => actor.name);
+
+      //player
+      this.selectGameObjectPlayer.performedActions.options = actions;
+      this.selectGameObjectPlayer.collectedItems.options = itemsName;
+      this.selectGameObjectPlayer.currentLocation.options = locationsName;
+
+      //actor
+      this.selectGameObjectActor.location.options = locationsName;
+      this.selectGameObjectActor.collectedItems.options = itemsName;
+      this.selectGameObjectActor.actor.options = actorsName;
+
+      //location
+      this.selectGameObjectLocation.location.options = locationsName;
     },
 
     onAddConditionClick() {

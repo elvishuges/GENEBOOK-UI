@@ -32,7 +32,7 @@
           dense
           outlined
           label="Operator"
-          :options="logicOperator"
+          :options="logicOperators"
           v-model="item.operator"
           emit-value
           map-options
@@ -90,7 +90,8 @@
           :options="getSelectOptions(item.options, option, optionIndex)"
           v-model="item.options[optionIndex + 1]"
           @update:model-value="onSelectedOptionsChange(indexItem, optionIndex)"
-        />
+        >
+        </q-select>
         <q-select
           emit-value
           map-options
@@ -100,7 +101,15 @@
           :label="getSelectLabel(item.options, option, optionIndex)"
           :options="getSelectOptions(item.options, option, optionIndex)"
           v-model="item.result"
-        />
+        >
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-italic text-grey">
+                No Registered Items
+              </q-item-section>
+            </q-item>
+          </template>
+        </q-select>
       </div>
     </div>
   </div>
@@ -152,7 +161,7 @@ export default defineComponent({
         },
       ],
 
-      logicOperator: [
+      logicOperators: [
         {
           label: "and",
           value: "&&",
@@ -177,14 +186,29 @@ export default defineComponent({
   computed: {
     ...mapState("actions", ["actions"]),
     ...mapState("items", ["items"]),
+    ...mapState("locations", ["locations"]),
+    ...mapState("actors", ["actors"]),
   },
 
   methods: {
     fillsSelectOptions() {
-      this.selectGameObjectPlayer.performedActions.options = this.actions;
-      this.selectGameObjectPlayer.collectedItems.options = this.items.map(
-        (item) => item.name
-      );
+      const actions = this.actions;
+      const itemsName = this.items.map((item) => item.name);
+      const locationsName = this.locations.map((locations) => locations.name);
+      const actorsName = this.actors.map((actor) => actor.name);
+
+      //player
+      this.selectGameObjectPlayer.performedActions.options = actions;
+      this.selectGameObjectPlayer.collectedItems.options = itemsName;
+      this.selectGameObjectPlayer.currentLocation.options = locationsName;
+
+      //actor
+      this.selectGameObjectActor.location.options = locationsName;
+      this.selectGameObjectActor.collectedItems.options = itemsName;
+      this.selectGameObjectActor.actor.options = actorsName;
+
+      //location
+      this.selectGameObjectLocation.location.options = locationsName;
     },
 
     onAddConditionClick() {

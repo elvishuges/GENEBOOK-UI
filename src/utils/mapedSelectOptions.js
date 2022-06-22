@@ -13,12 +13,12 @@ export const selectGameObjectActor = {
   location: {
     title: "Equals To:",
     lastOption: true,
-    options: ["location 1", "location 2", "location 3"],
+    options: [],
   },
   collectedItems: {
     title: "Includes:",
     lastOption: true,
-    options: ["collectedItems 1", "collectedItems 2", "collectedItems 3"],
+    options: [],
   },
   status: {
     title: "Property:",
@@ -104,7 +104,7 @@ export const selectGameObjectPlayer = {
   currentLocation: {
     title: "Equals to:",
     lastOption: true,
-    options: ["location 1", "location 2", "location 2"],
+    options: [],
   },
   collectedItems: {
     title: "Includes:",
@@ -185,7 +185,7 @@ export const selectGameObjectLocation = {
   location: {
     title: "Locations:",
     next: "nextToLocation",
-    options: ["location 1", "location 2", "location 3"],
+    options: [],
   },
   nextToLocation: {
     title: "Property:",
