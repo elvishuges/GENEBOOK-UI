@@ -25,9 +25,9 @@ const routes = [
         component: () => import("src/pages/locations/Locations.vue"),
       },
       {
-        path: "/location/:index",
-        name: "edit-location",
-        component: () => import("src/pages/locations/EditLocation.vue"),
+        path: "/location/:index/details",
+        name: "location-details",
+        component: () => import("src/pages/locations/LocationDetails.vue"),
       },
       { path: "/ends", component: () => import("src/pages/ends/Ends.vue") },
       {

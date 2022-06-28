@@ -124,6 +124,23 @@
       </q-card-section>
     </q-card>
 
+    <div class="q-gutter-md q-pb-xl q-pt-sm">
+      <q-expansion-item
+        class="shadow-1 overflow-hidden"
+        style="border-radius: 8px"
+        icon="settings"
+        label="Actions"
+        header-class="bg-grey-2 text-black"
+        expand-icon-class="text-black"
+      >
+        <q-card>
+          <q-card-section>
+            <div class="row">List Actions</div>
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
+    </div>
+
     <!-- dialog create Description -->
 
     <q-dialog v-model="showDialogCreateDescription" persistent>
@@ -366,5 +383,5 @@ export default {
 
 <style  lang="sass" scoped>
 .create-description
-  width: 500px
+    width: 500px
 </style>

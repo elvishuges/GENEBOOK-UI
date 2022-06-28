@@ -119,7 +119,7 @@ export default {
     ...mapActions("locations", ["add_location"]),
 
     onItemClick(index) {
-      this.$router.push({ name: "edit-location", params: { index: index } });
+      this.$router.push({ name: "location-details", params: { index: index } });
     },
 
     onCreateLocationClick() {
