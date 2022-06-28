@@ -91,6 +91,13 @@
           v-model="item.options[optionIndex + 1]"
           @update:model-value="onSelectedOptionsChange(indexItem, optionIndex)"
         >
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-italic text-grey">
+                No Registered Items
+              </q-item-section>
+            </q-item>
+          </template>
         </q-select>
         <q-select
           emit-value

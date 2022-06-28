@@ -57,7 +57,7 @@
       <q-card-section>
         <div class="row items-center no-wrap">
           <div class="col">
-            <div class="text-h6">Requires To show: {{ form.title }}</div>
+            <div class="text-h6">Requires To Finish: {{ form.title }}</div>
           </div>
 
           <div class="col-auto q-py-xs">
@@ -125,12 +125,6 @@
 import { mapActions, mapState } from "vuex";
 import { required_field } from "src/utils/validationRules";
 import { copyObject } from "src/utils/functions";
-import {
-  selectGameObjects,
-  selectGameObjectActor,
-  selectGameObjectPlayer,
-  selectGameObjectLocation,
-} from "src/utils/mapedSelectOptions";
 
 import { writeText } from "../../backend/utils";
 
@@ -152,12 +146,6 @@ export default {
         audio: "",
         requiresToFinish: { items: [], actions: [], conditions: [] },
       },
-
-      selectGameObjects,
-      selectGameObjectActor,
-      selectGameObjectPlayer,
-      selectGameObjectLocation,
-
       required_field,
     };
   },
