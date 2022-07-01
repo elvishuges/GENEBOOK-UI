@@ -20,6 +20,7 @@ const routes = [
         component: () => import("src/pages/items/EditItem.vue"),
       },
 
+      // locations routes
       {
         path: "/locations",
         component: () => import("src/pages/locations/Locations.vue"),
@@ -29,6 +30,22 @@ const routes = [
         name: "location-details",
         component: () => import("src/pages/locations/LocationDetails.vue"),
       },
+      {
+        path: "/location/:index/description",
+        name: "location-descriptions",
+        component: () => import("src/pages/locations/LocationDescriptions.vue"),
+      },
+      {
+        path: "/location/:index/actions",
+        name: "location-actions",
+        component: () => import("src/pages/locations/LocationActions.vue"),
+      },
+      {
+        path: "/location/:index/ends",
+        name: "location-ends",
+        component: () => import("src/pages/locations/LocationEnds.vue"),
+      },
+
       { path: "/ends", component: () => import("src/pages/ends/Ends.vue") },
       {
         path: "/ends/:index",

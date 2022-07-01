@@ -1,48 +1,5 @@
 <template>
   <q-page class="q-pa-md q-pb-lg">
-    <div class="q-gutter-md q-pb-md">
-      <q-expansion-item
-        class="shadow-1 overflow-hidden"
-        style="border-radius: 8px"
-        icon="settings"
-        label="Properties"
-        header-class="bg-grey-2 text-black"
-        expand-icon-class="text-black"
-      >
-        <q-card>
-          <q-card-section>
-            <div class="row">
-              <q-input
-                class="col-xs-12 col-sm-6 col-md-6 q-px-xs q-pt-sm"
-                outlined
-                label="Name"
-                lazy-rules
-                :rules="[required_field]"
-                v-model="form.name"
-              />
-              <q-input
-                class="col-xs-12 col-sm-6 col-md-6 q-px-xs q-pt-sm"
-                outlined
-                label="Title"
-                lazy-rules
-                :rules="[required_field]"
-                v-model="form.title"
-              />
-              <q-input
-                class="col-12 q-px-sm q-pt-xs"
-                outlined
-                label="Visits"
-                type="number"
-                lazy-rules
-                min="0"
-                v-model="form.visits"
-              />
-            </div>
-          </q-card-section>
-        </q-card>
-      </q-expansion-item>
-    </div>
-
     <q-card flat bordered class="bg-grey-1 q-pb-xl">
       <q-card-section>
         <div class="row items-center no-wrap">
@@ -123,23 +80,6 @@
         </div>
       </q-card-section>
     </q-card>
-
-    <div class="q-gutter-md q-pb-xl q-pt-sm">
-      <q-expansion-item
-        class="shadow-1 overflow-hidden"
-        style="border-radius: 8px"
-        icon="settings"
-        label="Actions"
-        header-class="bg-grey-2 text-black"
-        expand-icon-class="text-black"
-      >
-        <q-card>
-          <q-card-section>
-            <div class="row">List Actions</div>
-          </q-card-section>
-        </q-card>
-      </q-expansion-item>
-    </div>
 
     <!-- dialog create Description -->
 
@@ -383,5 +323,5 @@ export default {
 
 <style  lang="sass" scoped>
 .create-description
-    width: 500px
-</style>
+  width: 500px
+</style>f
