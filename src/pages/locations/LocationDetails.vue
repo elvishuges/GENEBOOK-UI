@@ -75,12 +75,12 @@
       flat
       bordered
       class="bg-grey-1 q-mt-md"
-      @click="goTo('location-ends')"
+      @click="goTo('location-exits')"
     >
       <q-card-section
         class="text-subtitle q-pt-md row justify-between card-section"
       >
-        Ends
+        Exits
         <q-icon size="sm" name="double_arrow" />
       </q-card-section>
     </q-card>

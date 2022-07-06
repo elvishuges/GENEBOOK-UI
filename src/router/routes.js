@@ -41,9 +41,9 @@ const routes = [
         component: () => import("src/pages/locations/LocationActions.vue"),
       },
       {
-        path: "/location/:index/ends",
-        name: "location-ends",
-        component: () => import("src/pages/locations/LocationEnds.vue"),
+        path: "/location/:index/exits",
+        name: "location-exits",
+        component: () => import("src/pages/locations/LocationExits.vue"),
       },
 
       { path: "/ends", component: () => import("src/pages/ends/Ends.vue") },
