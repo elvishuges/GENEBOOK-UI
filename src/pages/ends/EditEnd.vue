@@ -59,6 +59,32 @@
           <div class="col">
             <div class="text-h6">Requires To Finish: {{ form.title }}</div>
           </div>
+        </div>
+        <q-separator />
+
+        <div class="row items-center no-wrap">
+          <q-select
+            class="col-6 q-px-xs q-py-sm"
+            outlined
+            label="items"
+            :options="itemsName"
+            v-model="form.items"
+            dense
+          />
+          <q-select
+            class="col-6 q-px-xs q-py-sm"
+            outlined
+            label="actions"
+            v-model="form.actions"
+            :options="actionsName"
+            dense
+          />
+        </div>
+
+        <div class="row items-center no-wrap">
+          <div class="col">
+            <div class="text-h6">Conditions</div>
+          </div>
 
           <div class="col-auto q-py-xs">
             <q-btn
@@ -82,7 +108,6 @@
             </q-btn>
           </div>
         </div>
-        <q-separator />
       </q-card-section>
 
       <q-card-section>
@@ -147,16 +172,24 @@ export default {
         requiresToFinish: { items: [], actions: [], conditions: [] },
       },
       required_field,
+
+      itemsName: [],
+      actionsName: [],
     };
   },
 
   computed: {
     ...mapState("ends", ["ends"]),
     ...mapState("files", ["audios", "images"]),
+
+    ...mapState("items", ["items"]),
+    ...mapState("actions", ["actions"]),
   },
 
   mounted() {
     this.loadPageInfos();
+    this.itemsName = this.items.map((item) => item.name);
+    this.actionsName = this.actions;
   },
 
   methods: {

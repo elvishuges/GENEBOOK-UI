@@ -45,6 +45,11 @@ const routes = [
         name: "location-exits",
         component: () => import("src/pages/locations/LocationExits.vue"),
       },
+      {
+        path: "/location/:index/exits/:exitIndex",
+        name: "location-exit-details",
+        component: () => import("src/pages/locations/LocationExitDetails.vue"),
+      },
 
       { path: "/ends", component: () => import("src/pages/ends/Ends.vue") },
       {

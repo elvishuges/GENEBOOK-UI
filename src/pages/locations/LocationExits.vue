@@ -151,7 +151,11 @@ export default {
     },
 
     onItemClick(index) {
-      this.$router.push({ name: "location-details", params: { index: index } });
+      const routeIndex = this.$route.params.index;
+      this.$router.push({
+        name: "location-exit-details",
+        params: { index: routeIndex, exitIndex: index },
+      });
     },
 
     onCreateExitClick() {
