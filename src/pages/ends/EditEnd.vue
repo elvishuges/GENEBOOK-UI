@@ -9,6 +9,7 @@
         header-class="bg-grey-2 text-black"
         expand-icon-class="text-black"
       >
+        {{ form }}
         <q-card>
           <q-card-section>
             <div class="row">
@@ -67,16 +68,22 @@
             class="col-6 q-px-xs q-py-sm"
             outlined
             label="items"
-            :options="itemsName"
-            v-model="form.items"
+            :options="items"
+            option-value="name"
+            option-label="name"
+            emit-value
+            map-options
+            multiple
+            v-model="form.requiresToFinish.items"
             dense
           />
           <q-select
             class="col-6 q-px-xs q-py-sm"
             outlined
             label="actions"
-            v-model="form.actions"
-            :options="actionsName"
+            v-model="form.requiresToFinish.actions"
+            :options="actions"
+            multiple
             dense
           />
         </div>
@@ -172,9 +179,6 @@ export default {
         requiresToFinish: { items: [], actions: [], conditions: [] },
       },
       required_field,
-
-      itemsName: [],
-      actionsName: [],
     };
   },
 
@@ -188,8 +192,6 @@ export default {
 
   mounted() {
     this.loadPageInfos();
-    this.itemsName = this.items.map((item) => item.name);
-    this.actionsName = this.actions;
   },
 
   methods: {

@@ -38,6 +38,9 @@
                 class="col-sm-12 q-px-xs q-pt-sm"
                 outlined
                 label="Location"
+                :options="locations"
+                option-label="name"
+                option-value="name"
                 v-model="form.location"
               />
               <q-select
@@ -73,16 +76,22 @@
             class="col-6 q-px-xs q-py-sm"
             outlined
             label="items"
-            :options="itemsName"
-            v-model="form.items"
+            :options="items"
+            option-value="name"
+            option-label="name"
+            emit-value
+            map-options
+            multiple
+            v-model="form.requiresToShow.items"
             dense
           />
           <q-select
             class="col-6 q-px-xs q-py-sm"
             outlined
             label="actions"
-            v-model="form.actions"
-            :options="actionsName"
+            v-model="form.requiresToShow.actions"
+            :options="actions"
+            multiple
             dense
           />
         </div>
@@ -224,9 +233,6 @@ export default {
         result: "",
         options: [],
       },
-
-      itemsName: [],
-      actionsName: [],
     };
   },
 
@@ -236,13 +242,11 @@ export default {
 
     ...mapState("items", ["items"]),
     ...mapState("actions", ["actions"]),
+    ...mapState("locations", ["locations"]),
   },
 
   mounted() {
     this.loadPageInfos();
-
-    this.itemsName = this.items.map((item) => item.name);
-    this.actionsName = this.actions;
   },
 
   methods: {

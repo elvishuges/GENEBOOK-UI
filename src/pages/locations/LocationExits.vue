@@ -51,7 +51,7 @@
                 emit-value
                 map-options
                 :rules="[required_field]"
-                v-model="form.destinations"
+                v-model="form.destination"
               >
                 <template v-slot:no-option>
                   <q-item>

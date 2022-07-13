@@ -7,7 +7,6 @@
           v-for="(item, index) in actions"
           :key="index"
           class="col-xs-12 col-sm-4 col-md-3 q-px-xs q-pt-sm"
-          @click="onItemClick(index)"
         >
           <list-item-card :name="item" />
         </div>
