@@ -58,7 +58,15 @@
                 emit-value
                 map-options
                 v-model="form.collectedItems"
-              />
+              >
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-italic text-grey">
+                      No Registered Items
+                    </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
               <q-select
                 class="col-6 q-px-sm q-pt-sm"
                 outlined

@@ -9,7 +9,6 @@
         header-class="bg-grey-2 text-black"
         expand-icon-class="text-black"
       >
-        {{ localEditingLocation }}
         <q-card>
           <q-card-section>
             <div class="row">
@@ -67,7 +66,15 @@
             v-model="form.requiresToShow.items"
             multiple
             dense
-          />
+          >
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-italic text-grey">
+                  No Registered Items
+                </q-item-section>
+              </q-item>
+            </template>
+          </q-select>
           <q-select
             class="col-6 q-px-xs q-py-sm"
             outlined
@@ -76,7 +83,15 @@
             :options="actions"
             multiple
             dense
-          />
+          >
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-italic text-grey">
+                  No Registered Actions
+                </q-item-section>
+              </q-item>
+            </template>
+          </q-select>
         </div>
 
         <div class="row items-center no-wrap">

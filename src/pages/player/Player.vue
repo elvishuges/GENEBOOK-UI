@@ -47,7 +47,15 @@
           emit-value
           map-options
           v-model="form.collectedItems"
-        />
+        >
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-italic text-grey">
+                No Registered Items
+              </q-item-section>
+            </q-item>
+          </template>
+        </q-select>
 
         <q-select
           class="col-xs-12 col-sm-6 col-md-6 q-px-xs q-pt-sm"
@@ -57,7 +65,16 @@
           multiple
           :options="actions"
           v-model="form.performedActions"
-        />
+        >
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-italic text-grey">
+                No Registered Actions
+              </q-item-section>
+            </q-item>
+          </template>
+        </q-select>
+
         <div class="col-12 q-px-sm q-px-xs q-pt-sm">
           <strong>Status:</strong>
         </div>
