@@ -41,6 +41,12 @@ const routes = [
         component: () => import("src/pages/locations/LocationActions.vue"),
       },
       {
+        path: "/location/:index/actions/:actionIndex",
+        name: "location-action-details",
+        component: () =>
+          import("src/pages/locations/LocationActionDetails.vue"),
+      },
+      {
         path: "/location/:index/exits",
         name: "location-exits",
         component: () => import("src/pages/locations/LocationExits.vue"),
@@ -50,6 +56,8 @@ const routes = [
         name: "location-exit-details",
         component: () => import("src/pages/locations/LocationExitDetails.vue"),
       },
+
+      //ends routes
 
       { path: "/ends", component: () => import("src/pages/ends/Ends.vue") },
       {

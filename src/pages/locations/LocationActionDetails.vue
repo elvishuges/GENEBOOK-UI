@@ -23,19 +23,10 @@
               <q-input
                 class="col-xs-12 col-sm-6 col-md-6 q-px-xs q-pt-sm"
                 outlined
-                label="Title"
+                label="Text"
                 lazy-rules
                 :rules="[required_field]"
-                v-model="form.title"
-              />
-              <q-input
-                class="col-12 q-px-sm q-pt-xs"
-                outlined
-                label="Visits"
-                type="number"
-                lazy-rules
-                min="0"
-                v-model="form.visits"
+                v-model="form.text"
               />
             </div>
           </q-card-section>
@@ -52,7 +43,7 @@
       <q-card-section
         class="text-subtitle q-pt-md row justify-between card-section"
       >
-        Descriptions
+        Requires to Show
         <q-icon size="sm" name="double_arrow" />
       </q-card-section>
     </q-card>
@@ -66,21 +57,7 @@
       <q-card-section
         class="text-subtitle q-pt-md row justify-between card-section"
       >
-        Actions
-        <q-icon size="sm" name="double_arrow" />
-      </q-card-section>
-    </q-card>
-
-    <q-card
-      flat
-      bordered
-      class="bg-grey-1 q-mt-md"
-      @click="goTo('location-exits')"
-    >
-      <q-card-section
-        class="text-subtitle q-pt-md row justify-between card-section"
-      >
-        Exits
+        Requires to Perform
         <q-icon size="sm" name="double_arrow" />
       </q-card-section>
     </q-card>
@@ -139,6 +116,15 @@ export default {
         exits: [],
       },
 
+      localEditingLocation: {
+        actions: [],
+        descriptions: [],
+        exits: [],
+        name: "",
+        title: "",
+        visits: "",
+      },
+
       required_field,
     };
   },
@@ -157,9 +143,12 @@ export default {
 
     loadPageInfos() {
       const copyLocations = copyObject(this.locations);
-      const routeIndex = this.$route.params.index;
-      const localEditingLocation = copyLocations[routeIndex];
-      this.form = { ...localEditingLocation };
+      const locationIndex = this.$route.params.index;
+      const actionIndex = this.$route.params.actionIndex;
+      this.localEditingLocation = copyLocations[locationIndex];
+      const localEditingAction = this.localEditingLocation.actions[actionIndex];
+
+      this.form = { ...localEditingAction };
     },
 
     goTo(routeName) {
@@ -171,13 +160,14 @@ export default {
     },
 
     onSaveClick() {
-      const itemIndex = this.$route.params.index;
-      this.update_location({ index: itemIndex, location: this.form }).then(
-        () => {
-          this.showSuccessNotification("Saved successfully !");
-          this.loadPageInfos();
-        }
-      );
+      const locationIndex = this.$route.params.index;
+      this.update_location({
+        index: locationIndex,
+        location: this.localEditingLocation,
+      });
+
+      this.showSuccessNotification();
+      this.loadPageInfos();
     },
 
     showSuccessNotification(message) {
@@ -192,9 +182,9 @@ export default {
 
 <style  lang="sass" scoped>
 .create-description
-  width: 500px
+    width: 500px
 
 .feature-card > q-card-section >
 :hover
-  cursor: pointer
+    cursor: pointer
 </style>
