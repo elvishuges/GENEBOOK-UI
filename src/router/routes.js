@@ -47,6 +47,12 @@ const routes = [
           import("src/pages/locations/LocationActionDetails.vue"),
       },
       {
+        path: "/location/:index/actions/:actionIndex/requiresToShow",
+        name: "location-action-requiresToShow",
+        component: () =>
+          import("src/pages/locations/LocationActionRequiresToshow.vue"),
+      },
+      {
         path: "/location/:index/exits",
         name: "location-exits",
         component: () => import("src/pages/locations/LocationExits.vue"),

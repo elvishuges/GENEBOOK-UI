@@ -38,7 +38,7 @@
       flat
       bordered
       class="bg-grey-1 q-mt-md"
-      @click="goTo('location-descriptions')"
+      @click="goTo('location-action-requiresToShow')"
     >
       <q-card-section
         class="text-subtitle q-pt-md row justify-between card-section"
@@ -153,9 +153,10 @@ export default {
 
     goTo(routeName) {
       const locationIndex = this.$route.params.index;
+      const actionIndex = this.$route.params.actionIndex;
       this.$router.push({
         name: routeName,
-        params: { index: locationIndex },
+        params: { index: locationIndex, actionIndex: actionIndex },
       });
     },
 
@@ -182,9 +183,9 @@ export default {
 
 <style  lang="sass" scoped>
 .create-description
-    width: 500px
+  width: 500px
 
 .feature-card > q-card-section >
 :hover
-    cursor: pointer
+  cursor: pointer
 </style>
