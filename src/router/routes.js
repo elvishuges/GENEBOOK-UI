@@ -53,6 +53,23 @@ const routes = [
           import("src/pages/locations/LocationActionRequiresToshow.vue"),
       },
       {
+        path: "/location/:index/actions/:actionIndex/requiresToPerform",
+        name: "location-action-requiresToPerform",
+        component: () =>
+          import("src/pages/locations/LocationActionRequiresToPerform.vue"),
+      },
+      {
+        path: "/location/:index/actions/:actionIndex/sucess",
+        name: "location-action-sucess",
+        component: () => import("src/pages/locations/LocationActionSucess.vue"),
+      },
+      {
+        path: "/location/:index/actions/:actionIndex/failure",
+        name: "location-action-failure",
+        component: () =>
+          import("src/pages/locations/LocationActionFailure.vue"),
+      },
+      {
         path: "/location/:index/exits",
         name: "location-exits",
         component: () => import("src/pages/locations/LocationExits.vue"),

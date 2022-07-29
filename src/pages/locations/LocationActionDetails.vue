@@ -52,7 +52,7 @@
       flat
       bordered
       class="bg-grey-1 q-mt-md"
-      @click="goTo('location-actions')"
+      @click="goTo('location-action-requiresToPerform')"
     >
       <q-card-section
         class="text-subtitle q-pt-md row justify-between card-section"
