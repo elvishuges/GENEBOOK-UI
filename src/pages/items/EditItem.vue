@@ -195,12 +195,6 @@
 import { mapActions, mapState } from "vuex";
 import { required_field } from "src/utils/validationRules";
 import { copyObject } from "src/utils/functions";
-import {
-  selectGameObjects,
-  selectGameObjectActor,
-  selectGameObjectPlayer,
-  selectGameObjectLocation,
-} from "src/utils/mapedSelectOptions";
 
 import ListItemCard from "components/ListItemCard.vue";
 import IfBlockCreator from "src/components/IfBlockCreator.vue";
@@ -235,12 +229,6 @@ export default {
           conditions: [],
         },
       },
-
-      selectGameObjects,
-      selectGameObjectActor,
-      selectGameObjectPlayer,
-      selectGameObjectLocation,
-
       required_field,
 
       condition: {

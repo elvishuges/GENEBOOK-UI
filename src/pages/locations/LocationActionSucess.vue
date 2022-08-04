@@ -7,6 +7,7 @@
             <div class="text-h6">Sucess to: {{ form.name }}</div>
           </div>
         </div>
+        {{ form.requiresToPerform.success.consequence }}
 
         <q-separator />
 
@@ -74,7 +75,13 @@
       </q-card-section>
 
       <q-card-section>
-        <div>{{ form.requiresToPerform.success.consequence }}</div>
+        <consequence-block-creator
+          :consequenceItems="form.requiresToPerform.success.consequence"
+          @deleteCondition="onDeleteConditionClick"
+          @addCondition="onAddConditionClick"
+          @firstSelectChange="onFirstSelectChange"
+          @selectedOptionsChange="onSelectedOptionsChange"
+        />
       </q-card-section>
     </q-card>
 
@@ -112,26 +119,18 @@
 import { mapActions, mapState } from "vuex";
 import { required_field } from "src/utils/validationRules";
 import { copyObject } from "src/utils/functions";
-import {
-  selectGameObjects,
-  selectGameObjectActor,
-  selectGameObjectPlayer,
-  selectGameObjectLocation,
-} from "src/utils/mapedSelectOptions";
 
 import ListItemCard from "components/ListItemCard.vue";
-import IfBlockCreator from "src/components/IfBlockCreator.vue";
-import IfElseBlockCreator from "src/components/IfElseBlockCreator.vue";
+import ConsequenceBlockCreator from "src/components/ConsequenceBlockCreator.vue";
 import DeleteConditionsDialog from "src/components/DeleteConditionsDialog.vue";
 import SelectConditionTypeDialog from "src/components/SelectConditionTypeDialog.vue";
 
 export default {
   components: {
     ListItemCard,
-    IfBlockCreator,
-    IfElseBlockCreator,
     DeleteConditionsDialog,
     SelectConditionTypeDialog,
+    ConsequenceBlockCreator,
   },
 
   data() {
@@ -164,19 +163,7 @@ export default {
         attempts: 999999999,
       },
 
-      selectGameObjects,
-      selectGameObjectActor,
-      selectGameObjectPlayer,
-      selectGameObjectLocation,
-
       required_field,
-
-      condition: {
-        statement: "",
-        operator: "",
-        result: "",
-        options: [],
-      },
     };
   },
 
@@ -227,7 +214,10 @@ export default {
     },
 
     onCreateConsequeceClick() {
-      const condition = copyObject(this.condition);
+      const condition = {
+        assignmentOperator: "", // atribuição
+        options: [],
+      };
       this.form.requiresToPerform.success.consequence.push(condition);
     },
 
@@ -240,7 +230,7 @@ export default {
     },
 
     onConfirDeleteConditionsDialogClick() {
-      this.form.requiresToPerform.conditions = [];
+      this.form.requiresToPerform.success.consequence = [];
       this.showDeleteConditionsDialog = false;
     },
 
@@ -253,33 +243,24 @@ export default {
       this.handleSelectedConditionTypeCreation(conditionType);
     },
 
-    onIfBlockAddConditionClick(condition) {
-      this.form.requiresToPerform.conditions.push(condition);
+    onAddConditionClick(condition) {
+      this.form.requiresToPerform.success.consequence.push(condition);
     },
 
-    onIfBlockDeleteConditionClick(indexItem) {
-      this.form.requiresToPerform.conditions.splice(indexItem, 1);
+    onDeleteConditionClick(indexItem) {
+      this.form.requiresToPerform.success.consequence.splice(indexItem, 1);
     },
 
-    onIfBlockGameObjectChange(indexItem) {
-      this.form.requiresToPerform.conditions[indexItem].options.length = 1;
-      this.form.requiresToPerform.conditions[indexItem].result = "";
+    onFirstSelectChange(indexItem) {
+      this.form.requiresToPerform.success.consequence[
+        indexItem
+      ].options.length = 1;
     },
 
-    onIfBlockSelectedOptionsChange(payload) {
-      this.form.requiresToPerform.conditions[payload.indexItem].options.length =
-        payload.optionIndex + 2;
-      this.form.requiresToPerform.conditions[payload.indexItem].result = "";
-    },
-
-    createIfElseConditions() {
-      const condition1 = copyObject(this.condition);
-      const condition2 = copyObject(this.condition);
-      const condition3 = copyObject(this.condition);
-      this.form.requiresToPerform.conditions.push(condition1);
-      this.form.requiresToPerform.conditions.push(condition2);
-      this.form.requiresToPerform.conditions.push(condition3);
-      this.form.requiresToPerform.conditionsType = "if_else";
+    onSelectedOptionsChange(payload) {
+      this.form.requiresToPerform.success.consequence[
+        payload.indexItem
+      ].options.length = payload.optionIndex + 2;
     },
 
     showSuccessNotification() {

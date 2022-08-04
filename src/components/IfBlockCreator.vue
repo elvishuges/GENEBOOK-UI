@@ -278,7 +278,7 @@ export default defineComponent({
         }
       }
 
-      return ["Items Not Found"];
+      return ["Error: Item not found"];
     },
 
     getSelectLabel(listOptions, option, optionIndex) {
