@@ -26,29 +26,61 @@
           <q-spinner-facebook />
         </template>
       </q-btn>
+
+      <q-btn color="negative" @click="onCleanClick" label="Reset GameBook" />
     </div>
+
+    <delete-conditions-dialog
+      text="Do you want to reset all GameBook states?"
+      :state="showDeleteConditionsDialog"
+      @confirm="onConfirDialogClick"
+      @cancel="onCancelDialogClick"
+    />
   </q-page>
 </template>
 
 <script>
 import { defineComponent } from "vue";
+import { mapActions, mapState } from "vuex";
+import { playerInitialState } from "./../store/player/state";
 import FeatureCard from "components/FeatureCard.vue";
+import DeleteConditionsDialog from "src/components/DeleteConditionsDialog.vue";
 
 export default defineComponent({
   name: "IndexPage",
 
   components: {
     FeatureCard,
+    DeleteConditionsDialog,
   },
 
   methods: {
+    ...mapActions("player", ["clean_player"]),
+
     onGenerateGameBookClick() {
-      console.log("generate gamebook...");
+      console.log("generate");
+    },
+
+    cleanGameBookState() {
+      this.clean_player(playerInitialState);
+    },
+
+    onCleanClick() {
+      this.showDeleteConditionsDialog = true;
+    },
+    onCancelDialogClick() {
+      this.showDeleteConditionsDialog = false;
+    },
+    onConfirDialogClick() {
+      this.cleanGameBookState();
+      this.showDeleteConditionsDialog = false;
     },
   },
 
   data() {
     return {
+      showDeleteConditionsDialog: false,
+
       indexPageItems: [
         {
           goToRouteOnClick: "messages",
