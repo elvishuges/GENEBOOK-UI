@@ -16,11 +16,11 @@ export const firstSelectOptions = [
     value: "putInTheBag",
   },
   {
-    label: "insert Action",
+    label: "insert action",
     value: "insertAction",
   },
   {
-    label: "execute Action",
+    label: "execute action",
     value: "execAction",
   },
   {

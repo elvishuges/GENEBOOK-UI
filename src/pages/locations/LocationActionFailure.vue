@@ -20,6 +20,28 @@
             :rules="[required_field]"
             v-model="form.requiresToPerform.failure.text"
           />
+
+          <div class="row">
+            <q-select
+              class="col-6 q-px-xs q-py-sm"
+              outlined
+              label="image"
+              v-model="form.requiresToPerform.failure.image"
+              :options="images"
+              dense
+            >
+            </q-select>
+            <q-select
+              class="col-6 q-px-xs q-py-sm"
+              outlined
+              label="audio"
+              v-model="form.requiresToPerform.failure.audio"
+              :options="audios"
+              multiple
+              dense
+            >
+            </q-select>
+          </div>
         </div>
 
         <div class="row items-center no-wrap">
@@ -30,7 +52,7 @@
           <div class="col-auto q-py-xs">
             <q-btn
               v-if="!form.requiresToPerform.failure.consequence.length"
-              @click="onAddBlockConditionsClick"
+              @click="onCreateConsequeceClick"
               outline
               push
               color="secondary"
@@ -44,7 +66,7 @@
               outline
               push
               color="red"
-              label="Delete Conditions"
+              label="Delete Consequence"
             >
             </q-btn>
           </div>
@@ -52,7 +74,13 @@
       </q-card-section>
 
       <q-card-section>
-        <div>blocos aqui...</div>
+        <consequence-block-creator
+          :consequenceItems="form.requiresToPerform.failure.consequence"
+          @deleteCondition="onDeleteConditionClick"
+          @addCondition="onAddConditionClick"
+          @firstSelectChange="onFirstSelectChange"
+          @selectedOptionsChange="onSelectedOptionsChange"
+        />
       </q-card-section>
     </q-card>
 
@@ -90,26 +118,18 @@
 import { mapActions, mapState } from "vuex";
 import { required_field } from "src/utils/validationRules";
 import { copyObject } from "src/utils/functions";
-import {
-  selectGameObjects,
-  selectGameObjectActor,
-  selectGameObjectPlayer,
-  selectGameObjectLocation,
-} from "src/utils/mapedSelectOptions";
 
 import ListItemCard from "components/ListItemCard.vue";
-import IfBlockCreator from "src/components/IfBlockCreator.vue";
-import IfElseBlockCreator from "src/components/IfElseBlockCreator.vue";
+import ConsequenceBlockCreator from "src/components/ConsequenceBlockCreator.vue";
 import DeleteConditionsDialog from "src/components/DeleteConditionsDialog.vue";
 import SelectConditionTypeDialog from "src/components/SelectConditionTypeDialog.vue";
 
 export default {
   components: {
     ListItemCard,
-    IfBlockCreator,
-    IfElseBlockCreator,
     DeleteConditionsDialog,
     SelectConditionTypeDialog,
+    ConsequenceBlockCreator,
   },
 
   data() {
@@ -142,19 +162,7 @@ export default {
         attempts: 999999999,
       },
 
-      selectGameObjects,
-      selectGameObjectActor,
-      selectGameObjectPlayer,
-      selectGameObjectLocation,
-
       required_field,
-
-      condition: {
-        statement: "",
-        operator: "",
-        result: "",
-        options: [],
-      },
     };
   },
 
@@ -204,9 +212,12 @@ export default {
       this.loadPageInfos();
     },
 
-    onAddBlockConditionsClick() {
-      this.showSelectConditionTypeDialog = true;
-      //this.createIfCondition();
+    onCreateConsequeceClick() {
+      const condition = {
+        assignmentOperator: "", // atribuição
+        options: [],
+      };
+      this.form.requiresToPerform.failure.consequence.push(condition);
     },
 
     onDeleteConditionsClick() {
@@ -218,7 +229,7 @@ export default {
     },
 
     onConfirDeleteConditionsDialogClick() {
-      this.form.requiresToPerform.conditions = [];
+      this.form.requiresToPerform.failure.consequence = [];
       this.showDeleteConditionsDialog = false;
     },
 
@@ -231,47 +242,24 @@ export default {
       this.handleSelectedConditionTypeCreation(conditionType);
     },
 
-    onIfBlockAddConditionClick(condition) {
-      this.form.requiresToPerform.conditions.push(condition);
+    onAddConditionClick(condition) {
+      this.form.requiresToPerform.failure.consequence.push(condition);
     },
 
-    onIfBlockDeleteConditionClick(indexItem) {
-      this.form.requiresToPerform.conditions.splice(indexItem, 1);
+    onDeleteConditionClick(indexItem) {
+      this.form.requiresToPerform.failure.consequence.splice(indexItem, 1);
     },
 
-    onIfBlockGameObjectChange(indexItem) {
-      this.form.requiresToPerform.conditions[indexItem].options.length = 1;
-      this.form.requiresToPerform.conditions[indexItem].result = "";
+    onFirstSelectChange(indexItem) {
+      this.form.requiresToPerform.failure.consequence[
+        indexItem
+      ].options.length = 1;
     },
 
-    onIfBlockSelectedOptionsChange(payload) {
-      this.form.requiresToPerform.conditions[payload.indexItem].options.length =
-        payload.optionIndex + 2;
-      this.form.requiresToPerform.conditions[payload.indexItem].result = "";
-    },
-
-    handleSelectedConditionTypeCreation(type) {
-      if (type === "if") {
-        this.createIfCondition();
-      } else if (type === "if_else") {
-        this.createIfElseConditions();
-      }
-    },
-
-    createIfCondition() {
-      const condition = copyObject(this.condition);
-      this.form.requiresToPerform.conditions.push(condition);
-      this.form.requiresToPerform.conditionsType = "if";
-    },
-
-    createIfElseConditions() {
-      const condition1 = copyObject(this.condition);
-      const condition2 = copyObject(this.condition);
-      const condition3 = copyObject(this.condition);
-      this.form.requiresToPerform.conditions.push(condition1);
-      this.form.requiresToPerform.conditions.push(condition2);
-      this.form.requiresToPerform.conditions.push(condition3);
-      this.form.requiresToPerform.conditionsType = "if_else";
+    onSelectedOptionsChange(payload) {
+      this.form.requiresToPerform.failure.consequence[
+        payload.indexItem
+      ].options.length = payload.optionIndex + 2;
     },
 
     showSuccessNotification() {

@@ -21,9 +21,11 @@
           class="col-xs-4 col-sm-2 col-md-2 q-pt-md"
           dense
           outlined
-          label="First Select"
+          label="Operator"
           :options="assignmentOperators"
           v-model="item.assignmentOperator"
+          emit-value
+          map-options
         />
       </div>
 
@@ -44,7 +46,7 @@
         class="col-xs-12 col-sm-2 col-md-2 q-pl-xs q-pt-sm"
         dense
         outlined
-        label="first Option"
+        label="Object / Function"
         :options="firstSelectOptions"
         v-model="item.options[0]"
         emit-value
@@ -82,7 +84,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapState } from "vuex";
 
 import { defineComponent } from "vue";
 
@@ -119,18 +121,15 @@ export default defineComponent({
 
   data() {
     return {
-      statements: [
+      assignmentOperators: [
+        "+",
+        "-",
+        "=",
         {
-          label: "If",
-          value: "if",
-        },
-        {
-          label: "If Not",
-          value: "if_not",
+          label: "break line",
+          value: ";",
         },
       ],
-
-      assignmentOperators: [";", "+", "-", "="],
 
       firstSelectOptions,
       firstSelectActor,
