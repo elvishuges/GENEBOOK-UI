@@ -6,6 +6,6 @@ export function UPDATE_ITEM(state, payload) {
   state.items[payload.index] = payload.item;
 }
 
-export function DELETE_ITEM(state, itemIndex) {
-  state.items.push(itemIndex);
+export function CLEAN_ITEMS(state, payload) {
+  state.items = [];
 }

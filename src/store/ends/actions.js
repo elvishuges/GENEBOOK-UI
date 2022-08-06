@@ -10,6 +10,6 @@ export function update_end({ commit, dispatch }, payload) {
   commit("UPDATE_END", payload);
 }
 
-export function delete_end({ commit, dispatch }, payload) {
-  commit("DELETE_END", payload);
+export function clean_ends({ commit, dispatch }, payload) {
+  commit("CLEAN_ENDS");
 }

@@ -9,3 +9,7 @@ export function UPDATE_END(state, payload) {
 export function DELETE_END(state, itemIndex) {
   state.ends.push(itemIndex);
 }
+
+export function CLEAN_ENDS(state, itemIndex) {
+  state.ends = [];
+}

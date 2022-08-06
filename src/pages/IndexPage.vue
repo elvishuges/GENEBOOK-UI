@@ -43,6 +43,7 @@
 import { defineComponent } from "vue";
 import { mapActions, mapState } from "vuex";
 import { playerInitialState } from "./../store/player/state";
+import { messagesInitialState } from "./../store/messages/state";
 import FeatureCard from "components/FeatureCard.vue";
 import DeleteConditionsDialog from "src/components/DeleteConditionsDialog.vue";
 
@@ -56,6 +57,13 @@ export default defineComponent({
 
   methods: {
     ...mapActions("player", ["clean_player"]),
+    ...mapActions("messages", ["clean_messages"]),
+    ...mapActions("locations", ["clean_locations"]),
+    ...mapActions("items", ["clean_items"]),
+    ...mapActions("ends", ["clean_ends"]),
+    ...mapActions("actors", ["clean_actors"]),
+    ...mapActions("actions", ["clean_actions"]),
+    ...mapActions("files", ["clean_files"]),
 
     onGenerateGameBookClick() {
       console.log("generate");
@@ -63,6 +71,13 @@ export default defineComponent({
 
     cleanGameBookState() {
       this.clean_player(playerInitialState);
+      this.clean_messages(messagesInitialState);
+      this.clean_locations();
+      this.clean_items();
+      this.clean_ends();
+      this.clean_actors();
+      this.clean_actions();
+      this.clean_files();
     },
 
     onCleanClick() {

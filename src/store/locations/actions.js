@@ -6,6 +6,6 @@ export function update_location({ commit, dispatch }, payload) {
   commit("UPDATE_LOCATION", payload);
 }
 
-export function delete_location({ commit, dispatch }, payload) {
-  commit("DELETE_LOCATION", payload);
+export function clean_locations({ commit, dispatch }, payload) {
+  commit("CLEAN_LOCATIONS");
 }
