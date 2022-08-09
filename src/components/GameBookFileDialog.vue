@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  emits: ["cancel", "confirm"],
+  emits: ["close"],
   props: {
     jsonFile: {
       type: Object,
