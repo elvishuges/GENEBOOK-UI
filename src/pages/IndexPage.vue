@@ -35,6 +35,13 @@
       :state="showDeleteConditionsDialog"
       @confirm="onConfirDialogClick"
       @cancel="onCancelDialogClick"
+      confirmButtonLabel="Reset"
+    />
+
+    <game-book-file-dialog
+      :state="showGameBookFileDialog"
+      @close="onGenerateGameBookClose"
+      :jsonFile="gameBookFile"
     />
   </q-page>
 </template>
@@ -46,6 +53,7 @@ import { playerInitialState } from "./../store/player/state";
 import { messagesInitialState } from "./../store/messages/state";
 import FeatureCard from "components/FeatureCard.vue";
 import DeleteConditionsDialog from "src/components/DeleteConditionsDialog.vue";
+import GameBookFileDialog from "src/components/GameBookFileDialog.vue";
 
 export default defineComponent({
   name: "IndexPage",
@@ -53,48 +61,61 @@ export default defineComponent({
   components: {
     FeatureCard,
     DeleteConditionsDialog,
+    GameBookFileDialog,
   },
-
-  methods: {
-    ...mapActions("player", ["clean_player"]),
-    ...mapActions("messages", ["clean_messages"]),
-    ...mapActions("locations", ["clean_locations"]),
-    ...mapActions("items", ["clean_items"]),
-    ...mapActions("ends", ["clean_ends"]),
-    ...mapActions("actors", ["clean_actors"]),
-    ...mapActions("actions", ["clean_actions"]),
-    ...mapActions("files", ["clean_files"]),
-
-    onGenerateGameBookClick() {
-      console.log("generate");
-    },
-
-    cleanGameBookState() {
-      this.clean_player(playerInitialState);
-      this.clean_messages(messagesInitialState);
-      this.clean_locations();
-      this.clean_items();
-      this.clean_ends();
-      this.clean_actors();
-      this.clean_actions();
-      this.clean_files();
-    },
-
-    onCleanClick() {
-      this.showDeleteConditionsDialog = true;
-    },
-    onCancelDialogClick() {
-      this.showDeleteConditionsDialog = false;
-    },
-    onConfirDialogClick() {
-      this.cleanGameBookState();
-      this.showDeleteConditionsDialog = false;
-    },
-  },
-
   data() {
     return {
+      gameBookFile: {
+        messages: {
+          gameTitle: "",
+          initialImage: "",
+          initialAudio: "",
+          gameIntroduction: "",
+          gameStart: "",
+          gameContinue: "",
+          goButton: "",
+          contentToBeLoaded: "",
+          itemsText: "",
+          actionsText: "",
+          exitsText: "",
+          goingTo: "",
+          optionsText: "",
+          inventoryLinkText: "",
+          inventoryTitle: "",
+          inventoryText: "",
+          noItemsCollected: "",
+          mapLinkText: "",
+          mapText: "",
+          creditsLinkText: "",
+          creditsTitle: "",
+          creditsText: "",
+          fromLabel: "",
+          toLabel: "",
+        },
+
+        // ################################
+
+        player: {
+          currentState: "game-start",
+          currentLocation: "",
+          collectedItems: [],
+          performedActions: [],
+          status: {
+            life: 0,
+          },
+        },
+
+        actors: [],
+
+        items: [],
+
+        locations: [],
+
+        ends: [],
+      },
+
       showDeleteConditionsDialog: false,
+      showGameBookFileDialog: false,
 
       indexPageItems: [
         {
@@ -139,6 +160,52 @@ export default defineComponent({
         },
       ],
     };
+  },
+
+  methods: {
+    ...mapActions("player", ["clean_player"]),
+    ...mapActions("messages", ["clean_messages"]),
+    ...mapActions("locations", ["clean_locations"]),
+    ...mapActions("items", ["clean_items"]),
+    ...mapActions("ends", ["clean_ends"]),
+    ...mapActions("actors", ["clean_actors"]),
+    ...mapActions("actions", ["clean_actions"]),
+    ...mapActions("files", ["clean_files"]),
+
+    onGenerateGameBookClick() {
+      this.showGameBookFileDialog = true;
+    },
+
+    onGenerateGameBookClose() {
+      this.generateJasonFile();
+      this.showGameBookFileDialog = false;
+    },
+
+    generateJasonFile() {
+      ///commign soon
+    },
+
+    cleanGameBookState() {
+      this.clean_player(playerInitialState);
+      this.clean_messages(messagesInitialState);
+      this.clean_locations();
+      this.clean_items();
+      this.clean_ends();
+      this.clean_actors();
+      this.clean_actions();
+      this.clean_files();
+    },
+
+    onCleanClick() {
+      this.showDeleteConditionsDialog = true;
+    },
+    onCancelDialogClick() {
+      this.showDeleteConditionsDialog = false;
+    },
+    onConfirDialogClick() {
+      this.cleanGameBookState();
+      this.showDeleteConditionsDialog = false;
+    },
   },
 });
 </script>
