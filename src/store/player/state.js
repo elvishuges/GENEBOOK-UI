@@ -4,12 +4,12 @@ export const playerInitialState = {
   collectedItems: [],
   performedActions: [],
   status: {
-    life: 5,
+    life: 0,
   },
 };
 
 export default function () {
   return {
-    ...JSON.parse(JSON.stringify(playerInitialState)),
+    player: { ...JSON.parse(JSON.stringify(playerInitialState)) },
   };
 }

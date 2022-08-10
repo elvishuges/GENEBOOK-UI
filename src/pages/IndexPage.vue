@@ -1,4 +1,4 @@
-<template>
+    <template>
   <q-page class="q-pa-md q-mb-lg">
     <div class="row">
       <div
@@ -49,11 +49,15 @@
 <script>
 import { defineComponent } from "vue";
 import { mapActions, mapState } from "vuex";
+
 import { playerInitialState } from "./../store/player/state";
 import { messagesInitialState } from "./../store/messages/state";
+
 import FeatureCard from "components/FeatureCard.vue";
 import DeleteConditionsDialog from "src/components/DeleteConditionsDialog.vue";
 import GameBookFileDialog from "src/components/GameBookFileDialog.vue";
+
+import StateFormater from "./../utils/states-formater";
 
 export default defineComponent({
   name: "IndexPage",
@@ -96,7 +100,7 @@ export default defineComponent({
         // ################################
 
         player: {
-          currentState: "game-start",
+          currentState: "",
           currentLocation: "",
           collectedItems: [],
           performedActions: [],
@@ -113,6 +117,8 @@ export default defineComponent({
 
         ends: [],
       },
+
+      stateFormater: new StateFormater(),
 
       showDeleteConditionsDialog: false,
       showGameBookFileDialog: false,
@@ -162,6 +168,11 @@ export default defineComponent({
     };
   },
 
+  computed: {
+    ...mapState("messages", ["messages"]),
+    ...mapState("player", ["player"]),
+  },
+
   methods: {
     ...mapActions("player", ["clean_player"]),
     ...mapActions("messages", ["clean_messages"]),
@@ -173,16 +184,20 @@ export default defineComponent({
     ...mapActions("files", ["clean_files"]),
 
     onGenerateGameBookClick() {
+      this.generateJasonFile();
       this.showGameBookFileDialog = true;
     },
 
     onGenerateGameBookClose() {
-      this.generateJasonFile();
       this.showGameBookFileDialog = false;
     },
 
     generateJasonFile() {
-      ///commign soon
+      this.gameBookFile.messages = this.stateFormater.formatMessages(
+        this.messages
+      );
+
+      this.gameBookFile.player = this.stateFormater.formatPlayer(this.player);
     },
 
     cleanGameBookState() {

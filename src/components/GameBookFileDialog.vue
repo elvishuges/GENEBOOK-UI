@@ -18,7 +18,7 @@
         <pre id="myText">{{ jsonFileString }}</pre>
       </q-card-section>
       <q-card-actions align="right">
-        <q-btn label="Copy Content" color="primary" v-close-popup />
+        <q-btn label="Copy Content" color="primary" />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -46,11 +46,19 @@ export default {
     onCloseClick() {
       this.$emit("close");
     },
+
+    replace(key, value) {
+      if (isNaN(parseInt(value))) {
+        return value;
+      }
+      let change = parseFloat(value);
+      return change;
+    },
   },
 
   computed: {
     jsonFileString() {
-      return JSON.stringify(this.jsonFile, undefined, 4);
+      return { ...JSON.parse(JSON.stringify(this.jsonFile, this.replace, 4)) };
     },
   },
 };

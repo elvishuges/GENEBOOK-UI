@@ -1,4 +1,3 @@
-/*
-export function someGetter (state) {
+export function GET_ACTIONS(state) {
+  return state.actions;
 }
-*/

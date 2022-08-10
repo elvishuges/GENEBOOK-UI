@@ -28,6 +28,6 @@ export const messagesInitialState = {
 
 export default function () {
   return {
-    ...JSON.parse(JSON.stringify(messagesInitialState)),
+    messages: { ...JSON.parse(JSON.stringify(messagesInitialState)) },
   };
 }

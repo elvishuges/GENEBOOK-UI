@@ -152,11 +152,11 @@ export default {
     },
 
     onSubmit() {
-      this.set_player(this.form).then(() => {
-        this.showSuccessNotification();
-        this.loadPlayer();
-      });
+      this.set_player(this.form).then(() => {});
+      this.showSuccessNotification();
+      this.loadPlayer();
     },
+
     showSuccessNotification() {
       this.$q.notify({
         type: "positive",
