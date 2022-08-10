@@ -7,7 +7,12 @@ export default class {
   }
 
   formatPlayer(player) {
-    const playserCopy = JSON.parse(JSON.stringify(player));
-    return playserCopy;
+    const PalyerCopy = JSON.parse(JSON.stringify(player));
+    return PalyerCopy;
+  }
+
+  formatActors(actors) {
+    const actorsCopy = JSON.parse(JSON.stringify(actors));
+    return actorsCopy;
   }
 }
