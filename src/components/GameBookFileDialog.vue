@@ -17,9 +17,6 @@
       <q-card-section style="max-height: 100vh" class="scroll">
         <pre id="myText">{{ jsonFileString }}</pre>
       </q-card-section>
-      <q-card-actions align="right">
-        <q-btn label="Copy Content" color="primary" />
-      </q-card-actions>
     </q-card>
   </q-dialog>
 </template>
@@ -66,7 +63,7 @@ export default {
 
 <style>
 pre {
-  height: 460px;
+  height: 420px;
   font-family: "Lucida Console", Monaco, monospace;
   font-size: 0.9rem;
 }

@@ -162,15 +162,18 @@ export default defineComponent({
         {
           goToRouteOnClick: "actions",
           title: "Actions",
-          description: "Actions used in the system",
+          description: "Actions from system",
         },
       ],
     };
   },
 
   computed: {
+    // seguindo ordem do arquivo invasion.js
     ...mapState("messages", ["messages"]),
     ...mapState("player", ["player"]),
+    ...mapState("actors", ["actors"]),
+    ...mapState("items", ["items"]),
   },
 
   methods: {
@@ -198,11 +201,15 @@ export default defineComponent({
       );
 
       this.gameBookFile.player = this.stateFormater.formatPlayer(this.player);
+
+      this.gameBookFile.actors = this.stateFormater.formatPlayer(this.actors);
+
+      this.gameBookFile.items = this.stateFormater.formatItems(this.items);
     },
 
     cleanGameBookState() {
-      this.clean_player(playerInitialState);
-      this.clean_messages(messagesInitialState);
+      this.clean_player(playerInitialState); // clean and set
+      this.clean_messages(messagesInitialState); // clean and set
       this.clean_locations();
       this.clean_items();
       this.clean_ends();

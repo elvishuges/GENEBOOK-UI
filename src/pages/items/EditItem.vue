@@ -265,10 +265,9 @@ export default {
 
     onSaveClick() {
       const itemIndex = this.$route.params.index;
-      this.update_item({ index: itemIndex, item: this.form }).then(() => {
-        this.showSuccessNotification();
-        this.loadPageInfos();
-      });
+      this.update_item({ index: itemIndex, item: this.form });
+      this.showSuccessNotification();
+      this.loadPageInfos();
     },
 
     onAddBlockConditionsClick() {
