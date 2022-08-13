@@ -45,8 +45,29 @@ export default class {
   }
 
   convertConditionsToString(conditions) {
-    return [
-      "return getPlayer(gc).performedActions.includes('defeated_thief') && !getPlayer(gc).performedActions.includes('took_knife')",
-    ];
+    if (!conditions.length) return [];
+
+    let stringTextResult = "return";
+    conditions.forEach((element) => {
+      const options = element.options;
+      let stringText = "";
+
+      if (options[0] === "player") {
+        if (options[1] === "currentLocation") {
+          stringText = `${element.operator} ${element.statement}getPlayer(gc).currentLocation === '${element.result}' `;
+        }
+
+        if (options[1] === "collectedItems") {
+          stringText = `${element.operator} ${element.statement}getPlayer(gc).collectedItems.includes('${element.result}') `;
+        }
+
+        if (options[1] === "performedActions") {
+          stringText = `${element.operator} ${element.statement}getPlayer(gc).performedActions.includes('${element.result}') `;
+        }
+      }
+
+      stringTextResult = stringTextResult + stringText;
+    });
+    return stringTextResult;
   }
 }

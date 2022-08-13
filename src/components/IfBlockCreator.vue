@@ -160,11 +160,11 @@ export default defineComponent({
       statements: [
         {
           label: "If",
-          value: "if",
+          value: "!!",
         },
         {
           label: "If Not",
-          value: "if_not",
+          value: "!",
         },
       ],
 
@@ -220,8 +220,8 @@ export default defineComponent({
 
     onAddConditionClick() {
       const condition = {
-        statement: "if",
-        operator: "and",
+        statement: "!!",
+        operator: "&&",
         result: "",
         options: [],
       };
