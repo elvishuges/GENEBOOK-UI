@@ -59,7 +59,7 @@
           </q-card-section>
         </q-card>
       </q-expansion-item>
-      {{ form.requiresToShow.conditions }}
+      {{ form.requiresToShow }}
     </div>
 
     <q-card flat bordered class="my-card bg-grey-1">

@@ -37,11 +37,11 @@ export default {
       model: "if",
       options: [
         {
-          label: "If",
+          label: "If Block",
           value: "if",
         },
         {
-          label: "If Else",
+          label: "If Else Block",
           value: "if_else",
         },
       ],

@@ -56,7 +56,7 @@ export const selectGameObjectActor = {
   active: {
     title: "Equals To:",
     lastOption: true,
-    options: ["True", "False"],
+    options: ["true", "false"],
   },
   ">": {
     title: "Value:",
