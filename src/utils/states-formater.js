@@ -11,6 +11,8 @@ export default class {
     return playerCopy;
   }
 
+  // adasdasd
+
   formatActors(actors) {
     const actorsCopy = JSON.parse(JSON.stringify(actors));
     return actorsCopy;
@@ -28,19 +30,41 @@ export default class {
         image: element.image,
         audio: element.audio,
         location: element.location,
-        requiresToShow: this.formatRequiresToShow(element.requiresToShow),
+        requiresToShow: this.formatRequiresToShowFinish(element.requiresToShow),
       };
       itemsFormated.push(item);
     });
     return itemsFormated;
   }
 
-  formatRequiresToShow(requiresToShow) {
+  formatEnds(ends) {
+    const endsCopy = JSON.parse(JSON.stringify(ends));
+    let endsFormated = [];
+
+    endsCopy.forEach((element) => {
+      let end = {
+        name: element.name,
+        title: element.title,
+        text: element.text,
+        image: element.image,
+        audio: element.audio,
+        requiresToFinish: this.formatRequiresToShowFinish(
+          element.requiresToFinish
+        ),
+      };
+
+      endsFormated.push(end);
+    });
+
+    return endsFormated;
+  }
+
+  formatRequiresToShowFinish(requiresToShowFinish) {
     let result = {
-      actions: requiresToShow.actions,
-      items: requiresToShow.items,
+      actions: requiresToShowFinish.actions,
+      items: requiresToShowFinish.items,
       conditions: this.convertArrayConditionsToStringConditions(
-        requiresToShow.conditions
+        requiresToShowFinish.conditions
       ),
     };
     return result;

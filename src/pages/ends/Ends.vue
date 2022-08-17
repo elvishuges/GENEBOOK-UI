@@ -117,6 +117,7 @@ export default {
           items: [],
           actions: [],
           conditions: [],
+          conditionsType: "",
         },
       },
 

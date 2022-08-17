@@ -47,6 +47,7 @@ export default {
       ],
     };
   },
+
   methods: {
     onCancelClick() {
       this.$emit("cancel");

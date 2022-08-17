@@ -133,13 +133,23 @@
       </q-card-section>
 
       <q-card-section>
-        <if-block-creator
-          :conditionsItems="form.requiresToFinish.conditions"
-          @addCondition="onIfBlockAddConditionClick"
-          @deleteCondition="onIfBlockDeleteConditionClick"
-          @gameObjectChange="onIfBlockGameObjectChange"
-          @selectedOptionsChange="onIfBlockSelectedOptionsChange"
-        />
+        <div v-show="form.requiresToFinish.conditionsType === 'if'">
+          <if-block-creator
+            :conditionsItems="form.requiresToFinish.conditions"
+            @addCondition="onIfBlockAddConditionClick"
+            @deleteCondition="onIfBlockDeleteConditionClick"
+            @gameObjectChange="onIfBlockGameObjectChange"
+            @selectedOptionsChange="onIfBlockSelectedOptionsChange"
+          />
+        </div>
+
+        <div v-show="form.requiresToFinish.conditionsType === 'if_else'">
+          <if-else-block-creator
+            :conditionsItems="form.requiresToFinish.conditions"
+            @gameObjectChange="onIfBlockGameObjectChange"
+            @selectedOptionsChange="onIfBlockSelectedOptionsChange"
+          />
+        </div>
       </q-card-section>
     </q-card>
 
@@ -165,6 +175,12 @@
       @confirm="onConfirDialogClick"
       @cancel="onCancelDialogClick"
     />
+
+    <select-condition-type-dialog
+      :state="showSelectConditionTypeDialog"
+      @confirm="onConfirSelectConditionTypeDialogClick"
+      @cancel="onCancelSelectConditionTypeDialogClick"
+    />
   </q-page>
 </template>
 
@@ -177,22 +193,44 @@ import { writeText } from "../../backend/utils";
 
 import ListItemCard from "components/ListItemCard.vue";
 import IfBlockCreator from "src/components/IfBlockCreator.vue";
+import IfElseBlockCreator from "src/components/IfElseBlockCreator.vue";
 import DeleteConditionsDialog from "src/components/DeleteConditionsDialog.vue";
+import SelectConditionTypeDialog from "src/components/SelectConditionTypeDialog.vue";
 
 export default {
-  components: { ListItemCard, IfBlockCreator, DeleteConditionsDialog },
+  components: {
+    ListItemCard,
+    IfBlockCreator,
+    DeleteConditionsDialog,
+    IfElseBlockCreator,
+    SelectConditionTypeDialog,
+  },
 
   data() {
     return {
       showDeleteConditionsDialog: false,
+      showSelectConditionTypeDialog: false,
       form: {
         name: "",
         title: "",
         text: "",
         image: "",
         audio: "",
-        requiresToFinish: { items: [], actions: [], conditions: [] },
+        requiresToFinish: {
+          items: [],
+          actions: [],
+          conditions: [],
+          conditionsType: "",
+        },
       },
+
+      condition: {
+        statement: "",
+        operator: "",
+        result: "",
+        options: [],
+      },
+
       required_field,
     };
   },
@@ -228,14 +266,48 @@ export default {
     },
 
     onAddBlockConditionsClick() {
-      const condition = {
-        statement: "",
-        operator: "",
-        result: "",
-        options: [],
-      };
+      this.showSelectConditionTypeDialog = true;
 
+      // const condition = {
+      //   statement: "",
+      //   operator: "",
+      //   result: "",
+      //   options: [],
+      // };
+
+      // this.form.requiresToFinish.conditions.push(condition);
+    },
+
+    onConfirSelectConditionTypeDialogClick(conditionType) {
+      this.showSelectConditionTypeDialog = false;
+      this.handleSelectedConditionTypeCreation(conditionType);
+    },
+
+    handleSelectedConditionTypeCreation(type) {
+      if (type === "if") {
+        this.createIfCondition();
+      } else if (type === "if_else") {
+        this.createIfElseConditions();
+      }
+    },
+
+    onCancelSelectConditionTypeDialogClick() {
+      this.showSelectConditionTypeDialog = false;
+    },
+    createIfCondition() {
+      const condition = copyObject(this.condition);
       this.form.requiresToFinish.conditions.push(condition);
+      this.form.requiresToFinish.conditionsType = "if";
+    },
+
+    createIfElseConditions() {
+      const condition1 = copyObject(this.condition);
+      const condition2 = copyObject(this.condition);
+      const condition3 = copyObject(this.condition);
+      this.form.requiresToFinish.conditions.push(condition1);
+      this.form.requiresToFinish.conditions.push(condition2);
+      this.form.requiresToFinish.conditions.push(condition3);
+      this.form.requiresToFinish.conditionsType = "if_else";
     },
 
     onDeleteConditionsClick() {
