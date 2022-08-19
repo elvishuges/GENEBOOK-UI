@@ -126,11 +126,11 @@ export default defineComponent({
       statements: [
         {
           label: "If",
-          value: "if",
+          value: "!!",
         },
         {
           label: "If Not",
-          value: "if_not",
+          value: "!",
         },
       ],
 

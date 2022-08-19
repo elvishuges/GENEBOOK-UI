@@ -60,19 +60,23 @@ export default class {
   }
 
   formatRequiresToShowFinish(requiresToShowFinish) {
+    const conditionsType = requiresToShowFinish.conditionsType || null;
     let result = {
       actions: requiresToShowFinish.actions,
       items: requiresToShowFinish.items,
       conditions: this.convertArrayConditionsToStringConditions(
-        requiresToShowFinish.conditions
+        requiresToShowFinish.conditions,
+        conditionsType
       ),
     };
     return result;
   }
 
-  convertArrayConditionsToStringConditions(conditions) {
+  convertArrayConditionsToStringConditions(conditions, conditionsType) {
+    console.log("cond", conditionsType);
     if (!conditions.length) return [];
 
+    let finalStringConditionArray = [];
     let finalStringCondition = "";
     conditions.forEach((element) => {
       const options = element.options;
@@ -96,7 +100,7 @@ export default class {
           const selectedStatusProprety = options[2];
           const operator = options[3];
           if (selectedStatusProprety === "life") {
-            stringCondition = `${element.operator} ${element.statement}getPlayer(gc).status.life ${operator} ${element.result}  `;
+            stringCondition = `${element.operator} ${element.statement}getPlayer(gc).status.life ${operator} ${element.result} `;
           }
         }
       }
@@ -116,10 +120,10 @@ export default class {
           const selectedStatusProprety = options[3];
           const operator = options[4];
           if (selectedStatusProprety === "life") {
-            stringCondition = `${element.operator} ${element.statement}getActor(gc,'${selectedActor}').status.life ${operator} ${element.result}  `;
+            stringCondition = `${element.operator} ${element.statement}getActor(gc,'${selectedActor}').status.life ${operator} ${element.result} `;
           }
           if (selectedStatusProprety === "active") {
-            stringCondition = `${element.operator} ${element.statement}getActor(gc,'${selectedActor}').status.active ${operator} ${element.result} `;
+            stringCondition = `${element.operator} ${element.statement}getActor(gc,'${selectedActor}').status.active == ${element.result} `;
           }
         }
       }
@@ -133,8 +137,29 @@ export default class {
         }
       }
 
-      finalStringCondition = finalStringCondition + stringCondition;
+      finalStringConditionArray.push(stringCondition);
     });
+    finalStringCondition = this.formatConditionArrayToLineString(
+      finalStringConditionArray,
+      conditionsType
+    );
+
     return "return" + finalStringCondition;
+  }
+
+  formatConditionArrayToLineString(conditionsArray, conditionsType) {
+    let stringResult = "";
+    if (conditionsType === "if") {
+      conditionsArray.forEach((condition) => {
+        stringResult = stringResult + condition;
+      });
+    }
+
+    if (conditionsType === "if_else") {
+      // ternary
+      stringResult = `${conditionsArray[0]} ? ${conditionsArray[1]} : ${conditionsArray[2]} `;
+    }
+
+    return stringResult;
   }
 }
