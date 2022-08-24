@@ -1,4 +1,10 @@
-export const selectGameObjects = ["player", "actor", "location"];
+export const selectGameObjects = [
+  "player",
+  "actor",
+  "location",
+  "true",
+  "false",
+];
 
 export const selectGameObjectActor = {
   actor: {

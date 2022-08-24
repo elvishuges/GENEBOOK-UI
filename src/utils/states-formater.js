@@ -73,7 +73,6 @@ export default class {
   }
 
   convertArrayConditionsToStringConditions(conditions, conditionsType) {
-    console.log("cond", conditionsType);
     if (!conditions.length) return [];
 
     let finalStringConditionArray = [];
@@ -82,6 +81,10 @@ export default class {
       const options = element.options;
       let stringCondition = "";
       const selectedGameObject = options[0];
+
+      if (selectedGameObject === "true" || selectedGameObject === "false") {
+        stringCondition = ` ${selectedGameObject} `;
+      }
 
       if (selectedGameObject === "player") {
         const selectedPlayerProperty = options[1];
@@ -149,15 +152,13 @@ export default class {
 
   formatConditionArrayToLineString(conditionsArray, conditionsType) {
     let stringResult = "";
-    if (conditionsType === "if") {
-      conditionsArray.forEach((condition) => {
-        stringResult = stringResult + condition;
-      });
-    }
-
     if (conditionsType === "if_else") {
       // ternary
       stringResult = `${conditionsArray[0]} ? ${conditionsArray[1]} : ${conditionsArray[2]} `;
+    } else {
+      conditionsArray.forEach((condition) => {
+        stringResult = stringResult + condition;
+      });
     }
 
     return stringResult;

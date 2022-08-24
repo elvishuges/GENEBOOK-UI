@@ -133,7 +133,6 @@ export default {
 
   methods: {
     ...mapActions("ends", ["add_end"]),
-
     onItemClick(index) {
       this.$router.push({ name: "edit-end", params: { index: index } });
     },
