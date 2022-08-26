@@ -174,6 +174,7 @@ export default defineComponent({
     ...mapState("player", ["player"]),
     ...mapState("actors", ["actors"]),
     ...mapState("items", ["items"]),
+    ...mapState("locations", ["locations"]),
     ...mapState("ends", ["ends"]),
   },
 
@@ -206,6 +207,10 @@ export default defineComponent({
       this.gameBookFile.actors = this.stateFormater.formatPlayer(this.actors);
 
       this.gameBookFile.items = this.stateFormater.formatItems(this.items);
+
+      this.gameBookFile.locations = this.stateFormater.formatLocations(
+        this.locations
+      );
 
       this.gameBookFile.ends = this.stateFormater.formatEnds(this.ends);
     },

@@ -37,6 +37,24 @@ export default class {
     return itemsFormated;
   }
 
+  formatLocations(locstions) {
+    const locationsCopy = JSON.parse(JSON.stringify(locstions));
+    let locationsFormated = [];
+
+    locationsCopy.forEach((element) => {
+      let item = {
+        name: element.name,
+        title: element.title,
+        description: this.formatLocationDescriptions(element.descriptions),
+        actions: [],
+        exits: [],
+        visits: element.visits,
+      };
+      locationsFormated.push(item);
+    });
+    return locationsFormated;
+  }
+
   formatEnds(ends) {
     const endsCopy = JSON.parse(JSON.stringify(ends));
     let endsFormated = [];
@@ -59,20 +77,44 @@ export default class {
     return endsFormated;
   }
 
+  formatLocationDescriptions(descriptions) {
+    let descriptionsFormated = [];
+    const returnString = true;
+
+    descriptions.forEach((element) => {
+      let description = {
+        text: element.text,
+        image: element.image,
+        condition: this.convertArrayConditionsToStringConditions({
+          conditions: element.condition,
+          returnString: returnString,
+        }),
+      };
+
+      descriptionsFormated.push(description);
+    });
+
+    return descriptionsFormated;
+  }
+
   formatRequiresToShowFinish(requiresToShowFinish) {
     const conditionsType = requiresToShowFinish.conditionsType || null;
     let result = {
       actions: requiresToShowFinish.actions,
       items: requiresToShowFinish.items,
-      conditions: this.convertArrayConditionsToStringConditions(
-        requiresToShowFinish.conditions,
-        conditionsType
-      ),
+      conditions: this.convertArrayConditionsToStringConditions({
+        conditions: requiresToShowFinish.conditions,
+        conditionsType: conditionsType,
+      }),
     };
     return result;
   }
 
-  convertArrayConditionsToStringConditions(conditions, conditionsType) {
+  convertArrayConditionsToStringConditions({
+    conditions,
+    conditionsType = null,
+    returnString = false,
+  }) {
     if (!conditions.length) return [];
 
     let finalStringConditionArray = [];
@@ -142,12 +184,15 @@ export default class {
 
       finalStringConditionArray.push(stringCondition);
     });
+
     finalStringCondition = this.formatConditionArrayToLineString(
       finalStringConditionArray,
       conditionsType
     );
 
-    return "return" + finalStringCondition;
+    const finalResult = "return" + finalStringCondition;
+
+    return returnString ? finalResult : [finalResult];
   }
 
   formatConditionArrayToLineString(conditionsArray, conditionsType) {
