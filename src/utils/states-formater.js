@@ -46,7 +46,7 @@ export default class {
         name: element.name,
         title: element.title,
         description: this.formatLocationDescriptions(element.descriptions),
-        actions: [],
+        actions: this.formatLocationActions(element.actions),
         exits: [],
         visits: element.visits,
       };
@@ -77,9 +77,11 @@ export default class {
     return endsFormated;
   }
 
+  // metodos utilitários
+
   formatLocationDescriptions(descriptions) {
     let descriptionsFormated = [];
-    const returnString = true;
+    const returnStringFormat = true;
 
     descriptions.forEach((element) => {
       let description = {
@@ -87,7 +89,7 @@ export default class {
         image: element.image,
         condition: this.convertArrayConditionsToStringConditions({
           conditions: element.condition,
-          returnString: returnString,
+          returnStringFormat: returnStringFormat,
         }),
       };
 
@@ -95,6 +97,24 @@ export default class {
     });
 
     return descriptionsFormated;
+  }
+
+  formatLocationActions(actions) {
+    let actionsFormated = [];
+
+    actions.forEach((element) => {
+      let action = {
+        name: element.name,
+        text: element.text,
+        requiresToShows: {},
+        requiresToPerform: {},
+        attempts: element.attempts,
+      };
+
+      actionsFormated.push(action);
+    });
+
+    return actionsFormated;
   }
 
   formatRequiresToShowFinish(requiresToShowFinish) {
@@ -113,7 +133,7 @@ export default class {
   convertArrayConditionsToStringConditions({
     conditions,
     conditionsType = null,
-    returnString = false,
+    returnStringFormat = false,
   }) {
     if (!conditions.length) return [];
 
@@ -192,7 +212,7 @@ export default class {
 
     const finalResult = "return" + finalStringCondition;
 
-    return returnString ? finalResult : [finalResult];
+    return returnStringFormat ? finalResult : [finalResult];
   }
 
   formatConditionArrayToLineString(conditionsArray, conditionsType) {

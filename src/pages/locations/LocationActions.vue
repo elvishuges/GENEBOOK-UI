@@ -43,7 +43,7 @@
             </div>
             <q-card-actions align="right" class="text-primary">
               <q-btn flat label="Close" v-close-popup />
-              <q-btn flat label="Create Locations" type="submit" />
+              <q-btn flat label="Create Action" type="submit" />
             </q-card-actions>
           </q-form>
         </q-card-section>
@@ -60,7 +60,7 @@
         flat
       />
       <q-btn
-        label="Create Exit"
+        label="Create Action"
         color="primary"
         size="lg"
         @click="onCreateClick"
