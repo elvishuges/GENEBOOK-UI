@@ -45,7 +45,7 @@ export default class {
       let item = {
         name: element.name,
         title: element.title,
-        description: this.formatLocationDescriptions(element.descriptions),
+        descriptions: this.formatLocationDescriptions(element.descriptions),
         actions: this.formatLocationActions(element.actions),
         exits: [],
         visits: element.visits,
@@ -106,8 +106,8 @@ export default class {
       let action = {
         name: element.name,
         text: element.text,
-        requiresToShows: {},
-        requiresToPerform: {},
+        requiresToShow: this.formatLocationsActionRequiresToShow(element),
+        requiresToPerform: this.formatLocationsActionRequiresToPerform(element),
         attempts: element.attempts,
       };
 
@@ -115,6 +115,41 @@ export default class {
     });
 
     return actionsFormated;
+  }
+
+  formatLocationsActionRequiresToShow(action) {
+    const requiresToShowFormated = {
+      items: action.requiresToShow.items,
+      actions: action.requiresToShow.actions,
+      conditions: this.convertArrayConditionsToStringConditions({
+        conditions: action.requiresToShow.conditions,
+      }),
+    };
+
+    return requiresToShowFormated;
+  }
+
+  formatLocationsActionRequiresToPerform(action) {
+    const requiresToPerformFormated = {
+      items: action.requiresToShow.items,
+      actions: action.requiresToShow.actions,
+      conditions: this.convertArrayConditionsToStringConditions({
+        conditions: action.requiresToShow.conditions,
+      }),
+
+      success: {
+        text: action.requiresToPerform.success.text,
+        image: action.requiresToPerform.success.image,
+        consequence: "TODO",
+      },
+      failure: {
+        text: action.requiresToPerform.failure.text,
+        image: action.requiresToPerform.failure.text,
+        consequence: "TODO",
+      },
+    };
+
+    return requiresToPerformFormated;
   }
 
   formatRequiresToShowFinish(requiresToShowFinish) {
