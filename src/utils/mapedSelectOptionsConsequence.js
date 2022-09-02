@@ -8,10 +8,6 @@ export const firstSelectOptions = [
     value: "actor",
   },
   {
-    label: "location",
-    value: "location",
-  },
-  {
     label: "put in the bag",
     value: "putInTheBag",
   },

@@ -131,21 +131,25 @@ export default class {
 
   formatLocationsActionRequiresToPerform(action) {
     const requiresToPerformFormated = {
-      items: action.requiresToShow.items,
-      actions: action.requiresToShow.actions,
+      items: action.requiresToPerform.items,
+      actions: action.requiresToPerform.actions,
       conditions: this.convertArrayConditionsToStringConditions({
-        conditions: action.requiresToShow.conditions,
+        conditions: action.requiresToPerform.conditions,
       }),
 
       success: {
         text: action.requiresToPerform.success.text,
         image: action.requiresToPerform.success.image,
-        consequence: "TODO",
+        consequence: this.convertArrayConsequencesToStringConsequence({
+          consequences: action.requiresToPerform.success.consequence,
+        }),
       },
       failure: {
         text: action.requiresToPerform.failure.text,
         image: action.requiresToPerform.failure.text,
-        consequence: "TODO",
+        consequence: this.convertArrayConsequencesToStringConsequence({
+          consequences: action.requiresToPerform.failure.consequence,
+        }),
       },
     };
 
@@ -250,6 +254,61 @@ export default class {
     return returnStringFormat ? finalResult : [finalResult];
   }
 
+  convertArrayConsequencesToStringConsequence({
+    consequences,
+    returnStringFormat = false,
+  }) {
+    if (!consequences.length) {
+      return "";
+    }
+    let finalStringConsequence = "";
+
+    consequences.forEach((element) => {
+      const options = element.options;
+      let stringConsequence = "";
+
+      let assignmentOperator = this.formatSpaceInOperator(
+        element.assignmentOperator
+      );
+      const selectedGameObject = options[0];
+
+      if (selectedGameObject === "putInTheBag") {
+        const selectedItem = options[2];
+        stringCondition = `${assignmentOperator} putInTheBag(gc, '${selectedItem}')`;
+      }
+
+      if (selectedGameObject === "insertAction") {
+        const selectedAction = options[2];
+        stringCondition = `${assignmentOperator} insertAction(gc, '${selectedAction}')`;
+      }
+
+      if (selectedGameObject === "actor") {
+        const selectedActor = options[1];
+        const selectedActorProperty = options[2];
+        const selectedStatusProprety = options[3];
+
+        if (selectedActorProperty === "status") {
+          if (selectedStatusProprety === "life") {
+            stringCondition = `${assignmentOperator} ${element.statement}getActor(gc,'${selectedActor}').status.life`;
+          }
+          if (selectedStatusProprety === "active") {
+            stringCondition = `${assignmentOperator} ${element.statement}getActor(gc,'${selectedActor}').status.active`;
+          }
+        }
+      }
+
+      if (selectedGameObject === "true" || selectedGameObject === "false") {
+        stringCondition = `${assignmentOperator} ${selectedGameObject}`;
+      }
+
+      if (selectedGameObject === "random") {
+        stringCondition = `${selectedGameObject}`;
+      }
+    });
+
+    return "consequence here";
+  }
+
   formatConditionArrayToLineString(conditionsArray, conditionsType) {
     let stringResult = "";
     if (conditionsType === "if_else") {
@@ -262,5 +321,14 @@ export default class {
     }
 
     return stringResult;
+  }
+
+  formatSpaceInOperator(operator) {
+    if (["+", "-", "="].includes(operator)) {
+      return " " + operator; // left space
+    }
+    if ([";".includes(operator)]) {
+      return operator;
+    }
   }
 }
