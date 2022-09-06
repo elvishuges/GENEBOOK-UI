@@ -89,10 +89,6 @@ export default {
     ...mapState("actions", ["actions"]),
   },
 
-  mounted() {
-    console.log("ITEMS:", this.actions);
-  },
-
   methods: {
     ...mapActions("actions", ["add_action"]),
 
