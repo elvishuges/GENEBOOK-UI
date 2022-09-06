@@ -2,7 +2,7 @@
   <q-page class="q-pa-md">
     <div class="row text-h5 q-pb-md">Images:</div>
     <q-scroll-area style="height: 160px">
-      <div class="row q-pb-md q-gutter-md no-wrap">
+      <div class="q-pb-md card">
         <q-card
           v-for="(image, index) in images"
           :key="index"
@@ -11,7 +11,7 @@
           <q-img
             :ratio="16 / 9"
             style="width: 100%"
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRonMLKNeAHp0ItfXgGKXushtcebA-Uj08meI3wRAY5dq7aEw7IN_TGUmHMkrP2QWT2yqQ&usqp=CAU"
+            src="https://i.pinimg.com/originals/ea/b3/45/eab345a639c644efa5f03b75546f162d.png"
           >
             <div class="absolute-bottom text-subtitle2 text-center">
               {{ image }}
@@ -22,7 +22,7 @@
     </q-scroll-area>
     <div class="row text-h5 q-py-md">Audios:</div>
     <q-scroll-area style="height: 160px">
-      <div class="row q-pb-md q-gutter-md no-wrap">
+      <div class="q-pb-md card">
         <q-card
           v-for="(audio, index) in audios"
           :key="index"
@@ -30,7 +30,7 @@
         >
           <q-img
             style="width: 100%"
-            src="https://e1.pngegg.com/pngimages/1009/169/png-clipart-vista-rtm-wow-icon-mp3-mp3-music-icon-thumbnail.png"
+            src="https://i.pinimg.com/originals/67/4f/3d/674f3d5fb2ac0f1a9b0793a0ac0a0ece.png"
             :ratio="16 / 9"
           >
             <div class="absolute-bottom text-subtitle2 text-center">
@@ -157,7 +157,10 @@ export default defineComponent({
 });
 </script>
 
-<style lang="sass" scoped>
-.image-card
-  width: 250px
+<style  scoped>
+.image-card {
+  width: 250px;
+  border-color: red;
+  cursor: pointer;
+}
 </style>
