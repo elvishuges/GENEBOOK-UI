@@ -111,10 +111,6 @@ export default {
     ...mapState("locations", ["locations"]),
   },
 
-  mounted() {
-    console.log("ITEMS:", this.locations);
-  },
-
   methods: {
     ...mapActions("locations", ["add_location"]),
 

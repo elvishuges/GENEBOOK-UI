@@ -95,6 +95,7 @@ import {
   firstSelectLocation,
   firstSelectPutInTheBag,
   firstSelectInsertAction,
+  firstSelectExecAction,
   hasNextfirstSelectOptions,
 } from "src/utils/mapedSelectOptionsConsequence";
 
@@ -137,6 +138,7 @@ export default defineComponent({
       firstSelectLocation,
       firstSelectPutInTheBag,
       firstSelectInsertAction,
+      firstSelectExecAction,
       hasNextfirstSelectOptions,
     };
   },
@@ -177,6 +179,9 @@ export default defineComponent({
 
       //insert action
       this.firstSelectInsertAction.insertAction.options = actions;
+
+      //exec action
+      this.firstSelectExecAction.execAction.options = actions;
     },
 
     onAddConditionClick() {
@@ -255,6 +260,26 @@ export default defineComponent({
 
           return this.firstSelectInsertAction[nextText].options;
         }
+      } else if (listOptions[0] === "insertAction") {
+        if (this.firstSelectInsertAction[option]) {
+          return this.firstSelectInsertAction[option].options;
+        }
+        if (!this.firstSelectInsertAction[option]) {
+          const nextText =
+            this.firstSelectInsertAction[listOptions[optionIndex - 1]].next;
+
+          return this.firstSelectInsertAction[nextText].options;
+        }
+      } else if (listOptions[0] === "execAction") {
+        if (this.firstSelectExecAction[option]) {
+          return this.firstSelectExecAction[option].options;
+        }
+        if (!this.firstSelectExecAction[option]) {
+          const nextText =
+            this.firstSelectExecAction[listOptions[optionIndex - 1]].next;
+
+          return this.firstSelectExecAction[nextText].options;
+        }
       }
 
       return ["error: next item not found"];
@@ -312,6 +337,16 @@ export default defineComponent({
 
           return this.firstSelectInsertAction[nextText].title;
         }
+      } else if (listOptions[0] === "execAction") {
+        if (this.firstSelectExecAction[option]) {
+          return this.firstSelectExecAction[option].title;
+        }
+        if (!this.firstSelectExecAction[option]) {
+          const nextText =
+            this.firstSelectExecAction[listOptions[optionIndex - 1]].next;
+
+          return this.firstSelectExecAction[nextText].title;
+        }
       }
     },
 
@@ -366,6 +401,16 @@ export default defineComponent({
             this.firstSelectInsertAction[listOptions[optionIndex - 1]].next;
 
           return this.firstSelectInsertAction[nextText].lastOption;
+        }
+      } else if (listOptions[0] === "execAction") {
+        if (this.firstSelectExecAction[option]) {
+          return this.firstSelectExecAction[option].lastOption;
+        }
+        if (!this.firstSelectExecAction[option]) {
+          const nextText =
+            this.firstSelectExecAction[listOptions[optionIndex - 1]].next;
+
+          return this.firstSelectExecAction[nextText].lastOption;
         }
       }
     },

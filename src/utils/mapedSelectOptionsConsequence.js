@@ -193,6 +193,20 @@ export const firstSelectInsertAction = {
   },
 };
 
+export const firstSelectExecAction = {
+  execAction: {
+    title: "Action:",
+    next: "nextToExecAction",
+    lastOption: false,
+    options: [],
+  },
+  nextToExecAction: {
+    title: "action:",
+    lastOption: true,
+    options: [],
+  },
+};
+
 export const hasNextfirstSelectOptions = {
   player: {
     hasNext: true,

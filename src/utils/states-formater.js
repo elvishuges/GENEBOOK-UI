@@ -272,41 +272,61 @@ export default class {
       );
       const selectedGameObject = options[0];
 
+      if (selectedGameObject === "true" || selectedGameObject === "false") {
+        stringConsequence = `${assignmentOperator} ${selectedGameObject}`;
+      }
+
       if (selectedGameObject === "putInTheBag") {
-        const selectedItem = options[2];
-        stringCondition = `${assignmentOperator} putInTheBag(gc, '${selectedItem}')`;
+        const selectedItem = options[1];
+        stringConsequence = `${assignmentOperator} putInTheBag(gc, '${selectedItem}')`;
       }
 
       if (selectedGameObject === "insertAction") {
-        const selectedAction = options[2];
-        stringCondition = `${assignmentOperator} insertAction(gc, '${selectedAction}')`;
+        const selectedAction = options[1];
+        stringConsequence = `${assignmentOperator} insertAction(gc, '${selectedAction}')`;
+      }
+
+      if (selectedGameObject === "execAction") {
+        const selectedAction = options[1];
+        stringConsequence = `${assignmentOperator} execAction(gc, '${selectedAction}')`;
+      }
+
+      if (selectedGameObject === "player") {
+        const selectedPlayerProperty = options[1];
+
+        if (selectedPlayerProperty === "status") {
+          const selectedStatusProprety = options[2];
+
+          if (selectedStatusProprety === "life") {
+            stringConsequence = `${assignmentOperator} getPlayer(gc).status.life`;
+          }
+        }
       }
 
       if (selectedGameObject === "actor") {
         const selectedActor = options[1];
         const selectedActorProperty = options[2];
-        const selectedStatusProprety = options[3];
 
         if (selectedActorProperty === "status") {
+          const selectedStatusProprety = options[3];
+
           if (selectedStatusProprety === "life") {
-            stringCondition = `${assignmentOperator} ${element.statement}getActor(gc,'${selectedActor}').status.life`;
+            stringConsequence = `${assignmentOperator} getActor(gc,'${selectedActor}').status.life`;
           }
           if (selectedStatusProprety === "active") {
-            stringCondition = `${assignmentOperator} ${element.statement}getActor(gc,'${selectedActor}').status.active`;
+            stringConsequence = `${assignmentOperator} getActor(gc,'${selectedActor}').status.active`;
           }
         }
       }
 
-      if (selectedGameObject === "true" || selectedGameObject === "false") {
-        stringCondition = `${assignmentOperator} ${selectedGameObject}`;
+      if (selectedGameObject === "random") {
+        stringConsequence = `${assignmentOperator} (Math.round(Math.random() * 2) + 1)`;
       }
 
-      if (selectedGameObject === "random") {
-        stringCondition = `${selectedGameObject}`;
-      }
+      finalStringConsequence = finalStringConsequence + stringConsequence;
     });
 
-    return "consequence here";
+    return finalStringConsequence;
   }
 
   formatConditionArrayToLineString(conditionsArray, conditionsType) {
@@ -330,5 +350,6 @@ export default class {
     if ([";".includes(operator)]) {
       return operator;
     }
+    return "";
   }
 }
