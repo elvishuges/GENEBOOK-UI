@@ -82,6 +82,7 @@
                 class="col-6 q-px-sm q-pt-sm"
                 outlined
                 label="Image"
+                :options="images"
                 v-model="form.image"
               />
             </div>

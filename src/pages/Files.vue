@@ -2,7 +2,7 @@
   <q-page class="q-pa-md">
     <div class="row text-h5 q-pb-md">Images:</div>
     <q-scroll-area style="height: 160px">
-      <div class="q-pb-md card">
+      <div class="row q-pb-md q-gutter-md no-wrap">
         <q-card
           v-for="(image, index) in images"
           :key="index"
@@ -22,7 +22,7 @@
     </q-scroll-area>
     <div class="row text-h5 q-py-md">Audios:</div>
     <q-scroll-area style="height: 160px">
-      <div class="q-pb-md card">
+      <div class="row q-pb-md q-gutter-md no-wrap">
         <q-card
           v-for="(audio, index) in audios"
           :key="index"
@@ -157,10 +157,7 @@ export default defineComponent({
 });
 </script>
 
-<style  scoped>
-.image-card {
-  width: 250px;
-  border-color: red;
-  cursor: pointer;
-}
+<style lang="sass" scoped>
+.image-card
+  width: 250px
 </style>

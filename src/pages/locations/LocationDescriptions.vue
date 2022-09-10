@@ -30,6 +30,27 @@
                   <div class="text-overline text-orange-9">
                     Text: {{ item.text }}
                   </div>
+                  <div class="row text-overline text-orange-9">
+                    Image:
+                    <q-select
+                      class="col-2 q-pr-md q-pl-md"
+                      label="Image"
+                      emit-value
+                      map-options
+                      dense
+                      outlined
+                      :options="images"
+                      v-model="item.image"
+                    >
+                      <template v-slot:no-option>
+                        <q-item>
+                          <q-item-section class="text-italic text-grey">
+                            No Registered Items
+                          </q-item-section>
+                        </q-item>
+                      </template>
+                    </q-select>
+                  </div>
                 </div>
                 <div class="q-gutter-sm">
                   <q-btn

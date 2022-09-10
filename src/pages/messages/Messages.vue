@@ -168,7 +168,7 @@
           v-model="form.creditsLinkText"
           class="col-xs-12 col-sm-4 col-md-4 q-px-sm q-pt-md"
           outlined
-          label="Cridits Link Text"
+          label="Credits Link Text"
           hint="The Credits Links Text Message"
           lazy-rules
         />

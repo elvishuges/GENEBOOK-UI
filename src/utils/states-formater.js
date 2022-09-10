@@ -47,7 +47,7 @@ export default class {
         title: element.title,
         descriptions: this.formatLocationDescriptions(element.descriptions),
         actions: this.formatLocationActions(element.actions),
-        exits: [],
+        exits: this.formatLocationsExits(element.exits),
         visits: element.visits,
       };
       locationsFormated.push(item);
@@ -115,6 +115,34 @@ export default class {
     });
 
     return actionsFormated;
+  }
+
+  formatLocationsExits(exits) {
+    let exitFormated = [];
+    exits.forEach((element) => {
+      let exit = {
+        name: element.name,
+        text: element.text,
+        destination: element.destination,
+        requiresToShow: this.formatExitRequiresToShow(element),
+      };
+
+      exitFormated.push(exit);
+    });
+
+    return exitFormated;
+  }
+
+  formatExitRequiresToShow(exit) {
+    const requiresToShowFormated = {
+      items: exit.requiresToShow.items,
+      actions: exit.requiresToShow.actions,
+      conditions: this.convertArrayConditionsToStringConditions({
+        conditions: exit.requiresToShow.conditions,
+      }),
+    };
+
+    return requiresToShowFormated;
   }
 
   formatLocationsActionRequiresToShow(action) {
