@@ -277,7 +277,8 @@ export default class {
       conditionsType
     );
 
-    const finalResult = "return" + finalStringCondition;
+    let finalResult = "return" + finalStringCondition;
+    finalResult = finalResult.replaceAll("!!", "");
 
     return returnStringFormat ? finalResult : [finalResult];
   }
