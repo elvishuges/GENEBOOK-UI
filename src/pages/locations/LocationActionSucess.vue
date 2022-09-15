@@ -7,9 +7,6 @@
             <div class="text-h6">Sucess to: {{ form.name }}</div>
           </div>
         </div>
-
-        {{ form.requiresToPerform.success.consequence }}
-
         <q-separator />
 
         <div class="items-center no-wrap">
