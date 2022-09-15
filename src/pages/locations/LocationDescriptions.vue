@@ -27,8 +27,15 @@
             <q-card-section class="q-px-md q-py-md">
               <div class="row items-center no-wrap">
                 <div class="col">
-                  <div class="text-overline text-orange-9">
-                    Text: {{ item.text }}
+                  <div class="row text-overline text-orange-9 q-pb-sm">
+                    Text:
+                    <q-input
+                      class="col-6 q-pr-md q-pl-md"
+                      outlined
+                      label="Text"
+                      dense
+                      v-model="item.text"
+                    />
                   </div>
                   <div class="row text-overline text-orange-9">
                     Image:

@@ -1,3 +1,4 @@
+const optionsNumbers = ["1", "2", "3", "4", "5"];
 export const firstSelectOptions = [
   {
     label: "player",
@@ -141,27 +142,27 @@ export const firstSelectLocation = {
   ">": {
     title: "Value:",
     lastOption: true,
-    options: ["0", "1", "2"],
+    options: optionsNumbers,
   },
   "<": {
     title: "Value:",
     lastOption: true,
-    options: ["0", "1", "2"],
+    options: optionsNumbers,
   },
   ">=": {
     title: "Value:",
     lastOption: true,
-    options: ["0", "1", "2"],
+    options: optionsNumbers,
   },
   "<=": {
     title: "Value:",
     lastOption: true,
-    options: ["0", "1", "2"],
+    options: optionsNumbers,
   },
   "==": {
     title: "Value:",
     lastOption: true,
-    options: ["0", "1", "2"],
+    options: optionsNumbers,
   },
 };
 
