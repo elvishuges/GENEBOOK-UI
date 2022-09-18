@@ -224,7 +224,7 @@ export default {
       const locationIndex = this.$route.params.index;
       this.update_location({
         index: locationIndex,
-        location: this.localEditingLocation,
+        location: this.form,
       }).then(() => {
         this.showSuccessNotification();
         this.loadPageInfos();
