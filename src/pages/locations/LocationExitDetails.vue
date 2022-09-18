@@ -217,14 +217,14 @@ export default {
       this.localEditingLocation = copyLocations[locationIndex];
       const localEditingExit = this.localEditingLocation.exits[exitIndex];
 
-      this.form = { ...localEditingExit };
+      this.form = localEditingExit;
     },
 
     onSaveClick() {
       const locationIndex = this.$route.params.index;
       this.update_location({
         index: locationIndex,
-        location: this.form,
+        location: this.localEditingLocation,
       }).then(() => {
         this.showSuccessNotification();
         this.loadPageInfos();
