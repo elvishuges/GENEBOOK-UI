@@ -1,7 +1,7 @@
 export const messagesInitialState = {
-  gameTitle: "Invasion",
-  initialImage: "cover",
-  initialAudio: "knife",
+  gameTitle: "",
+  initialImage: "",
+  initialAudio: "",
   gameIntroduction: "<p>Let's learn with game books </p>",
   gameStart: "Start game!",
   gameContinue: "Continue",

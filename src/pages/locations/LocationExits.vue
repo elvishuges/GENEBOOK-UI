@@ -146,7 +146,6 @@ export default {
       const copyLocations = copyObject(this.locations);
       const routeIndex = this.$route.params.index;
       const localEditingLocation = copyLocations[routeIndex];
-      console.log("localEditingLocation", localEditingLocation);
       this.location = { ...localEditingLocation };
     },
 

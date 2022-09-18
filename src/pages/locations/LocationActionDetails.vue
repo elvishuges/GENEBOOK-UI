@@ -148,7 +148,7 @@ export default {
       this.localEditingLocation = copyLocations[locationIndex];
       const localEditingAction = this.localEditingLocation.actions[actionIndex];
 
-      this.form = { ...localEditingAction };
+      this.form = localEditingAction;
     },
 
     goTo(routeName) {
@@ -167,7 +167,7 @@ export default {
         location: this.localEditingLocation,
       });
 
-      this.showSuccessNotification();
+      this.showSuccessNotification("Saved successfully !");
       this.loadPageInfos();
     },
 
