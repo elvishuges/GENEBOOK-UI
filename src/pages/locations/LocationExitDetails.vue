@@ -36,6 +36,8 @@
                 :options="locations"
                 option-value="name"
                 option-label="name"
+                emit-value
+                map-options
                 v-model="form.destination"
               />
             </div>

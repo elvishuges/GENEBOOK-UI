@@ -41,6 +41,8 @@
                 :options="locations"
                 option-label="name"
                 option-value="name"
+                emit-value
+                map-options
                 v-model="form.location"
               />
               <q-select

@@ -162,7 +162,7 @@ export default {
         index: locationIndex,
         location: this.location,
       });
-      this.showSuccessNotification("Created successfully !");
+      this.showSuccessNotification("Created successfully!");
       this.loadPageInfos();
       this.showDialogCreateAction = false;
       this.cleanForm();

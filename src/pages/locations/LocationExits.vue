@@ -1,6 +1,7 @@
 <template>
   <q-page class="q-pa-md">
     <div class="row text-h5 q-pb-xs">Exits from: {{ location.name }}</div>
+    {{ location }}
     <div class="q-gutter-md">
       <div class="row">
         <div
@@ -168,7 +169,7 @@ export default {
         index: locationIndex,
         location: this.location,
       });
-      this.showSuccessNotification("Created successfully !");
+      this.showSuccessNotification("Created successfully!");
       this.loadPageInfos();
       this.showDialogCreateExit = false;
       this.cleanForm();
