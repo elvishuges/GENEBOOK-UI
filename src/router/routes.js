@@ -13,6 +13,12 @@ const routes = [
         component: () => import("src/pages/actors/Actors.vue"),
       },
 
+      {
+        path: "/actor/:index",
+        name: "edit-actor",
+        component: () => import("src/pages/actors/EditActor.vue"),
+      },
+
       { path: "/items", component: () => import("src/pages/items/Items.vue") },
       {
         path: "/item/:index",

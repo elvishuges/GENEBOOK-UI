@@ -1,6 +1,6 @@
 <template>
   <q-page class="q-pa-md">
-    <div class="row text-h5 q-pb-md">Images:</div>
+    <div class="row text-h5 q-pb-md">Images</div>
     <q-scroll-area style="height: 160px">
       <div class="row q-pb-md q-gutter-md no-wrap">
         <q-card

@@ -1,6 +1,6 @@
 <template>
   <q-page class="q-pa-md">
-    <div class="row text-h5 q-pb-md">Actors:</div>
+    <!-- <div class="row text-h5 q-pb-md">Actors:</div>
 
     <div class="q-pa-md row items-start q-gutter-md">
       <created-actors-card
@@ -10,6 +10,20 @@
         :name="item.name"
         :description="item.description"
       />
+    </div> -->
+
+    <div class="row text-h5 q-pb-xs">Actors</div>
+    <div class="q-gutter-md">
+      <div class="row">
+        <div
+          v-for="(item, index) in actors"
+          :key="index"
+          class="col-xs-12 col-sm-4 col-md-3 q-px-xs q-pt-sm"
+          @click="onItemClick(index)"
+        >
+          <list-item-card :name="item.title" />
+        </div>
+      </div>
     </div>
 
     <!-- dialog create Actor -->
@@ -146,9 +160,11 @@
 import { mapActions, mapState } from "vuex";
 import CreatedActorsCard from "components/CreatedActorsCard.vue";
 import { required_field, no_space_required } from "src/utils/validationRules";
+import ListItemCard from "components/ListItemCard.vue";
 export default {
   components: {
     CreatedActorsCard,
+    ListItemCard,
   },
 
   data() {
@@ -189,6 +205,10 @@ export default {
       this.create_actor(this.form);
       this.dialogCreateActor = false;
       this.cleanForm();
+    },
+
+    onItemClick(index) {
+      this.$router.push({ name: "edit-actor", params: { index: index } });
     },
 
     cleanForm() {
