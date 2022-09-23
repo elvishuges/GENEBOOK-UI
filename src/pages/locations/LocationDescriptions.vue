@@ -278,6 +278,7 @@ export default {
       this.form.descriptions.push(description);
       this.showDialogCreateDescription = false;
       this.showSuccessNotification("Description created sucessfully !!");
+      this.cleanFormDescription();
     },
 
     onAddBlockConditionsClick(indexItem) {
@@ -344,6 +345,14 @@ export default {
         type: "positive",
         message: message,
       });
+    },
+
+    cleanFormDescription() {
+      this.description = {
+        text: "",
+        image: "",
+        condition: [],
+      };
     },
   },
 };

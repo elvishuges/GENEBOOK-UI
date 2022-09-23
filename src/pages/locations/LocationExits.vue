@@ -1,7 +1,7 @@
 <template>
   <q-page class="q-pa-md">
     <div class="row text-h5 q-pb-xs">Exits from: {{ location.name }}</div>
-    {{ location }}
+
     <div class="q-gutter-md">
       <div class="row">
         <div

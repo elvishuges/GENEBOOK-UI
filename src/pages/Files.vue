@@ -88,6 +88,7 @@
                 lazy-rules
                 :rules="[required_field, no_space_required]"
                 v-model="form.name"
+                @keydown.space.prevent
               />
             </div>
             <q-card-actions align="right" class="text-primary">

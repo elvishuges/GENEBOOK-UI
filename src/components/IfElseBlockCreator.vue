@@ -41,7 +41,7 @@
         @update:model-value="onGameObjectChange(indexItem)"
       />
       <div
-        v-show="item.options[0]"
+        v-show="item.options[0] && hasNextOptions(item.options)"
         v-for="(option, optionIndex) in item.options"
         :key="optionIndex"
         class="col-xs-12 col-sm-3 col-md-3 q-pl-xs q-pt-sm"
@@ -315,6 +315,13 @@ export default defineComponent({
           return this.selectGameObjectLocation[nextText].lastOption;
         }
       }
+    },
+    hasNextOptions(listOptions) {
+      const listHasNext = ["actor", "player", "location"];
+      if (listHasNext.includes(listOptions[0])) {
+        return true;
+      }
+      return false;
     },
   },
 });
