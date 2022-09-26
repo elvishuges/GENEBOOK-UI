@@ -1,22 +1,22 @@
 <template>
-  <q-dialog v-model="state" persistent full-width full-height>
-    <q-card class="column">
-      <q-bar>
-        <q-icon name="network_wifi" />
-        <q-icon name="network_cell" />
-        <q-icon name="battery_full" />
-        <div>9:34</div>
+  <q-dialog v-model="state" full-width style="max-height: 350px" persistent>
+    <q-card scroll="no">
+      <q-card-section>
+        <div class="text-h6">game-config.json</div>
+      </q-card-section>
 
-        <q-space />
+      <q-separator />
 
-        <q-btn dense flat icon="close" @click="onCloseClick" v-close-popup>
-          <q-tooltip>Close</q-tooltip>
-        </q-btn>
-      </q-bar>
-
-      <q-card-section style="max-height: 100vh" class="scroll">
+      <q-card-section class="scroll">
         <pre id="myText">{{ jsonFileString }}</pre>
       </q-card-section>
+
+      <q-separator />
+
+      <q-card-actions align="right">
+        <q-btn dense flat @click="onCloseClick"> Close </q-btn>
+        <q-btn flat @click="onCopyClick" label="Copy" color="primary" />
+      </q-card-actions>
     </q-card>
   </q-dialog>
 </template>
@@ -43,6 +43,19 @@ export default {
     onCloseClick() {
       this.$emit("close");
     },
+    async onCopyClick() {
+      await navigator.clipboard.writeText(
+        JSON.stringify(this.jsonFile, this.replace, 4)
+      );
+      this.showSuccessNotification("Copy Successfuly!");
+    },
+
+    showSuccessNotification(msg) {
+      this.$q.notify({
+        type: "positive",
+        message: msg,
+      });
+    },
 
     replace(key, value) {
       if (isNaN(parseInt(value))) {
@@ -63,7 +76,7 @@ export default {
 
 <style>
 pre {
-  height: 420px;
+  height: 380px;
   font-family: "Lucida Console", Monaco, monospace;
   font-size: 0.9rem;
 }

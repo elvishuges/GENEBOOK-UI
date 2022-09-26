@@ -7,7 +7,6 @@
             <div class="text-h6">Requires To Show: {{ form.name }}</div>
           </div>
         </div>
-        {{ form }}
 
         <q-separator />
 
