@@ -11,6 +11,7 @@
           lazy-rules
           :rules="[required_field]"
           v-model="form.name"
+          @keydown.space.prevent
         />
         <q-input
           class="col-xs-12 col-sm-6 col-md-6 q-px-xs q-pt-sm"

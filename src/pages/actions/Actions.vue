@@ -13,7 +13,7 @@
       </div>
     </div>
 
-    <!-- dialog create Item -->
+    <!-- dialog create Action -->
 
     <q-dialog v-model="showDialogCreateAction" persistent>
       <q-card class="create-action-card">

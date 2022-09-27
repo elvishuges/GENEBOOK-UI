@@ -361,14 +361,11 @@ export default class {
   }
 
   formatConditionArrayToLineString(conditionsArray, conditionsType) {
-    console.log("aqui 1", conditionsType);
     let stringResult = "";
     if (conditionsType === "if_else") {
-      console.log("aqui 2");
       // ternary
       stringResult = `${conditionsArray[0]} ? ${conditionsArray[1]} : ${conditionsArray[2]} `;
     } else {
-      console.log("aqui 3");
       conditionsArray.forEach((condition) => {
         stringResult = stringResult + condition;
       });

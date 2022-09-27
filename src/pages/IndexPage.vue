@@ -33,7 +33,7 @@
     <delete-conditions-dialog
       text="Do you want to reset all GameBook states?"
       :state="showDeleteConditionsDialog"
-      @confirm="onConfirDialogClick"
+      @confirm="onConfirmDialogClick"
       @cancel="onCancelDialogClick"
       confirmButtonLabel="Reset"
     />
@@ -232,9 +232,16 @@ export default defineComponent({
     onCancelDialogClick() {
       this.showDeleteConditionsDialog = false;
     },
-    onConfirDialogClick() {
+    onConfirmDialogClick() {
       this.cleanGameBookState();
       this.showDeleteConditionsDialog = false;
+      this.showSuccessNotification("GameBook state reseted successfully!");
+    },
+    showSuccessNotification(msg) {
+      this.$q.notify({
+        type: "positive",
+        message: msg,
+      });
     },
   },
 });

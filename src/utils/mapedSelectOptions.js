@@ -54,10 +54,6 @@ export const selectGameObjectActor = {
         label: "Equals To",
         value: "==",
       },
-      {
-        label: "Not To",
-        value: "!=",
-      },
     ],
   },
   active: {
@@ -149,10 +145,6 @@ export const selectGameObjectPlayer = {
       {
         label: "Equals To",
         value: "==",
-      },
-      {
-        label: "Not To",
-        value: "!=",
       },
     ],
   },

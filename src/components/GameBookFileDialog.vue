@@ -47,7 +47,7 @@ export default {
       await navigator.clipboard.writeText(
         JSON.stringify(this.jsonFile, this.replace, 4)
       );
-      this.showSuccessNotification("Copy Successfuly!");
+      this.showSuccessNotification("Copy successfully!");
     },
 
     showSuccessNotification(msg) {
