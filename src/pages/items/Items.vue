@@ -169,6 +169,7 @@ export default {
 
     onDialogSubmitClick() {
       this.add_item(this.form);
+      this.cleanForm();
       this.showDialogCreateItem = false;
     },
 
