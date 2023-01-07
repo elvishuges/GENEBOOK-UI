@@ -2,7 +2,7 @@ export const messagesInitialState = {
   gameTitle: "",
   initialImage: "",
   initialAudio: "",
-  gameIntroduction: "<p>Let's learn with game books </p>",
+  gameIntroduction: "Let's learn with game books",
   gameStart: "Start game!",
   gameContinue: "Continue",
   goButton: ">>>",

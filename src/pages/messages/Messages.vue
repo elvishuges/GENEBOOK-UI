@@ -1,5 +1,6 @@
 <template>
   <q-page class="q-pa-md">
+    <div class="row text-h5 q-pb-xs">Messages</div>
     <q-form @submit="onSubmit" class="q-pb-xl">
       <div class="row">
         <q-input
