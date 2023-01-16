@@ -17,8 +17,19 @@
     <div class="row justify-end q-pa-lg q-gutter-sm fixed-bottom-right">
       <q-btn
         type="submit"
-        label="Generate GameBook File"
-        color="secondary"
+        label="game-config.json"
+        color="primary"
+        size="lg"
+        @click="onGenerateGameBookClick"
+      >
+        <template v-slot:loading>
+          <q-spinner-facebook />
+        </template>
+      </q-btn>
+      <q-btn
+        type="submit"
+        label="book-config.json"
+        color="primary"
         size="lg"
         @click="onGenerateGameBookClick"
       >
@@ -163,6 +174,11 @@ export default defineComponent({
           goToRouteOnClick: "actions",
           title: "Actions",
           description: "Actions from system",
+        },
+        {
+          goToRouteOnClick: "configs",
+          title: "Book-Config",
+          description: "Book Configurations",
         },
       ],
     };

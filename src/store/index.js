@@ -10,6 +10,7 @@ import items from "./items";
 import locations from "./locations";
 import ends from "./ends";
 import actions from "./actions";
+import configs from "./configs";
 
 /*
  * If not building with SSR mode, you can
@@ -31,6 +32,7 @@ export default store(function (/* { ssrContext } */) {
       locations,
       ends,
       actions,
+      configs,
     },
 
     // enable strict mode (adds overhead!)

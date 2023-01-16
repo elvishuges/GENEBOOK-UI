@@ -94,6 +94,7 @@ const routes = [
         name: "edit-end",
         component: () => import("src/pages/ends/EditEnd.vue"),
       },
+
       { path: "/files", component: () => import("pages/Files.vue") },
       {
         path: "/player",
@@ -102,6 +103,10 @@ const routes = [
       {
         path: "/actions",
         component: () => import("src/pages/actions/Actions.vue"),
+      },
+      {
+        path: "/configs",
+        component: () => import("src/pages/bookConfigs/BookConfigs.vue"),
       },
     ],
   },
