@@ -20,7 +20,7 @@
         label="game-config.json"
         color="primary"
         size="lg"
-        @click="onGenerateGameBookClick"
+        @click="onGenerateGameConfigClick"
       >
         <template v-slot:loading>
           <q-spinner-facebook />
@@ -31,7 +31,7 @@
         label="book-config.json"
         color="primary"
         size="lg"
-        @click="onGenerateGameBookClick"
+        @click="onGenarateBookConfigClick"
       >
         <template v-slot:loading>
           <q-spinner-facebook />
@@ -50,9 +50,14 @@
     />
 
     <game-book-file-dialog
-      :state="showGameBookFileDialog"
+      :state="showGameConfigFileDialog"
       @close="onGenerateGameBookClose"
       :jsonFile="gameBookFile"
+    />
+    <book-config-file-dialog
+      :state="showBookConfigFileDialog"
+      @close="onGenerateBookConfigClose"
+      :jsonFile="configsFile"
     />
   </q-page>
 </template>
@@ -63,10 +68,13 @@ import { mapActions, mapState } from "vuex";
 
 import { playerInitialState } from "./../store/player/state";
 import { messagesInitialState } from "./../store/messages/state";
+import { configsInitialState } from "./../store/configs/state";
 
 import FeatureCard from "components/FeatureCard.vue";
 import DeleteConditionsDialog from "src/components/DeleteConditionsDialog.vue";
+
 import GameBookFileDialog from "src/components/GameBookFileDialog.vue";
+import BookConfigFileDialog from "src/components/BookConfigFileDialog.vue";
 
 import StateFormater from "./../utils/states-formater";
 
@@ -77,9 +85,25 @@ export default defineComponent({
     FeatureCard,
     DeleteConditionsDialog,
     GameBookFileDialog,
+    BookConfigFileDialog,
   },
   data() {
     return {
+      configsFile: {
+        title: "",
+        description: "",
+        coverImage: "",
+        creator: "",
+
+        titleSection: "",
+        navSection: "",
+
+        content: "",
+        language: "",
+        created: "",
+        modified: "",
+        attributionURL: "",
+      },
       gameBookFile: {
         messages: {
           gameTitle: "",
@@ -132,7 +156,8 @@ export default defineComponent({
       stateFormater: new StateFormater(),
 
       showDeleteConditionsDialog: false,
-      showGameBookFileDialog: false,
+      showGameConfigFileDialog: false,
+      showBookConfigFileDialog: false,
 
       indexPageItems: [
         {
@@ -192,6 +217,7 @@ export default defineComponent({
     ...mapState("items", ["items"]),
     ...mapState("locations", ["locations"]),
     ...mapState("ends", ["ends"]),
+    ...mapState("configs", ["configs"]),
   },
 
   methods: {
@@ -203,24 +229,33 @@ export default defineComponent({
     ...mapActions("actors", ["clean_actors"]),
     ...mapActions("actions", ["clean_actions"]),
     ...mapActions("files", ["clean_files"]),
+    ...mapActions("configs", ["clean_configs"]),
 
-    onGenerateGameBookClick() {
-      this.generateJasonFile();
-      this.showGameBookFileDialog = true;
+    onGenerateGameConfigClick() {
+      this.generateGameConfigJasonFile();
+      this.showGameConfigFileDialog = true;
+    },
+    onGenarateBookConfigClick() {
+      this.generateBookConfigJsonFile();
+      this.showBookConfigFileDialog = true;
     },
 
     onGenerateGameBookClose() {
-      this.showGameBookFileDialog = false;
+      this.showGameConfigFileDialog = false;
     },
 
-    generateJasonFile() {
+    onGenerateBookConfigClose() {
+      this.showBookConfigFileDialog = false;
+    },
+
+    generateGameConfigJasonFile() {
       this.gameBookFile.messages = this.stateFormater.formatMessages(
         this.messages
       );
 
       this.gameBookFile.player = this.stateFormater.formatPlayer(this.player);
 
-      this.gameBookFile.actors = this.stateFormater.formatPlayer(this.actors);
+      this.gameBookFile.actors = this.stateFormater.formatActors(this.actors);
 
       this.gameBookFile.items = this.stateFormater.formatItems(this.items);
 
@@ -229,6 +264,10 @@ export default defineComponent({
       );
 
       this.gameBookFile.ends = this.stateFormater.formatEnds(this.ends);
+    },
+
+    generateBookConfigJsonFile() {
+      this.configsFile = this.stateFormater.formatConfigs(this.configs);
     },
 
     cleanGameBookState() {
@@ -240,6 +279,7 @@ export default defineComponent({
       this.clean_actors();
       this.clean_actions();
       this.clean_files();
+      this.clean_configs(configsInitialState); // clean and set
     },
 
     onCleanClick() {

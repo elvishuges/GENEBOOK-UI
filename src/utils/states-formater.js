@@ -1,6 +1,10 @@
 import store from "../store";
 
 export default class {
+  formatConfigs(configs) {
+    const configsCopy = JSON.parse(JSON.stringify(configs));
+    return configsCopy;
+  }
   formatMessages(messages) {
     const messagesCopy = JSON.parse(JSON.stringify(messages));
     return messagesCopy;
@@ -10,8 +14,6 @@ export default class {
     const playerCopy = JSON.parse(JSON.stringify(player));
     return playerCopy;
   }
-
-  // adasdasd
 
   formatActors(actors) {
     const actorsCopy = JSON.parse(JSON.stringify(actors));
