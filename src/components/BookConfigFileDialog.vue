@@ -76,7 +76,7 @@ export default {
 
 <style>
 pre {
-  height: 380px;
+  height: 250px;
   font-family: "Lucida Console", Monaco, monospace;
   font-size: 0.9rem;
 }
