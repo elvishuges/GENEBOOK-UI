@@ -68,7 +68,7 @@ export default {
 
   computed: {
     jsonFileString() {
-      return { ...JSON.parse(JSON.stringify(this.jsonFile, this.replace, 4)) };
+      return { ...JSON.parse(JSON.stringify(this.jsonFile)) };
     },
   },
 };
