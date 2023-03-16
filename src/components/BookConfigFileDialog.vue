@@ -44,9 +44,7 @@ export default {
       this.$emit("close");
     },
     async onCopyClick() {
-      await navigator.clipboard.writeText(
-        JSON.stringify(this.jsonFile, this.replace, 4)
-      );
+      await navigator.clipboard.writeText(JSON.stringify(this.jsonFile));
       this.showSuccessNotification("Copy successfully!");
     },
 

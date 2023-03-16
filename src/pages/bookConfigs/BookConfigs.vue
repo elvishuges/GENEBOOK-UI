@@ -67,14 +67,35 @@
           hint="The Game Language"
           lazy-rules
         />
-        <q-input
+        <!-- <q-input
           v-model="form.created"
           class="col-xs-12 col-sm-4 col-md-4 q-px-sm q-pt-md"
           outlined
           label="Created"
           hint="The Game Created Date"
           lazy-rules
-        />
+        /> -->
+
+        <div class="col-xs-12 col-sm-4 col-md-4 q-px-sm q-pt-md">
+          <q-input filled v-model="form.created">
+            <template v-slot:prepend>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy
+                  cover
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-date v-model="form.created" mask="YYYY-MM-DD">
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
+        </div>
+
         <q-input
           v-model="form.modified"
           class="col-xs-12 col-sm-4 col-md-4 q-px-sm q-pt-md"
@@ -130,6 +151,9 @@ export default {
         created: "",
         modified: "",
         attributionURL: "",
+
+        inputValue: "",
+        suffix: "_suffix",
       },
     };
   },
@@ -165,5 +189,4 @@ export default {
 };
 </script>
 
-<style  lang="sass" scoped>
-</style>
+<style lang="sass" scoped></style>

@@ -16,6 +16,7 @@
           outlined
           :options="images"
           label="Initial Image"
+          hint="Initial Image"
           v-model="form.initialImage"
         />
         <q-select
@@ -294,5 +295,4 @@ export default {
 };
 </script>
 
-<style  lang="sass" scoped>
-</style>
+<style lang="sass" scoped></style>

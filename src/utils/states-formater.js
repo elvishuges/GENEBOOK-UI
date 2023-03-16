@@ -2,7 +2,9 @@ import store from "../store";
 
 export default class {
   formatConfigs(configs) {
-    const configsCopy = JSON.parse(JSON.stringify(configs));
+    let copyConfigs = { ...configs };
+    copyConfigs.modified += "T09:00:00Z";
+    const configsCopy = JSON.parse(JSON.stringify(copyConfigs));
     return configsCopy;
   }
   formatMessages(messages) {
