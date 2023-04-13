@@ -1,8 +1,8 @@
 export const messagesInitialState = {
-  gameTitle: "",
+  gameTitle: "Chapeuzinho Vermelho",
   initialImage: "",
   initialAudio: "",
-  gameIntroduction: "Let's learn with game books",
+  gameIntroduction: "Vamos Aprender com aventurais Textuais",
   gameStart: "Start game!",
   gameContinue: "Continue",
   goButton: ">>>",

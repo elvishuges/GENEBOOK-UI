@@ -1,4 +1,4 @@
-    <template>
+<template>
   <q-page class="q-pa-md q-mb-lg">
     <div class="row">
       <div
