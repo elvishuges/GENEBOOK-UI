@@ -55,6 +55,7 @@
                 class="col-6 q-px-sm q-pt-sm"
                 outlined
                 label="Image"
+                :options="images"
                 v-model="form.image"
               />
               <q-select
@@ -173,5 +174,4 @@ export default {
 };
 </script>
 
-<style  lang="sass" scoped>
-</style>
+<style lang="sass" scoped></style>

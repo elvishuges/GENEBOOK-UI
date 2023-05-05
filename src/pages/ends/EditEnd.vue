@@ -39,6 +39,7 @@
                 class="col-xs-12 col-sm-6 col-md-6 q-px-xs q-pt-sm"
                 outlined
                 label="Image"
+                :options="images"
                 v-model="form.image"
               />
 
@@ -46,6 +47,7 @@
                 class="col-xs-12 col-sm-6 col-md-6 q-px-xs q-pt-sm"
                 outlined
                 label="Audio"
+                :options="audios"
                 v-model="form.audio"
               />
             </div>
@@ -353,5 +355,4 @@ export default {
 };
 </script>
 
-<style  lang="sass" scoped>
-</style>
+<style lang="sass" scoped></style>
