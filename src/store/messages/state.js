@@ -1,5 +1,5 @@
 export const messagesInitialState = {
-  gameTitle: "Chapeuzinho Vermelho",
+  gameTitle: "Minha Aventura Textual",
   initialImage: "",
   initialAudio: "",
   gameIntroduction: "Vamos Aprender com aventurais Textuais",
