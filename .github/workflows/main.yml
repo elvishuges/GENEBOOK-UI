@@ -17,13 +17,14 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 22
+          cache: 'yarn'
 
       - name: Install dependencies
-        run: npm install
+        run: yarn install --frozen-lockfile
 
       - name: Build Quasar project
         run: |
-          npm install -g @quasar/cli
+          yarn global add @quasar/cli
           quasar build
 
       - name: Deploy to S3
