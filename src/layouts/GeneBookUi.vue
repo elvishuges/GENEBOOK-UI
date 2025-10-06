@@ -5,7 +5,7 @@
         <q-toolbar-title @click="$router.push('/index')">
           GEnEBook-UI
         </q-toolbar-title>
-        <div>v 1.0</div>
+        <div>v 2.0</div>
       </q-toolbar>
     </q-header>
 
